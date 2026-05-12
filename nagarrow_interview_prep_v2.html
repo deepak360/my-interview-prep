@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview Prep — V2 AI Backend</title>
+<style>
+:root{--color-text-primary:#111827;--color-text-secondary:#6b7280;--color-text-tertiary:#9ca3af;--color-text-danger:#dc2626;--color-background-primary:#fff;--color-background-secondary:#f3f4f6;--color-border-primary:#374151;--color-border-secondary:#d1d5db;--color-border-tertiary:#e5e7eb;--color-border-danger:#fca5a5;--border-radius-md:6px;--border-radius-lg:10px;--font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace}
+body{margin:0 auto;padding:0 12px;background:var(--color-background-primary);color:var(--color-text-primary);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;max-width:820px}
+@media(max-width:540px){
+  .q-text{font-size:16px!important}
+  .answer-box p{font-size:14px!important;line-height:1.8!important}
+  .btn{min-height:42px!important;padding:8px 14px!important}
+  .dot{width:12px!important;height:12px!important}
+  pre{overflow-x:auto!important;max-width:100%!important}
+  .nav-row{gap:6px}
+}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Magarrow interview prep v2 — 65 questions across 10 topics including fundamentals and cross-questioning</h2>
+<style>
+.root{padding:1rem 0;font-size:15px}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px}
+.title{font-size:17px;font-weight:500;color:var(--color-text-primary)}
+.timer{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:3px 10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary)}
+.timer span{font-weight:500;color:var(--color-text-primary)}
+.tabs-wrap{overflow-x:auto;padding-bottom:4px;margin-bottom:.75rem}
+.tabs{display:flex;gap:5px;min-width:max-content}
+.tab{font-size:11px;padding:4px 10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;white-space:nowrap;transition:all .15s}
+.tab:hover{background:var(--color-background-secondary)}
+.tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500;border-color:var(--color-border-primary)}
+.mode-toggle{display:flex;gap:5px;margin-bottom:.75rem}
+.mode-btn{font-size:11px;padding:4px 10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer}
+.mode-btn.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500;border-color:var(--color-border-primary)}
+.prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.progress-bar{background:var(--color-background-secondary);border-radius:4px;height:3px;margin-bottom:.75rem}
+.progress-fill{height:3px;border-radius:4px;background:#1D9E75;transition:width .3s}
+.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem;margin-bottom:.75rem}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.q-num{font-size:11px;color:var(--color-text-tertiary)}
+.q-tag{font-size:10px;padding:2px 7px;border-radius:var(--border-radius-md)}
+.q-diff{font-size:10px;padding:2px 7px;border-radius:var(--border-radius-md)}
+.diff-core{background:#E1F5EE;color:#0F6E56}
+.diff-deep{background:#FAEEDA;color:#854F0B}
+.diff-trap{background:#FCEBEB;color:#A32D2D}
+.tag-rag{background:#E1F5EE;color:#0F6E56}
+.tag-agent{background:#EEEDFE;color:#3C3489}
+.tag-backend{background:#E6F1FB;color:#0C447C}
+.tag-prod{background:#FAEEDA;color:#854F0B}
+.tag-cloud{background:#FAECE7;color:#993C1D}
+.tag-system{background:#FBEAF0;color:#72243E}
+.tag-behav{background:#EAF3DE;color:#3B6D11}
+.tag-llm{background:#EEEDFE;color:#534AB7}
+.tag-embed{background:#E1F5EE;color:#085041}
+.tag-python{background:#E6F1FB;color:#185FA5}
+.q-text{font-size:15px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:.85rem}
+.answer-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.9rem;border-left:2px solid #1D9E75;display:none}
+.answer-box.shown{display:block}
+.answer-box p{margin:0 0 7px;font-size:13px;line-height:1.7;color:var(--color-text-primary)}
+.answer-box p:last-child{margin-bottom:0}
+.answer-box strong{font-weight:500}
+.answer-box code{font-family:var(--font-mono);font-size:12px;background:var(--color-background-primary);padding:1px 4px;border-radius:3px}
+.answer-box ul{margin:4px 0 7px 16px;padding:0;font-size:13px;color:var(--color-text-primary)}
+.answer-box li{margin-bottom:3px;line-height:1.6}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.btn{padding:6px 13px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:12px;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn.primary{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.btn.primary:hover{background:#0F6E56}
+.nav-row{display:flex;justify-content:space-between;align-items:center}
+.dot-row{display:flex;gap:3px;flex-wrap:wrap;max-width:380px}
+.dot{width:9px;height:9px;border-radius:50%;border:.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer}
+.dot.seen{background:#9FE1CB;border-color:#1D9E75}
+.dot.current{background:#1D9E75;border-color:#0F6E56}
+.dot.weak-dot{background:#F5C4B3;border-color:#D85A30}
+.cross-warn{font-size:11px;color:#854F0B;background:#FAEEDA;padding:4px 8px;border-radius:var(--border-radius-md);margin-bottom:8px;display:none}
+.cross-warn.show{display:block}
+</style>
+
+<div class="root">
+<div class="header">
+  <div class="title">Magarrow Interview Prep <span style="font-size:11px;color:var(--color-text-tertiary);font-weight:400">v2 — 65 questions</span></div>
+  <div class="timer">Interview in <span id="countdown">--:--</span></div>
+</div>
+
+<div class="mode-toggle">
+  <button class="mode-btn active" onclick="setMode('study')" id="mode-study">Study all</button>
+  <button class="mode-btn" onclick="setMode('weak')" id="mode-weak">Review marked</button>
+</div>
+
+<div class="tabs-wrap"><div class="tabs" id="tabs"></div></div>
+
+<div class="prog-row"><span id="prog-label">Q1 of 65</span><span id="seen-label">0 seen</span></div>
+<div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+
+<div class="card">
+  <div class="q-meta">
+    <span class="q-num" id="q-num">Q1</span>
+    <span class="q-tag" id="q-tag-el"></span>
+    <span class="q-diff" id="q-diff-el"></span>
+  </div>
+  <div class="cross-warn" id="cross-warn">⚠ Likely cross-question — interviewer will dig deeper here</div>
+  <div class="q-text" id="q-text"></div>
+  <div class="btn-row">
+    <button class="btn primary" onclick="toggleAnswer()" id="ans-btn">Show answer</button>
+    <button class="btn" onclick="markWeak()" id="weak-btn">Mark for review</button>
+  </div>
+  <div class="answer-box" id="answer-box"></div>
+</div>
+
+<div class="nav-row">
+  <button class="btn" onclick="prev()">← Prev</button>
+  <div class="dot-row" id="dots"></div>
+  <button class="btn" onclick="next()">Next →</button>
+</div>
+</div>
+
+<script>
+const Q = [
+  // ── LLM FUNDAMENTALS ──────────────────────────────────────────────────────
+  {cat:"llm",diff:"core",cross:false,
+   q:"What is a transformer? Explain attention in simple terms.",
+   a:`<p><strong>Transformer:</strong> neural network architecture that processes sequences by attending to all tokens simultaneously (not one by one like RNNs). Two main parts: encoder (understands input) and decoder (generates output). GPT is decoder-only. BERT is encoder-only.</p>
+<p><strong>Attention in plain terms:</strong> for each word, attention asks "which other words in this sentence should I pay attention to when understanding this word?" It assigns a weight (0–1) to every other token. High weight = very relevant.</p>
+<p><strong>Self-attention formula:</strong> Q (query), K (key), V (value) — all projections of the input. Score = softmax(QK^T / √d) × V. The √d is for numerical stability.</p>
+<p><strong>Multi-head:</strong> run attention multiple times in parallel with different projections — each head learns to attend to different relationships (syntax, semantics, coreference etc).</p>
+<p><strong>Why it matters for interviews:</strong> everything in LLMs builds on this. Context window, hallucination, fine-tuning costs — all trace back to transformer mechanics.</p>`
+  },
+  {cat:"llm",diff:"core",cross:false,
+   q:"What is temperature in LLM generation? What does top-p and top-k do?",
+   a:`<p><strong>Temperature:</strong> scales the logits before softmax. High temp (>1) = flatter distribution = more random/creative. Low temp (<1) = sharper distribution = more deterministic. Temp=0 = always pick the highest probability token (greedy).</p>
+<p><strong>Top-k:</strong> at each step, only consider the top-k tokens by probability. Filters out long tail of unlikely tokens. k=1 = greedy. k=50 is common.</p>
+<p><strong>Top-p (nucleus sampling):</strong> instead of fixed k, pick the smallest set of tokens whose cumulative probability ≥ p. p=0.9 means "use however many tokens it takes to cover 90% of probability mass." Adapts to distribution shape.</p>
+<p><strong>When to use what:</strong> factual/deterministic tasks → temp 0–0.3, top-p 0.9. Creative tasks → temp 0.7–1.0. Use top-p over top-k in most cases — it's more adaptive.</p>
+<p><strong>Common trap:</strong> setting both temp and top-p together — they interact. Usually set one, leave other at default.</p>`
+  },
+  {cat:"llm",diff:"deep",cross:true,
+   q:"What is hallucination in LLMs? Why does it happen technically, not just conceptually?",
+   a:`<p><strong>What it is:</strong> LLM generates confident, fluent text that is factually incorrect or entirely fabricated.</p>
+<p><strong>Why it happens technically:</strong></p>
+<p><strong>1. Next-token prediction objective:</strong> LLMs are trained to predict the next most likely token — not to be truthful. Truthfulness is never directly optimised for. A fluent wrong sentence can score higher than an awkward correct one.</p>
+<p><strong>2. Knowledge gaps vs knowledge boundaries:</strong> model doesn't know what it doesn't know. It has no "I don't know" token — it fills gaps with plausible-sounding completions from related patterns.</p>
+<p><strong>3. Softmax always produces a distribution:</strong> even for queries the model has no training signal for, softmax forces it to assign probabilities. The model must output something.</p>
+<p><strong>4. Memorisation vs generalisation:</strong> rare facts in training data get shallow representations. Model pattern-matches from nearby knowledge, producing blends that are slightly wrong.</p>
+<p><strong>Mitigations:</strong> RAG (ground in retrieved facts), RLHF (reward truthfulness), confidence calibration, citation enforcement, constrained decoding.</p>`
+  },
+  {cat:"llm",diff:"deep",cross:true,
+   q:"What is RLHF? Why is it used and what are its limitations?",
+   a:`<p><strong>RLHF = Reinforcement Learning from Human Feedback.</strong></p>
+<p><strong>Steps:</strong> (1) supervised fine-tune on curated demos, (2) collect human preference pairs (which response is better?), (3) train a reward model on those pairs, (4) use RL (PPO algorithm) to optimise the LLM against the reward model.</p>
+<p><strong>Why it's used:</strong> raw pretraining makes a model that completes text. RLHF makes it helpful, harmless, honest. It aligns the model to human values that can't be expressed as a loss function directly.</p>
+<p><strong>Limitations:</strong></p>
+<p><strong>1. Reward hacking:</strong> model finds ways to score high reward without actually being better. E.g., longer responses get rated higher even if less accurate.</p>
+<p><strong>2. Human preference ≠ truth:</strong> annotators prefer confident, fluent answers — which can reinforce hallucination.</p>
+<p><strong>3. Expensive:</strong> requires thousands of human comparisons. PPO training is unstable.</p>
+<p><strong>4. Goodhart's Law:</strong> "when a measure becomes a target, it ceases to be a good measure." The reward model is a proxy, not ground truth.</p>
+<p><strong>Modern alternative:</strong> DPO (Direct Preference Optimisation) — skips the reward model entirely, more stable.</p>`
+  },
+  {cat:"llm",diff:"core",cross:false,
+   q:"What's the difference between zero-shot, few-shot, and chain-of-thought prompting?",
+   a:`<p><strong>Zero-shot:</strong> give the task description, no examples. "Classify this as positive or negative: [text]." Relies entirely on model's pretrained knowledge.</p>
+<p><strong>Few-shot:</strong> include 2–5 input/output examples in the prompt before the actual query. Shows the model the format and pattern. Works well for formatting and domain-specific tasks.</p>
+<p><strong>Chain-of-thought (CoT):</strong> prompt the model to reason step by step before answering. "Let's think step by step..." Forces intermediate reasoning — dramatically improves accuracy on multi-step math, logic, planning tasks.</p>
+<p><strong>Zero-shot CoT:</strong> just add "Let's think step by step" — no examples needed. Often as good as few-shot CoT.</p>
+<p><strong>When to use what:</strong> simple classification → zero-shot. Specific format → few-shot. Reasoning/math/planning → CoT. Complex multi-turn → CoT + few-shot combined.</p>
+<p><strong>Cross-question alert:</strong> interviewer may ask "why does CoT work?" — because forcing intermediate tokens creates an implicit scratchpad. The model's answer depends on prior tokens — step-by-step tokens constrain later tokens to be consistent.</p>`
+  },
+  {cat:"llm",diff:"deep",cross:true,
+   q:"What is context window and what happens when you exceed it? How do models handle long contexts?",
+   a:`<p><strong>Context window:</strong> max number of tokens the model can process in one pass — both input + output combined. GPT-4o: 128k. Claude Sonnet: 200k. Llama 3: 128k.</p>
+<p><strong>What happens at the limit:</strong> the model simply cannot see tokens beyond the window. Earlier tokens are silently dropped (for most implementations). Attention complexity is O(n²) in vanilla transformers — longer = exponentially more compute.</p>
+<p><strong>Lost in the middle problem:</strong> empirically, LLMs recall information at the start and end of context well, but forget the middle. If you stuff 100k tokens of context, the model may ignore key facts buried in the middle.</p>
+<p><strong>How long context is handled:</strong></p>
+<p><strong>1. RoPE (Rotary Position Embedding):</strong> modern way to encode position — allows extrapolation to longer sequences than training length.</p>
+<p><strong>2. Sliding window attention:</strong> each token only attends to a local window, not all tokens. Reduces O(n²) → O(n). Used in Mistral.</p>
+<p><strong>3. RAG:</strong> don't put everything in context — retrieve only relevant chunks. Practical solution regardless of window size.</p>
+<p><strong>4. Summarisation:</strong> recursively summarise old content, keep summary in context.</p>`
+  },
+  {cat:"llm",diff:"core",cross:false,
+   q:"What is the difference between encoder-only, decoder-only, and encoder-decoder models? Give examples.",
+   a:`<p><strong>Encoder-only:</strong> processes input bidirectionally — each token attends to all other tokens (left and right). Good for understanding tasks. Can't generate text autoregressively. Example: BERT, RoBERTa. Used for: classification, NER, embeddings.</p>
+<p><strong>Decoder-only:</strong> processes input left-to-right (causal masking). Each token only attends to previous tokens. Designed for generation. Examples: GPT series, Llama, Mistral, Claude. Used for: chat, completion, agents.</p>
+<p><strong>Encoder-decoder:</strong> encoder processes input (bidirectional), decoder generates output (causal). Examples: T5, BART, original transformer (translation). Used for: translation, summarisation, seq2seq tasks.</p>
+<p><strong>Why decoder-only dominates now:</strong> scaling laws show decoder-only models on massive data outperform encoder-decoder for most tasks. Simpler architecture, easier to scale, and works for both understanding and generation with prompting.</p>`
+  },
+  {cat:"llm",diff:"trap",cross:true,
+   q:"What is tokenisation and why does it matter? What are common tokenisation problems?",
+   a:`<p><strong>What it is:</strong> text is split into tokens (subword units) before being fed to the model. BPE (Byte Pair Encoding) is most common — merges frequent character pairs iteratively. "tokenization" might become ["token", "ization"] or ["token", "iz", "ation"].</p>
+<p><strong>Why it matters:</strong> model never sees raw characters — it sees token IDs. Token boundaries affect reasoning. "9.11 > 9.9" fails because numbers are split into tokens that don't carry numeric meaning.</p>
+<p><strong>Common problems:</strong></p>
+<p><strong>1. Arithmetic:</strong> "1234 + 5678" — model reasons on tokens, not numbers. Fails on large number arithmetic. Solution: use code interpreter tool.</p>
+<p><strong>2. Spelling/character tasks:</strong> "how many r's in strawberry?" — model counts tokens, not characters. Famously gets this wrong.</p>
+<p><strong>3. Language inequality:</strong> English text is very efficiently tokenised. Non-English languages use more tokens for the same content → higher cost, shorter effective context.</p>
+<p><strong>4. Token boundary sensitivity:</strong> "GPT-4" and "GPT4" may tokenise differently, leading to different model behaviour.</p>
+<p><strong>Practical implication:</strong> when designing prompts for structured output or extraction, be aware that token boundaries affect model behaviour on precision tasks.</p>`
+  },
+
+  // ── EMBEDDINGS FUNDAMENTALS ───────────────────────────────────────────────
+  {cat:"embed",diff:"core",cross:false,
+   q:"What is an embedding? How is it different from one-hot encoding?",
+   a:`<p><strong>One-hot:</strong> each word gets a vector of size vocabulary (50k+). All zeros except one position. No semantic meaning — "king" and "queen" are orthogonal, equally distant as "king" and "table".</p>
+<p><strong>Embedding:</strong> dense, low-dimensional vector (e.g. 768 or 1536 dimensions) learned from data. Semantically similar things have similar vectors. "king" - "man" + "woman" ≈ "queen" — the famous Word2Vec example.</p>
+<p><strong>How they're learned:</strong> in transformers, embeddings come from the final layer's representation — trained to encode semantic and syntactic relationships through the pre-training task.</p>
+<p><strong>For RAG:</strong> we embed text chunks into dense vectors, store in vector DB, then embed the query and find nearest vectors by cosine similarity. Semantic similarity maps to vector proximity.</p>
+<p><strong>Dimensions matter:</strong> higher dimensions = more expressive but more storage/compute. OpenAI text-embedding-3-small = 1536 dims. BGE-small = 384 dims.</p>`
+  },
+  {cat:"embed",diff:"core",cross:false,
+   q:"What is cosine similarity? Why use it over Euclidean distance for embeddings?",
+   a:`<p><strong>Cosine similarity:</strong> measures the angle between two vectors. cos(θ) = (A·B) / (|A||B|). Range: -1 (opposite) to 1 (identical direction). 0 = orthogonal (unrelated).</p>
+<p><strong>Why not Euclidean distance:</strong> embeddings can vary in magnitude (length) based on text length, repetition etc. Two semantically similar texts might have different magnitudes. Euclidean distance conflates magnitude with direction. Cosine only measures direction — normalising out magnitude gives purer semantic similarity.</p>
+<p><strong>Example:</strong> "hotel" and "hotels hotels hotels" would have different magnitudes but similar directions. Cosine similarity captures their semantic similarity correctly.</p>
+<p><strong>Dot product:</strong> if embeddings are normalised to unit length, dot product = cosine similarity. Most vector DBs normalise at index time and use dot product for speed.</p>
+<p><strong>When Euclidean is better:</strong> when magnitude carries meaning (e.g. clustering by topic volume). Rare in NLP.</p>`
+  },
+  {cat:"embed",diff:"deep",cross:true,
+   q:"What is HNSW? How does a vector index work under the hood?",
+   a:`<p><strong>Problem:</strong> finding the nearest vector out of 10M vectors by brute force = compute cosine similarity 10M times = too slow.</p>
+<p><strong>HNSW (Hierarchical Navigable Small World):</strong> a graph-based approximate nearest neighbour index. Think of it as a multi-layer skip list where each node is a vector.</p>
+<p><strong>How it works:</strong> when inserting a vector, it's connected to its nearest neighbours at multiple "layers" of the graph. Top layers are coarse (few nodes, long-range connections). Bottom layers are fine (all nodes, short-range connections). Search: start at top layer, greedily navigate toward the query, descend to finer layers. Finds approximate nearest neighbours in O(log n) vs O(n) brute force.</p>
+<p><strong>Tradeoff:</strong> approximate, not exact. The <code>ef_construction</code> and <code>M</code> parameters control the quality/speed tradeoff. Higher = more accurate but slower to build and search.</p>
+<p><strong>Alternatives:</strong> IVF (inverted file index) — clusters vectors, only searches nearby clusters. Good for very large datasets. Flat index = brute force exact, fine for <100k vectors.</p>`
+  },
+  {cat:"embed",diff:"deep",cross:true,
+   q:"What is the difference between bi-encoder and cross-encoder? When do you use each in RAG?",
+   a:`<p><strong>Bi-encoder:</strong> encodes query and document independently into embeddings, then compares with cosine similarity. Fast — embeddings can be precomputed. Used for retrieval (first stage). Example: sentence-transformers, OpenAI embeddings.</p>
+<p><strong>Cross-encoder:</strong> takes (query, document) pair as a single input, outputs a relevance score. Attends to both simultaneously — much more nuanced scoring. Cannot precompute — must run at query time for each candidate. Slow but accurate. Used for re-ranking (second stage).</p>
+<p><strong>Classic pipeline:</strong> bi-encoder retrieves top-100 candidates cheaply → cross-encoder re-ranks to top-5 accurately. You get speed AND quality.</p>
+<p><strong>Why bi-encoder alone isn't enough:</strong> embedding comparison misses subtle query-document interactions. "Apple the fruit" and "Apple the company" have similar embeddings but very different relevance to specific queries. Cross-encoder handles this because it sees both together.</p>
+<p><strong>Cost tradeoff:</strong> cross-encoder on 1000 docs per query = 1000 forward passes. That's why you pre-filter with bi-encoder first.</p>`
+  },
+  {cat:"embed",diff:"trap",cross:true,
+   q:"What is embedding drift / distribution shift and how does it affect your RAG system?",
+   a:`<p><strong>Embedding drift:</strong> when you switch embedding models (e.g. from <code>ada-002</code> to <code>text-embedding-3-small</code>), the vector space changes. Old embeddings in your index are no longer comparable to new query embeddings. Your retrieval silently breaks.</p>
+<p><strong>Distribution shift:</strong> your documents' semantic distribution changes over time — new terminology, new product names, new topics. Your index was built on old distribution, so new queries don't match well.</p>
+<p><strong>Symptoms:</strong> retrieval quality degrades gradually, no explicit errors, very hard to detect without eval.</p>
+<p><strong>Solutions:</strong></p>
+<p><strong>1. Never mix embedding model versions</strong> in the same index. If you change models, re-embed everything.</p>
+<p><strong>2. Version your index</strong> — tag every vector with the model version that created it.</p>
+<p><strong>3. Regular eval:</strong> run RAGAS recall@k on a golden dataset weekly. A drop signals drift.</p>
+<p><strong>4. Incremental re-indexing:</strong> re-embed and upsert changed/new documents on a schedule.</p>
+<p><strong>This is a real production problem</strong> most candidates don't know about — mentioning it will impress.</p>`
+  },
+
+  // ── RAG FUNDAMENTALS ──────────────────────────────────────────────────────
+  {cat:"rag",diff:"core",cross:false,
+   q:"Walk me through how you'd design a production RAG pipeline from scratch. What are the critical failure points?",
+   a:`<p><strong>Core flow:</strong> ingest → chunk → embed → store → retrieve → augment → generate.</p>
+<p><strong>Ingestion:</strong> parse docs (PDF, HTML), clean noise, handle updates/deletions.</p>
+<p><strong>Chunking:</strong> pick chunk size based on doc type — 512 tokens for dense text, larger for code. Overlap ~10–15% to avoid context breaks at boundaries.</p>
+<p><strong>Embedding:</strong> choose model carefully — <code>text-embedding-3-small</code> for cost, open-source BGE/E5 for control.</p>
+<p><strong>Vector store:</strong> Pinecone/Weaviate/pgvector. HNSW index for fast approximate search.</p>
+<p><strong>Retrieval:</strong> top-k + re-ranking (cross-encoder). Hybrid search (dense + BM25) outperforms pure vector.</p>
+<p><strong>Critical failure points:</strong> (1) poor chunking loses context, (2) wrong embedding model misses domain semantics, (3) no re-ranking returns irrelevant top-k, (4) stale index after doc updates, (5) no citation tracking.</p>
+<p><strong>Production additions:</strong> async ingest queue, embedding cache, retrieval latency monitoring.</p>`
+  },
+  {cat:"rag",diff:"trap",cross:true,
+   q:"Why does RAG sometimes still hallucinate even when the correct document is retrieved?",
+   a:`<p><strong>This is the key cross-question on RAG.</strong> Retrieval working ≠ generation being grounded.</p>
+<p><strong>Reasons hallucination persists:</strong></p>
+<p><strong>1. Context position:</strong> if the correct chunk is in the middle of a long context, the model may not weight it properly (lost-in-the-middle effect).</p>
+<p><strong>2. Conflicting information:</strong> retrieved chunks may partially contradict each other. Model blends them into something that matches neither.</p>
+<p><strong>3. Model's prior knowledge overrides context:</strong> if the model has strong pretrained beliefs about a topic, it may ignore retrieved context that contradicts those beliefs.</p>
+<p><strong>4. Instruction following failure:</strong> the system prompt says "only use the context" but the model doesn't perfectly obey — especially for long contexts.</p>
+<p><strong>5. Retrieved chunk is incomplete:</strong> the chunk has the topic but not the specific fact. Model fills the gap from pretrained knowledge.</p>
+<p><strong>Mitigations:</strong> put most important chunk first in context, use NLI-based faithfulness checking post-generation, add citation enforcement in prompt ("quote the exact sentence you used"), limit output to only what's explicitly in context.</p>`
+  },
+  {cat:"rag",diff:"core",cross:false,
+   q:"What's the difference between naive RAG, advanced RAG, and modular RAG?",
+   a:`<p><strong>Naive RAG:</strong> query → embed → retrieve top-k → stuff into prompt → generate. No pre/post processing. Good for prototyping.</p>
+<p><strong>Advanced RAG:</strong> adds pre-retrieval (query rewriting, HyDE) and post-retrieval (re-ranking, context compression). Use when naive RAG quality is insufficient.</p>
+<p><strong>Modular RAG:</strong> fully decomposed — each component (router, retriever, ranker, generator) is a swappable module. Can add search, SQL lookup, API calls alongside vector retrieval.</p>
+<p><strong>HyDE (Hypothetical Document Embeddings):</strong> instead of embedding the query, generate a hypothetical answer first, embed that. The hypothetical answer's embedding is closer to real answer embeddings than the question embedding is.</p>
+<p><strong>Query rewriting:</strong> use LLM to rephrase ambiguous user query into a cleaner retrieval query. "what was the last thing you said about pricing" → "pricing policy details"</p>`
+  },
+  {cat:"rag",diff:"deep",cross:false,
+   q:"How do you handle long documents in RAG — chunking strategies and tradeoffs?",
+   a:`<p><strong>Fixed-size:</strong> split every N tokens with overlap. Simple, fast. Splits mid-sentence.</p>
+<p><strong>Sentence/paragraph:</strong> split on natural boundaries. Better semantics, variable sizes.</p>
+<p><strong>Recursive character splitting:</strong> LangChain default. Tries paragraph → sentence → word. Good balance.</p>
+<p><strong>Semantic chunking:</strong> embed each sentence, split where cosine distance jumps. Best quality, 3–5x slower to ingest.</p>
+<p><strong>Hierarchical (parent-child):</strong> small child chunks for indexing (256 tokens), large parent chunks for context (1024 tokens). Retrieve children for precision, return parent to LLM for context. Best of both worlds.</p>
+<p><strong>My go-to in prod:</strong> hierarchical — retrieve 256-token children, pass 1024-token parents to LLM.</p>`
+  },
+  {cat:"rag",diff:"deep",cross:false,
+   q:"How do you evaluate a RAG system? Metrics beyond accuracy?",
+   a:`<p><strong>Retrieval metrics:</strong> Recall@k (did ground-truth chunk appear in top-k?), MRR, NDCG.</p>
+<p><strong>Generation metrics (RAGAS):</strong> faithfulness (is answer grounded in context?), answer relevance, context precision, context recall.</p>
+<p><strong>End-to-end:</strong> human eval on golden dataset. Define "good answer" criteria for your domain.</p>
+<p><strong>Production signals:</strong> user thumbs up/down, follow-up clarification rate (high = incomplete answer), hallucination detection via NLI.</p>
+<p><strong>RAGAS pipeline:</strong> run <code>faithfulness</code>, <code>answer_relevancy</code>, <code>context_recall</code>, <code>context_precision</code> on 100-question eval set per deploy.</p>`
+  },
+  {cat:"rag",diff:"trap",cross:true,
+   q:"RAG vs fine-tuning — when would you choose one over the other? What if you need both?",
+   a:`<p><strong>This is the most common RAG cross-question.</strong></p>
+<p><strong>Choose RAG when:</strong> knowledge is large or changes frequently, you need citations/source attribution, factual grounding is critical, you have limited labelled data, fast iteration needed.</p>
+<p><strong>Choose fine-tuning when:</strong> you need consistent output style/format, domain-specific reasoning patterns (not facts), low latency with smaller model, you have 1000+ labelled examples.</p>
+<p><strong>Key distinction:</strong> RAG = externalise knowledge. Fine-tuning = bake in behaviour. Never use fine-tuning to inject facts — facts go stale and the model hallucinates confidently.</p>
+<p><strong>Using both:</strong> fine-tune for style + RAG for knowledge. Fine-tune to always respond in JSON / always cite sources / always follow a specific format — then use RAG to supply the facts. Common production pattern.</p>
+<p><strong>Don't fine-tune when:</strong> you have < 100 examples, your problem is solvable by prompting, you need the knowledge to update frequently.</p>`
+  },
+  {cat:"rag",diff:"deep",cross:false,
+   q:"When and how would you use hybrid search and re-ranking in RAG?",
+   a:`<p><strong>Why hybrid:</strong> dense search misses exact keywords. BM25/sparse misses paraphrase. Hybrid combines both.</p>
+<p><strong>How:</strong> run both retrievers → merge with Reciprocal Rank Fusion (RRF) → pass to cross-encoder re-ranker.</p>
+<p><strong>RRF formula:</strong> score = Σ 1/(k + rank_i) for each retriever. k=60 is standard. Simple, effective, no weights to tune.</p>
+<p><strong>Re-ranking:</strong> cross-encoder on top-20 to get top-5. Adds ~100ms but significantly improves precision.</p>
+<p><strong>When to use:</strong> always use hybrid if you have product/entity names. Re-rank whenever latency allows.</p>`
+  },
+
+  // ── FINE-TUNING ───────────────────────────────────────────────────────────
+  {cat:"finetune",diff:"core",cross:false,
+   q:"What is fine-tuning? What are the different types?",
+   a:`<p><strong>Fine-tuning:</strong> continue training a pretrained model on a smaller, task-specific dataset to adapt its behaviour.</p>
+<p><strong>Full fine-tuning:</strong> update all model weights. Most powerful but requires lots of memory (GPU VRAM = model size × 4 bytes for fp32, × optimizer states). Expensive.</p>
+<p><strong>Instruction fine-tuning (SFT):</strong> train on (instruction, response) pairs. Makes the model follow instructions. This is how GPT-3 → InstructGPT.</p>
+<p><strong>LoRA (Low-Rank Adaptation):</strong> instead of updating all weights, add small trainable low-rank matrices to each attention layer. Trains only ~0.1% of parameters. 10–100x cheaper. Quality close to full fine-tune. Production standard for LLM fine-tuning.</p>
+<p><strong>QLoRA:</strong> LoRA + quantisation (4-bit weights). Fine-tune a 7B model on a single A100. State of the art for cost-efficient fine-tuning.</p>
+<p><strong>PEFT (Parameter-Efficient Fine-Tuning):</strong> umbrella term for LoRA, prefix tuning, prompt tuning, adapter layers.</p>`
+  },
+  {cat:"finetune",diff:"deep",cross:true,
+   q:"What is LoRA and why is it efficient? Explain the math simply.",
+   a:`<p><strong>Problem:</strong> a 7B parameter model = 7B floats to update. Full fine-tuning needs to store gradients + optimizer states for all 7B = 3× model size in GPU memory. Not feasible on most hardware.</p>
+<p><strong>LoRA insight:</strong> the weight updates during fine-tuning are low-rank — they don't span the full parameter space. We can approximate ΔW ≈ A × B where A is (d × r) and B is (r × d), and r is much smaller than d (e.g. r=8 vs d=4096).</p>
+<p><strong>In practice:</strong> freeze original weights W. Add trainable matrices A and B. Forward pass: output = Wx + (A×B)x × scale. Only train A and B — maybe 1M parameters instead of 7B.</p>
+<p><strong>At inference:</strong> merge A×B back into W. Zero added latency. No extra computation at serving time.</p>
+<p><strong>Rank r:</strong> higher r = more expressive but more parameters. r=4 to r=64 typical. For style/format tasks, r=8 is usually sufficient. For complex new reasoning, r=64+.</p>`
+  },
+  {cat:"finetune",diff:"deep",cross:true,
+   q:"What data do you need to fine-tune a model? What are the quality pitfalls?",
+   a:`<p><strong>Minimum viable dataset:</strong> 100–500 high-quality (instruction, response) pairs for basic style/format adaptation. 1000–10k for meaningful behaviour change. Millions for true domain knowledge.</p>
+<p><strong>Format:</strong> typically JSONL with <code>{"instruction": "...", "input": "...", "output": "..."}</code>. Or chat format: system + user + assistant turns.</p>
+<p><strong>Quality pitfalls:</strong></p>
+<p><strong>1. Garbage in, garbage out:</strong> if training responses have errors, the model learns those errors confidently. Quality beats quantity every time.</p>
+<p><strong>2. Distribution mismatch:</strong> if training data doesn't match real inference distribution (different question styles, length, domain), fine-tuned model won't generalise.</p>
+<p><strong>3. Catastrophic forgetting:</strong> fine-tuning on narrow data makes the model forget general capabilities. Use data mixing — add general instruction data (Alpaca, FLAN) alongside domain data.</p>
+<p><strong>4. Label leakage:</strong> if test queries appear in training data, eval is meaningless.</p>
+<p><strong>5. Overfitting:</strong> too many epochs on too little data. Monitor validation loss — stop when it plateaus or rises.</p>`
+  },
+  {cat:"finetune",diff:"trap",cross:true,
+   q:"Fine-tuned model performs well on eval but poorly in production — what went wrong?",
+   a:`<p><strong>Classic failure modes:</strong></p>
+<p><strong>1. Train/test distribution mismatch:</strong> eval set drawn from same distribution as train. Prod queries are different. Solution: hold out a set of real prod-like queries from the start.</p>
+<p><strong>2. Catastrophic forgetting:</strong> fine-tuned on narrow task, lost general instruction following. Model doesn't handle edge cases gracefully. Solution: data mixing during fine-tune.</p>
+<p><strong>3. Overfitting to format:</strong> model learned to produce the training format rigidly, fails when prompt is slightly different. Solution: augment training data with paraphrased instructions.</p>
+<p><strong>4. Eval metric ≠ business metric:</strong> BLEU/ROUGE score looks good but user satisfaction is low. Solution: human eval on production-representative queries.</p>
+<p><strong>5. Prompt mismatch:</strong> trained with one prompt format, deployed with a different one. The model is sensitive to this. Solution: always deploy with the exact system prompt used during fine-tuning.</p>`
+  },
+
+  // ── AGENTIC AI ────────────────────────────────────────────────────────────
+  {cat:"agent",diff:"core",cross:false,
+   q:"What's the difference between a chain, a pipeline, and an agent in LLM systems?",
+   a:`<p><strong>Chain:</strong> fixed sequence of steps. LLM call → format output → next LLM call. Deterministic, no branching.</p>
+<p><strong>Pipeline:</strong> explicit data flow through defined stages. Still deterministic.</p>
+<p><strong>Agent:</strong> LLM decides what to do next at runtime. Chooses tools, interprets results, loops. Non-deterministic.</p>
+<p><strong>Key distinction:</strong> in a chain, YOU define the flow. In an agent, the LLM defines the flow.</p>
+<p><strong>When to use agents:</strong> task requires conditional logic, unknown steps, or tool selection. Use chains for predictable, auditable flows.</p>`
+  },
+  {cat:"agent",diff:"deep",cross:true,
+   q:"What is ReAct and how does it work? What are its failure modes?",
+   a:`<p><strong>ReAct = Reasoning + Acting.</strong> A prompting pattern where the agent alternates between Thought (reasoning about what to do) and Action (calling a tool), then observes the result, then reasons again.</p>
+<p><strong>Loop:</strong> Thought → Action → Observation → Thought → Action → ... → Final Answer.</p>
+<p><strong>Why it works:</strong> forcing the model to write out its reasoning before acting improves action selection. The thought serves as a scratchpad — constrains the action to be consistent with the stated reasoning.</p>
+<p><strong>Failure modes:</strong></p>
+<p><strong>1. Infinite loops:</strong> model reasons its way into a cycle. Fix: max iteration cap + loop detection on (action, args) hash.</p>
+<p><strong>2. Hallucinated observations:</strong> model skips tool call and generates a fake observation. Fix: strict parsing — if action format is invalid, re-prompt or fail.</p>
+<p><strong>3. Reasoning drift:</strong> in long chains, early reasoning context gets diluted. Later steps lose coherence. Fix: summarise completed steps, keep recent context sharp.</p>
+<p><strong>4. Over-confidence:</strong> model commits to a wrong reasoning path early and doesn't self-correct. Fix: add a reflection step ("is this reasoning correct?") periodically.</p>`
+  },
+  {cat:"agent",diff:"deep",cross:false,
+   q:"How do you handle tool selection failures — wrong tool, loops?",
+   a:`<p><strong>Prevention:</strong> clear, distinct tool descriptions. Ambiguous descriptions = wrong selection. Include "use this when X, NOT when Y".</p>
+<p><strong>Loop detection:</strong> hash (tool_name, args). If same call appears twice → interrupt and inject recovery.</p>
+<p><strong>Max iterations:</strong> hard cap (15 steps). On exceed → return best-effort with a flag.</p>
+<p><strong>Fallback tool:</strong> add a <code>clarify_intent</code> tool for uncertainty. Better to ask than guess.</p>
+<p><strong>LangGraph:</strong> conditional edges with supervisor node checking state after each tool call. Route stuck agents to recovery node.</p>`
+  },
+  {cat:"agent",diff:"deep",cross:false,
+   q:"LangGraph vs LangChain — architectural difference, when to pick each?",
+   a:`<p><strong>LangChain:</strong> linear chains and LCEL. Great for sequential RAG, simple agents. Everything is a runnable, composable with <code>|</code>.</p>
+<p><strong>LangGraph:</strong> stateful graph execution. Nodes = functions/agents, edges = transitions (including conditional). Built for branching, looping workflows with explicit state.</p>
+<p><strong>Key difference:</strong> LangGraph gives you cycle support and explicit state management. LangChain doesn't handle loops or parallel branches well.</p>
+<p><strong>Choose LangChain:</strong> simple RAG, single-agent, prototype speed.</p>
+<p><strong>Choose LangGraph:</strong> multi-agent, human-in-the-loop, long-running checkpointed workflows, complex conditional flows. Production standard for agentic systems.</p>`
+  },
+  {cat:"agent",diff:"trap",cross:true,
+   q:"What is the difference between tool use and function calling? How does the model decide which tool to call?",
+   a:`<p><strong>They're effectively the same thing</strong> — OpenAI calls it "function calling," Anthropic calls it "tool use." The model outputs a structured JSON specifying which function/tool to call and with what arguments, instead of plain text.</p>
+<p><strong>How the model decides:</strong> tool definitions (name + description + parameter schema) are included in the system prompt or a dedicated tools field. The model is trained to output a special tool-call token sequence when it decides a tool is needed, based on matching the user's intent to tool descriptions.</p>
+<p><strong>Under the hood:</strong> the model sees the tools as part of its context. It generates a structured completion that the API parses. Then the application executes the tool, gets results, passes results back as a new message, model continues.</p>
+<p><strong>Common pitfall:</strong> if tool descriptions overlap, model can't distinguish between them. Keep descriptions crisp and mutually exclusive. Add examples of when NOT to use each tool.</p>
+<p><strong>Parallel tool calls:</strong> newer models (GPT-4o, Claude 3.5) can call multiple tools in a single turn. Useful for independent lookups that don't depend on each other's results.</p>`
+  },
+  {cat:"agent",diff:"deep",cross:false,
+   q:"How do you design state management in multi-agent systems?",
+   a:`<p><strong>State:</strong> single typed object passed between agents. Contains: user intent, conversation history, tool results, subtask, flags. Use Pydantic schemas — never raw strings.</p>
+<p><strong>LangGraph pattern:</strong> state is a <code>TypedDict</code>, persisted in checkpointer (SQLite dev, Redis prod). Each agent node reads and writes to state. No side-channel communication between agents.</p>
+<p><strong>Handoff contracts:</strong> Agent A's output schema = Agent B's input schema. Supervisor orchestrator reads state and routes to correct next agent.</p>
+<p><strong>Checkpointing:</strong> save state after every node. Enables recovery, replay, human-in-the-loop pause points.</p>
+<p><strong>Anti-pattern:</strong> passing LLM output as raw text between agents → prompt injection and parsing failures.</p>`
+  },
+
+  // ── BACKEND & APIs ────────────────────────────────────────────────────────
+  {cat:"backend",diff:"core",cross:false,
+   q:"Design a streaming API for an LLM chatbot. How do you handle partial responses and errors?",
+   a:`<p><strong>Protocol:</strong> SSE for unidirectional streaming. WebSocket if bidirectional needed.</p>
+<p><strong>Backend (FastAPI):</strong> <code>StreamingResponse</code> with async generator. Each token yielded as <code>data: {token}\n\n</code>.</p>
+<p><strong>Error handling:</strong> try/except around generator. On error yield <code>data: [ERROR] message\n\n</code> then close. Client detects and shows user-friendly message.</p>
+<p><strong>Partial response persistence:</strong> buffer tokens server-side, save full response to DB on stream end.</p>
+<p><strong>Frontend:</strong> <code>EventSource</code> API or fetch with <code>ReadableStream</code>. Update React state on each chunk for live rendering.</p>`
+  },
+  {cat:"backend",diff:"core",cross:false,
+   q:"How do you handle context window management in a multi-turn conversation?",
+   a:`<p><strong>1. Sliding window:</strong> keep last N messages. Simple but loses early context.</p>
+<p><strong>2. Summarisation:</strong> periodically summarise old turns. Append as system message.</p>
+<p><strong>3. Token budgeting:</strong> allocate fixed budgets per slot — system: 2k, history: 4k, tool results: 2k, response: 2k. Prune oldest messages when exceeded.</p>
+<p><strong>4. Tool result compression:</strong> don't pass full tool output — extract only relevant fields. Hotel search returning 50 results → compress to top 3.</p>
+<p><strong>5. Memory store:</strong> extract key facts (destination, dates, preferences) into persistent store. Inject via semantic search per turn.</p>`
+  },
+  {cat:"backend",diff:"deep",cross:false,
+   q:"How do you design a rate-limited, multi-tenant AI API with quota tiers?",
+   a:`<p><strong>1. Auth:</strong> API key per tenant mapped to tier (free/pro/enterprise) in DB.</p>
+<p><strong>2. Rate limiting:</strong> Redis token bucket. Key: <code>ratelimit:{tenant_id}:{window}</code>. Return 429 + <code>Retry-After</code> on exceed.</p>
+<p><strong>3. Quota tiers:</strong> limits in config/DB per tier. Enforce at middleware before hitting LLM.</p>
+<p><strong>4. Cost tracking:</strong> log token usage per request per tenant. Alert on 80% quota.</p>
+<p><strong>5. Model routing by tier:</strong> free → cheaper/faster model, enterprise → GPT-4o.</p>
+<p><strong>Tools:</strong> FastAPI + Redis + Prometheus for usage metrics.</p>`
+  },
+  {cat:"backend",diff:"trap",cross:true,
+   q:"What is idempotency and why does it matter for AI API design?",
+   a:`<p><strong>Idempotency:</strong> calling an operation multiple times produces the same result as calling it once. Safe to retry.</p>
+<p><strong>Why it matters for AI APIs:</strong> LLM calls are expensive and non-deterministic. If a client retries due to a timeout, you might execute the same booking/action twice.</p>
+<p><strong>Pattern:</strong> client generates an <code>idempotency_key</code> (UUID) per request. Server checks if key already processed → return cached response. If not, process and store result with key.</p>
+<p><strong>For AI actions specifically:</strong> any tool call that has side effects (book a hotel, send an email, charge a card) must be wrapped in idempotency check before execution. The LLM generating the same tool call twice should NOT book twice.</p>
+<p><strong>TTL:</strong> cache idempotency keys for 24h. After that, treat as new request.</p>
+<p><strong>Database:</strong> UPSERT on idempotency_key with a unique constraint. If insert fails (duplicate), return cached response.</p>`
+  },
+
+  // ── PRODUCTION ────────────────────────────────────────────────────────────
+  {cat:"prod",diff:"core",cross:false,
+   q:"Your RAG system works in staging but degrades in prod. Debugging process?",
+   a:`<p><strong>1. Reproduce:</strong> export sample prod failing queries, run against staging.</p>
+<p><strong>2. Data audit:</strong> is prod vector index stale? Does embedding model version match?</p>
+<p><strong>3. Query distribution:</strong> log actual prod queries. Are they different from test cases (longer, more ambiguous)?</p>
+<p><strong>4. Trace retrieval:</strong> log retrieved chunks for failing queries. Relevant? → generation issue. Irrelevant? → retrieval issue.</p>
+<p><strong>5. Prompt drift:</strong> was system prompt changed between staging and prod deploy?</p>
+<p><strong>Tooling:</strong> LangSmith/Langfuse for trace logging. RAGAS eval on prod sample.</p>`
+  },
+  {cat:"prod",diff:"deep",cross:false,
+   q:"How do you version and rollback prompt changes in production?",
+   a:`<p><strong>Treat prompts as code:</strong> Git versioned, semantic versioning. Never hardcoded in application code.</p>
+<p><strong>Prompt registry:</strong> DB table with version, hash, author, deploy date. Load by version at runtime.</p>
+<p><strong>Deployment:</strong> new prompt → eval on golden dataset → if metrics pass → feature flag to 10% → monitor → rollout.</p>
+<p><strong>Rollback:</strong> flip feature flag to previous version. Seconds, no redeployment.</p>
+<p><strong>A/B testing:</strong> two versions in parallel, route by user ID hash. Compare metrics.</p>`
+  },
+  {cat:"prod",diff:"core",cross:false,
+   q:"What monitoring would you put on an LLM-powered feature?",
+   a:`<p><strong>Latency:</strong> p50/p95/p99 for LLM call, retrieval, total. Alert on p99 > 5s.</p>
+<p><strong>Token usage:</strong> input/output tokens per request, per tenant. Cost control.</p>
+<p><strong>Quality:</strong> faithfulness score (automated), user thumbs up/down, task completion rate.</p>
+<p><strong>Error rates:</strong> LLM API errors, timeout rate, context window exceed, tool call failure.</p>
+<p><strong>Hallucination proxy:</strong> NLI-based claim-context overlap. Flag answers not grounded in retrieved context.</p>
+<p><strong>Stack:</strong> Prometheus + Grafana + OpenTelemetry + Langfuse for LLM-specific observability.</p>`
+  },
+  {cat:"prod",diff:"deep",cross:false,
+   q:"How do you manage LLM costs at scale?",
+   a:`<p><strong>Semantic caching:</strong> embed query, find cached results with similarity > 0.95. Saves ~30% LLM calls. GPTCache / Redis + vector index.</p>
+<p><strong>Model routing:</strong> classify query complexity first. Simple → GPT-3.5/Haiku. Complex → GPT-4o/Sonnet. Cuts costs 60–70%.</p>
+<p><strong>Prompt compression:</strong> LLMLingua compresses retrieved context. Fewer input tokens = direct saving.</p>
+<p><strong>Batch API:</strong> Anthropic and OpenAI batch APIs = 50% discount for async tasks.</p>
+<p><strong>Token budgeting:</strong> enforce max output tokens per tier.</p>
+<p><strong>Monitoring:</strong> cost per query, cost per tenant, cost per feature. Alert at 80% monthly budget.</p>`
+  },
+  {cat:"prod",diff:"trap",cross:true,
+   q:"How do you handle LLM API failures in production? (rate limits, timeouts, provider outages)",
+   a:`<p><strong>This is a real production concern most candidates don't address.</strong></p>
+<p><strong>Retry with exponential backoff:</strong> on 429 (rate limit) or 5xx — retry after 1s, 2s, 4s, 8s with jitter. Max 3–5 retries. Never retry immediately — causes thundering herd.</p>
+<p><strong>Circuit breaker:</strong> track error rate over rolling window. If error rate > 50% in last 60s → open circuit, fail fast for next 30s. Prevents cascading failures.</p>
+<p><strong>Multi-provider fallback:</strong> primary = OpenAI. On repeated failure → fallback to Anthropic. On further failure → cached response or graceful degradation message.</p>
+<p><strong>Timeout budgets:</strong> set explicit timeouts (30s for LLM calls). Don't let user request hang indefinitely.</p>
+<p><strong>Queue overflow:</strong> if async queue is backed up, shed load gracefully — return "system busy, try again" rather than queuing unboundedly.</p>
+<p><strong>Libraries:</strong> <code>tenacity</code> in Python for retry logic. <code>pybreaker</code> for circuit breaking.</p>`
+  },
+
+  // ── CLOUD ─────────────────────────────────────────────────────────────────
+  {cat:"cloud",diff:"core",cross:false,
+   q:"How does containerising an AI service differ from a regular microservice?",
+   a:`<p><strong>GPU access:</strong> need NVIDIA runtime in Docker if running local models. <code>--gpus all</code> flag. CUDA-enabled base image.</p>
+<p><strong>Model storage:</strong> don't bake large weights into image. Mount from GCS/S3. Image stays lean, model loaded at startup.</p>
+<p><strong>Memory:</strong> LLMs are memory-hungry. Plan for 2x model size in RAM. Set explicit memory limits in K8s pod spec.</p>
+<p><strong>Startup time:</strong> weight loading takes 10–60s. Add readiness probes with longer initialDelaySeconds.</p>
+<p><strong>Scaling:</strong> can't scale as fast as stateless services. GPU nodes expensive. Keep min replicas > 0.</p>`
+  },
+  {cat:"cloud",diff:"deep",cross:false,
+   q:"When would you use AWS Bedrock vs self-hosted Ollama vs OpenAI API?",
+   a:`<p><strong>OpenAI API:</strong> fastest to ship, best frontier models. Choose when: speed matters, data residency not a concern, cost acceptable.</p>
+<p><strong>AWS Bedrock:</strong> managed, multi-model, VPC-native. Choose when: on AWS, need data in VPC (compliance), want Claude/Llama on AWS infra.</p>
+<p><strong>Ollama self-hosted:</strong> zero API cost, full data privacy. Choose when: data can't leave your infra (GDPR, healthcare), you have GPU, or local dev. Tradeoff: ops burden, lower model quality than frontier.</p>`
+  },
+  {cat:"cloud",diff:"deep",cross:false,
+   q:"How do you design observability in a system with LLM calls?",
+   a:`<p><strong>Standard tracing (OpenTelemetry):</strong> spans for HTTP handler → retrieval → LLM call → response. Latency at each layer.</p>
+<p><strong>LLM-specific spans:</strong> prompt hash, model, token count, latency, finish reason, cost estimate.</p>
+<p><strong>Tool call tracing:</strong> each invocation gets its own span — tool name, args, result, latency.</p>
+<p><strong>Correlation IDs:</strong> trace_id flows through all async jobs and nested LLM calls. Essential for debugging multi-step flows.</p>
+<p><strong>Langfuse:</strong> purpose-built LLM tracing. Session view, per-step timing, cost breakdown, eval scores alongside traces.</p>
+<p><strong>Sampling:</strong> 100% in dev, 10% in prod with 100% on errors.</p>`
+  },
+
+  // ── SYSTEM DESIGN ─────────────────────────────────────────────────────────
+  {cat:"system",diff:"deep",cross:false,
+   q:"Design the backend for a corporate travel AI assistant — multi-turn memory, tool use, human handoff.",
+   a:`<p><strong>State:</strong> <code>{user_id, session_id, intent, entities, history, tool_results, escalation_flag}</code> persisted in Redis per session.</p>
+<p><strong>Agents:</strong> Classifier (intent), Search (property + API), Booking (reservation flow), Clarifier (ambiguous requests).</p>
+<p><strong>Memory:</strong> short-term = full conversation in context. Long-term = extracted entities (destination, dates, budget) stored per user, injected at session start.</p>
+<p><strong>Tools:</strong> property_search, availability_check, price_lookup, booking_create — typed Pydantic schemas.</p>
+<p><strong>Handoff triggers:</strong> confidence < threshold, booking > £X, 3 failed clarifications, explicit escalation_flag. Push to human queue with full conversation context.</p>`
+  },
+  {cat:"system",diff:"deep",cross:false,
+   q:"How would you design semantic search for 10 million accommodation listings?",
+   a:`<p><strong>Embedding strategy:</strong> embed description + key amenities per listing. Batch pipeline, not real-time. ~$500 one-time with text-embedding-3-small.</p>
+<p><strong>Vector store:</strong> Pinecone or Weaviate. Namespaces per city/region for filtered search. HNSW index.</p>
+<p><strong>Hybrid:</strong> vector for semantic match + PostgreSQL for hard filters (price, dates, city). Merge with RRF.</p>
+<p><strong>Scaling:</strong> read replicas. Cache top-100 results for common queries. Async re-index for updates.</p>
+<p><strong>Latency target:</strong> < 200ms p95. Achieve via HNSW + result caching + coarse filter before vector search.</p>`
+  },
+
+  // ── PYTHON FUNDAMENTALS ───────────────────────────────────────────────────
+  {cat:"python",diff:"core",cross:false,
+   q:"What is the GIL in Python? How does it affect multi-threaded AI services?",
+   a:`<p><strong>GIL = Global Interpreter Lock.</strong> A mutex in CPython that allows only ONE thread to execute Python bytecode at a time, even on multi-core systems.</p>
+<p><strong>Impact on AI services:</strong> CPU-bound tasks (embedding generation, preprocessing) don't benefit from threads — they're serialised by GIL. You get no parallelism.</p>
+<p><strong>Solutions:</strong></p>
+<p><strong>1. Multiprocessing:</strong> separate processes each have their own GIL. True parallelism. Use <code>ProcessPoolExecutor</code> for CPU-bound work.</p>
+<p><strong>2. Async I/O:</strong> for I/O-bound work (LLM API calls, DB queries) — async/await with <code>asyncio</code>. GIL released during I/O waits. This is why FastAPI handles many concurrent LLM calls efficiently.</p>
+<p><strong>3. C extensions:</strong> NumPy, PyTorch release GIL during heavy computation. That's why GPU inference is fast despite GIL.</p>
+<p><strong>Practical rule:</strong> LLM API calls → async. Local model inference → multiprocessing or rely on PyTorch releasing GIL.</p>`
+  },
+  {cat:"python",diff:"core",cross:false,
+   q:"What are Python generators and async generators? Why are they useful for LLM streaming?",
+   a:`<p><strong>Generator:</strong> function with <code>yield</code>. Returns an iterator. Values produced lazily — only when requested. Memory efficient for large sequences.</p>
+<p><strong>Async generator:</strong> <code>async def</code> + <code>yield</code>. Can be awaited. Produces values asynchronously — allows other coroutines to run between yields.</p>
+<p><strong>Why perfect for LLM streaming:</strong> you don't want to buffer all tokens and send at once (user sees nothing until complete). Generator approach: yield each token as it arrives from the LLM API, FastAPI's <code>StreamingResponse</code> forwards each yield to the client immediately.</p>
+<pre style="background:var(--color-background-primary);padding:8px;border-radius:4px;font-size:12px;margin:6px 0;overflow-x:auto">async def stream_llm(prompt):
+    async for chunk in client.stream(prompt):
+        yield chunk.text</pre>
+<p><strong>Memory advantage:</strong> never holds entire response in memory. For a 4000-token response, you're buffering one token at a time, not 4000 tokens.</p>`
+  },
+  {cat:"python",diff:"deep",cross:true,
+   q:"What is asyncio and how does it work? What's the difference between async and threading?",
+   a:`<p><strong>asyncio:</strong> single-threaded concurrency using an event loop. When a coroutine hits <code>await</code>, it suspends and yields control back to the event loop, which runs another ready coroutine. No OS thread switching — cooperative multitasking.</p>
+<p><strong>Event loop:</strong> scheduler that runs coroutines. Checks which coroutines are ready (I/O completed, timer fired) and resumes them.</p>
+<p><strong>async vs threading for AI services:</strong></p>
+<p><strong>Threading:</strong> OS manages context switches (preemptive). True parallelism only without GIL. Good for: CPU-bound (with GIL-releasing C code), blocking calls you can't async-ify.</p>
+<p><strong>Async:</strong> cooperative, you control yield points. Better for: many concurrent I/O operations (1000 simultaneous LLM API calls). Single thread, very low overhead. Framework of choice for modern Python APIs (FastAPI, aiohttp).</p>
+<p><strong>Common mistake:</strong> calling a blocking function (like <code>requests.get</code>) inside async code — blocks the entire event loop. Solution: use <code>asyncio.run_in_executor</code> to offload to thread pool, or use async-native libraries (<code>httpx</code>, <code>aiohttp</code>).</p>`
+  },
+  {cat:"python",diff:"trap",cross:true,
+   q:"What are common Python memory pitfalls when building AI applications?",
+   a:`<p><strong>1. Loading models multiple times:</strong> instantiating a model inside a function that's called per request. Model is loaded into GPU/RAM each call. Fix: load once at startup, reuse via singleton or dependency injection.</p>
+<p><strong>2. Accumulating embedding vectors in memory:</strong> building a list of 100k embeddings = ~600MB in RAM for 1536-dim float32. Batch process and write to disk/DB.</p>
+<p><strong>3. Python list of dicts for large datasets:</strong> pure Python objects have high memory overhead. Use Pandas/NumPy for tabular data, especially for batch embedding operations.</p>
+<p><strong>4. Not clearing GPU cache:</strong> PyTorch tensors on GPU aren't freed until explicitly deleted or garbage collected. Use <code>torch.cuda.empty_cache()</code> after inference batches. Or use <code>with torch.no_grad():</code> to avoid storing gradients.</p>
+<p><strong>5. LangChain memory objects growing unboundedly:</strong> <code>ConversationBufferMemory</code> keeps all messages. Use <code>ConversationSummaryMemory</code> or set a token limit.</p>
+<p><strong>6. String concatenation in loops:</strong> building prompts via <code>prompt += chunk</code> creates new string objects. Use <code>"".join(list)</code> or f-strings.</p>`
+  },
+
+  // ── BEHAVIORAL ────────────────────────────────────────────────────────────
+  {cat:"behav",diff:"core",cross:false,
+   q:"Tell me about an AI feature you built end-to-end in production — what broke?",
+   a:`<p><strong>Use theSquare.AI chatbot as your anchor example:</strong></p>
+<p><strong>What you built:</strong> LLM-powered 8-state booking flow, embedded widget for corporate travel managers, connected to PostgreSQL property database via custom MCP server on Cloud Run.</p>
+<p><strong>What broke:</strong> context window management — long multi-turn conversations hit token limits, LLM lost early booking details. Users had to repeat destination, dates.</p>
+<p><strong>How you fixed it:</strong> session state extractor after each turn — extracted key entities into structured JSON always injected into system prompt. Compressed history older than 5 turns to 3-sentence summary.</p>
+<p><strong>Result:</strong> zero context-loss complaints after fix, 40% reduction in average token usage.</p>
+<p><strong>Lesson:</strong> LLMs are stateless — you have to engineer memory deliberately.</p>`
+  },
+  {cat:"behav",diff:"core",cross:false,
+   q:"Fine-tuning vs RAG vs prompt engineering — how do you decide?",
+   a:`<p><strong>Prompt engineering first:</strong> always. 80% of problems solved with better prompts. Zero cost, instant iteration.</p>
+<p><strong>RAG when:</strong> knowledge too large for context, changes frequently, you need citations, factual accuracy on domain data matters. RAG = externalising knowledge.</p>
+<p><strong>Fine-tuning when:</strong> specific output style/format consistently needed, domain reasoning patterns not solvable by prompting, lower latency needed, 1000+ quality examples available. Fine-tuning = baking in behaviour.</p>
+<p><strong>Combine:</strong> fine-tune for format + RAG for knowledge. Common production pattern.</p>
+<p><strong>Never fine-tune for knowledge</strong> — facts go stale and the model hallucinates confidently.</p>`
+  },
+  {cat:"behav",diff:"deep",cross:false,
+   q:"How do you translate a vague business requirement into a concrete AI architecture?",
+   a:`<p><strong>1. Clarify the actual task:</strong> "make it smarter" → push for: what is user doing manually today, what should AI do instead, how do we measure success?</p>
+<p><strong>2. Identify input/output:</strong> what goes in, what comes out.</p>
+<p><strong>3. Assess LLM need:</strong> does this actually need an LLM? Simple classifier or rules-based might be better.</p>
+<p><strong>4. Data audit:</strong> what data exists? Is it labelled, clean, recent?</p>
+<p><strong>5. Start simple:</strong> prototype with prompts and static data. Validate business logic first.</p>
+<p><strong>6. Define failure modes:</strong> what happens when AI is wrong? This shapes confidence thresholds and human fallback design.</p>`
+  },
+  {cat:"behav",diff:"trap",cross:true,
+   q:"How do you handle disagreement with a technical decision in your team?",
+   a:`<p><strong>Be specific and show engineering maturity:</strong></p>
+<p><strong>1. Understand the other position fully first:</strong> "Can you help me understand the reasoning for X?" Often you're missing context. Don't argue against a strawman.</p>
+<p><strong>2. Make a data-driven case:</strong> if you disagree, come with evidence — benchmarks, POC results, cost analysis. Opinion vs opinion goes nowhere. Data wins.</p>
+<p><strong>3. Propose a time-boxed experiment:</strong> "Let's both build a prototype in 2 days and compare on these specific metrics." Removes ego from the discussion.</p>
+<p><strong>4. Disagree and commit:</strong> if a decision is made and it's not dangerous — commit fully. Half-hearted execution of someone else's decision fails AND confirms your bias.</p>
+<p><strong>5. Know when to escalate:</strong> if a decision has significant technical debt or security implications, escalate with documentation — not as a power play, but as risk management.</p>
+<p><strong>Good answer to give Vipul:</strong> reference a real example from thesqua.re where you had a technology choice disagreement and how you resolved it constructively.</p>`
+  }
+];
+
+const CATS = [
+  {id:"all",    label:"All"},
+  {id:"llm",    label:"LLM Fundamentals"},
+  {id:"embed",  label:"Embeddings"},
+  {id:"rag",    label:"RAG"},
+  {id:"finetune",label:"Fine-tuning"},
+  {id:"agent",  label:"Agentic AI"},
+  {id:"backend",label:"Backend & APIs"},
+  {id:"prod",   label:"Production"},
+  {id:"cloud",  label:"Cloud"},
+  {id:"system", label:"System Design"},
+  {id:"python", label:"Python"},
+  {id:"behav",  label:"Behavioral"}
+];
+
+const TAG_LABEL = {llm:"LLM",embed:"Embeddings",rag:"RAG",finetune:"Fine-tuning",agent:"Agentic AI",backend:"Backend",prod:"Production",cloud:"Cloud",system:"System Design",python:"Python",behav:"Behavioral"};
+const DIFF_LABEL = {core:"Core",deep:"Deep dive",trap:"🪤 Trap"};
+
+let cat="all", idx=0, ansShown=false, seen=new Set(), weak=new Set(), mode="study", filtered=[];
+
+function getFiltered(){
+  let qs=Q.map((q,i)=>({...q,orig:i}));
+  if(cat!=="all") qs=qs.filter(q=>q.cat===cat);
+  if(mode==="weak") qs=qs.filter(q=>weak.has(q.orig));
+  return qs;
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById("mode-study").className="mode-btn"+(m==="study"?" active":"");
+  document.getElementById("mode-weak").className="mode-btn"+(m==="weak"?" active":"");
+  filtered=getFiltered(); idx=0; render();
+}
+
+function setTab(c){
+  cat=c; filtered=getFiltered(); idx=0; render();
+}
+
+function render(){
+  filtered=getFiltered();
+  const tabsEl=document.getElementById("tabs");
+  tabsEl.innerHTML=CATS.map(c=>{
+    let cnt=c.id==="all"?Q.length:Q.filter(q=>q.cat===c.id).length;
+    return `<button class="tab${cat===c.id?" active":""}" onclick="setTab('${c.id}')">${c.label} <span style="opacity:.6">${cnt}</span></button>`;
+  }).join("");
+
+  if(filtered.length===0){
+    document.getElementById("q-num").textContent="";
+    document.getElementById("q-tag-el").textContent="";
+    document.getElementById("q-diff-el").textContent="";
+    document.getElementById("cross-warn").className="cross-warn";
+    document.getElementById("q-text").textContent=mode==="weak"?"No questions marked yet.":"No questions.";
+    document.getElementById("answer-box").className="answer-box";
+    document.getElementById("prog-fill").style.width="0%";
+    document.getElementById("dots").innerHTML="";
+    return;
+  }
+
+  if(idx>=filtered.length) idx=filtered.length-1;
+  const q=filtered[idx];
+  seen.add(q.orig);
+  ansShown=false;
+
+  document.getElementById("q-num").textContent=`Q${idx+1}/${filtered.length}`;
+  document.getElementById("q-tag-el").className=`q-tag tag-${q.cat}`;
+  document.getElementById("q-tag-el").textContent=TAG_LABEL[q.cat];
+  document.getElementById("q-diff-el").className=`q-diff diff-${q.diff}`;
+  document.getElementById("q-diff-el").textContent=DIFF_LABEL[q.diff];
+  document.getElementById("cross-warn").className="cross-warn"+(q.cross?" show":"");
+  document.getElementById("q-text").textContent=q.q;
+  document.getElementById("answer-box").className="answer-box";
+  document.getElementById("answer-box").innerHTML=q.a;
+  document.getElementById("ans-btn").textContent="Show answer";
+  document.getElementById("weak-btn").textContent=weak.has(q.orig)?"✓ Marked":"Mark for review";
+
+  const seenInFilter=filtered.filter(x=>seen.has(x.orig)).length;
+  document.getElementById("prog-label").textContent=`Q${idx+1} of ${filtered.length}`;
+  document.getElementById("seen-label").textContent=`${seenInFilter} seen`;
+  document.getElementById("prog-fill").style.width=`${Math.round(seenInFilter/filtered.length*100)}%`;
+
+  document.getElementById("dots").innerHTML=filtered.map((x,i)=>{
+    let cls="dot";
+    if(i===idx) cls+=" current";
+    else if(weak.has(x.orig)) cls+=" weak-dot";
+    else if(seen.has(x.orig)) cls+=" seen";
+    return `<div class="${cls}" onclick="goTo(${i})" title="Q${i+1}${x.cross?' ⚠':''}"></div>`;
+  }).join("");
+
+  document.getElementById("mode-weak").textContent=`Review marked${weak.size>0?" ("+weak.size+")":""}`;
+}
+
+function toggleAnswer(){
+  ansShown=!ansShown;
+  document.getElementById("answer-box").className="answer-box"+(ansShown?" shown":"");
+  document.getElementById("ans-btn").textContent=ansShown?"Hide answer":"Show answer";
+}
+
+function markWeak(){
+  if(!filtered.length) return;
+  const q=filtered[idx];
+  if(weak.has(q.orig)) weak.delete(q.orig); else weak.add(q.orig);
+  document.getElementById("weak-btn").textContent=weak.has(q.orig)?"✓ Marked":"Mark for review";
+  document.getElementById("mode-weak").textContent=`Review marked${weak.size>0?" ("+weak.size+")":""}`;
+}
+
+function next(){if(filtered.length) idx=(idx+1)%filtered.length; render();}
+function prev(){if(filtered.length) idx=(idx-1+filtered.length)%filtered.length; render();}
+function goTo(i){idx=i; render();}
+
+function tick(){
+  const now=new Date(), t=new Date();
+  t.setHours(20,0,0,0);
+  if(t<now) t.setDate(t.getDate()+1);
+  const d=t-now, h=Math.floor(d/3600000), m=Math.floor((d%3600000)/60000), s=Math.floor((d%60000)/1000);
+  document.getElementById("countdown").textContent=`${h}h ${String(m).padStart(2,"0")}m ${String(s).padStart(2,"0")}s`;
+}
+
+filtered=getFiltered(); render(); tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>

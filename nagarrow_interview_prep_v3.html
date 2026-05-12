@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview Prep — V3 AI Fullstack</title>
+<style>
+:root{--color-text-primary:#111827;--color-text-secondary:#6b7280;--color-text-tertiary:#9ca3af;--color-text-danger:#dc2626;--color-background-primary:#fff;--color-background-secondary:#f3f4f6;--color-border-primary:#374151;--color-border-secondary:#d1d5db;--color-border-tertiary:#e5e7eb;--color-border-danger:#fca5a5;--border-radius-md:6px;--border-radius-lg:10px;--font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace}
+body{margin:0 auto;padding:0 12px;background:var(--color-background-primary);color:var(--color-text-primary);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;max-width:820px}
+@media(max-width:540px){
+  .qtext{font-size:16px!important}
+  .ans-box p{font-size:14px!important;line-height:1.8!important}
+  .btn{min-height:42px!important;padding:8px 14px!important}
+  .dot{width:12px!important;height:12px!important}
+  pre{overflow-x:auto!important;max-width:100%!important}
+  .nav-row{gap:6px}
+}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Nagarro Round 2 interview prep — comprehensive Q&A covering system design, AI explanation, frontend, fullstack, backend, and cross-questions for a UI developer interviewer</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0;font-size:15px}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px}
+.title{font-size:17px;font-weight:500;color:var(--color-text-primary)}
+.sub{font-size:12px;color:var(--color-text-secondary)}
+.tabs-sc{overflow-x:auto;padding-bottom:4px;margin-bottom:.75rem;scrollbar-width:none}
+.tabs-sc::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:5px;min-width:max-content}
+.tab{font-size:11px;padding:4px 11px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;white-space:nowrap;transition:all .15s}
+.tab:hover{background:var(--color-background-secondary)}
+.tab.on{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500;border-color:var(--color-border-primary)}
+.mode-row{display:flex;gap:5px;margin-bottom:.75rem}
+.mbtn{font-size:11px;padding:4px 11px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer}
+.mbtn.on{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500;border-color:var(--color-border-primary)}
+.prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.pbar{background:var(--color-background-secondary);border-radius:4px;height:3px;margin-bottom:.75rem}
+.pfill{height:3px;border-radius:4px;background:#1D9E75;transition:width .3s}
+.card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem;margin-bottom:.75rem}
+.q-meta{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap}
+.qnum{font-size:11px;color:var(--color-text-tertiary)}
+.qtag{font-size:10px;padding:2px 7px;border-radius:var(--border-radius-md)}
+.qdiff{font-size:10px;padding:2px 7px;border-radius:var(--border-radius-md)}
+.dc{background:#E1F5EE;color:#0F6E56}
+.dd{background:#FAEEDA;color:#854F0B}
+.dt{background:#FCEBEB;color:#A32D2D}
+.t-sys{background:#EEEDFE;color:#3C3489}
+.t-ai{background:#E1F5EE;color:#0F6E56}
+.t-fe{background:#E6F1FB;color:#0C447C}
+.t-fs{background:#FAEEDA;color:#854F0B}
+.t-be{background:#EAF3DE;color:#3B6D11}
+.t-com{background:#FBEAF0;color:#72243E}
+.t-beh{background:#FAC775;color:#633806}
+.qtext{font-size:15px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:.85rem}
+.cross-warn{font-size:11px;color:#854F0B;background:#FAEEDA;padding:4px 8px;border-radius:var(--border-radius-md);margin-bottom:8px;display:none}
+.cross-warn.show{display:block}
+.ans-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.9rem;border-left:2px solid #1D9E75;display:none;margin-top:8px}
+.ans-box.show{display:block}
+.ans-box p{margin:0 0 7px;font-size:13px;line-height:1.7;color:var(--color-text-primary)}
+.ans-box p:last-child{margin-bottom:0}
+.ans-box strong{font-weight:500}
+.ans-box code{font-family:var(--font-mono);font-size:12px;background:var(--color-background-primary);padding:1px 4px;border-radius:3px}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.btn{padding:6px 13px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:12px;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn.pri{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.btn.pri:hover{background:#0F6E56}
+.nav-row{display:flex;justify-content:space-between;align-items:center}
+.dots{display:flex;gap:3px;flex-wrap:wrap;max-width:380px}
+.dot{width:9px;height:9px;border-radius:50%;border:.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer}
+.dot.seen{background:#9FE1CB;border-color:#1D9E75}
+.dot.cur{background:#1D9E75;border-color:#0F6E56}
+.dot.wk{background:#F5C4B3;border-color:#D85A30}
+</style>
+<div class="wrap">
+<div class="hdr">
+  <div>
+    <div class="title">Nagarro Round 2 — Hitesh Goyal (UI Developer)</div>
+    <div class="sub">Communication · System Design · Frontend · Full-Stack · AI Explained Simply</div>
+  </div>
+  <div id="countdown" style="font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:3px 10px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary)">May 28 in <span id="cdval" style="font-weight:500;color:var(--color-text-primary)">--</span></div>
+</div>
+<div class="mode-row">
+  <button class="mbtn on" id="m-study" onclick="setMode('study')">Study all</button>
+  <button class="mbtn" id="m-weak" onclick="setMode('weak')">Marked for review</button>
+</div>
+<div class="tabs-sc"><div class="tabs" id="tabs"></div></div>
+<div class="prog-row"><span id="plabel">Q1 of 70</span><span id="slabel">0 seen</span></div>
+<div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+<div class="card">
+  <div class="q-meta">
+    <span class="qnum" id="qnum">Q1</span>
+    <span class="qtag" id="qtag"></span>
+    <span class="qdiff" id="qdiff"></span>
+  </div>
+  <div class="cross-warn" id="cwarn">⚠ Likely cross-question — Hitesh will probe deeper here</div>
+  <div class="qtext" id="qtext"></div>
+  <div class="btn-row">
+    <button class="btn pri" id="abtn" onclick="toggleAns()">Show answer</button>
+    <button class="btn" id="wbtn" onclick="markWeak()">Mark for review</button>
+  </div>
+  <div class="ans-box" id="ansbox"></div>
+</div>
+<div class="nav-row">
+  <button class="btn" onclick="prev()">← Prev</button>
+  <div class="dots" id="dots"></div>
+  <button class="btn" onclick="next()">Next →</button>
+</div>
+</div>
+<script>
+const Q=[
+{cat:"com",diff:"core",cross:false,
+q:"Introduce yourself and your background in 2 minutes.",
+a:`<p><strong>Frame it in 3 parts — past, present, future:</strong></p>
+<p>"I'm Deepak, a full-stack engineer with around 6 years of experience. I started with frontend work — React, Next.js — then moved heavily into Python backend systems at thesqua.re, where I work on a corporate accommodation platform. Over the last 2 years my focus has shifted to AI product development — I've built LLM-powered booking assistants, RAG pipelines, and most recently an end-to-end mock interview platform using the Anthropic and OpenAI APIs.</p>
+<p>At thesqua.re I own the full stack — from the PostgreSQL schema through Flask APIs to the React frontend. I've also built internal tooling with MCP servers connected to our database, and integrated AI features like the WhatsApp enquiry bot and theSquare.AI booking assistant.</p>
+<p>I'm looking for a role where I can go deeper on AI engineering at scale — and Nagarro's AI-focused work aligns well with that direction."</p>
+<p><strong>Key tip for Hitesh (UI dev):</strong> mention React/Next.js early — it immediately signals you can speak his language.</p>`},
+
+{cat:"com",diff:"core",cross:true,
+q:"Walk me through a project where you had to work closely with a frontend team. What was hard?",
+a:`<p><strong>Use theSquare.AI booking chatbot as the example:</strong></p>
+<p>"I built the backend AI system — the LLM pipeline, the session state management, the property search API — and had to hand it off to a frontend team building the embedded widget. The hardest part was designing the streaming API correctly.</p>
+<p>Initially I returned the full LLM response as a single JSON blob. The frontend team wanted a 'typing' effect. So I redesigned the endpoint to use Server-Sent Events — the backend streams each token as it's generated, and the frontend renders it progressively. That required both sides to change their approach.</p>
+<p>The second hard thing was error handling. When the AI gave a low-confidence answer, I needed to signal that to the UI so they could show a 'contact us' fallback. We agreed on a confidence field in the response shape — above 0.7 showed the AI answer, below that showed the human handoff prompt."</p>
+<p><strong>Cross-question Hitesh will ask:</strong> "How did you document the API for the frontend team?" → Answer: OpenAPI spec + a shared Notion doc with example requests and SSE event shapes.</p>`},
+
+{cat:"com",diff:"deep",cross:true,
+q:"Explain RAG to me like I'm a UI developer who has never heard the term.",
+a:`<p><strong>This is the most important question for this round. Use a UI analogy:</strong></p>
+<p>"Think of it like autocomplete for answers. When you type in a search box, the app doesn't search its entire database on every keystroke — it keeps a pre-built index of popular terms and queries that quickly. RAG works the same way for AI.</p>
+<p>Instead of asking the AI to memorise all our property listings, we pre-process them into a searchable index. When a user asks 'show me pet-friendly apartments in London under £3000', we first search that index to find the 5 most relevant listings, then we hand those 5 listings to the AI along with the question. The AI reads those 5 and gives a smart, grounded answer — instead of making something up.</p>
+<p>From the frontend side, it means the API response is always based on real data you put in, not hallucinated. It's the difference between your AI feature being reliable and being a liability."</p>
+<p><strong>Why this answer works for Hitesh:</strong> No mention of vectors, embeddings, or cosine similarity. Pure product impact language.</p>`},
+
+{cat:"com",diff:"core",cross:false,
+q:"How do you explain a complex backend decision to a non-technical stakeholder?",
+a:`<p><strong>Show a real example, not a generic answer:</strong></p>
+<p>"I recently had to explain why we needed to move to async scoring for our AI interview platform instead of scoring answers synchronously. The PM's concern was 'why does the user have to wait?' My explanation: 'Think of it like a restaurant — when you order food, the waiter doesn't stand in the kitchen watching it cook. He takes your order, gives you a number, and comes back when it's ready. Scoring 20 interview answers with AI takes 30–60 seconds. If we make the user stare at a loading spinner, they'll think it's broken. If we say we'll notify them when ready, they feel in control.'</p>
+<p>That analogy landed immediately. The PM then became an advocate for the async approach."</p>
+<p><strong>The meta-skill:</strong> always find a real-world analogy first. Abstract technical terms second if at all.</p>`},
+
+{cat:"com",diff:"trap",cross:true,
+q:"What is your biggest weakness as an engineer?",
+a:`<p><strong>Be honest but strategic — pick a real weakness that doesn't disqualify you for this role:</strong></p>
+<p>"I sometimes over-engineer solutions when I'm excited about a technical challenge. I'll reach for a distributed queue when a simple cron job would do, or build a full plugin system when there are only 2 plugins. I've gotten better at asking 'what's the simplest thing that could work?' before designing anything.</p>
+<p>Concretely — I built a complex multi-agent LangGraph orchestration for a feature that turned out to need just one LLM call and a conditional. I caught it during code review and simplified it, but it cost me a day. Now I prototype with the simplest approach first and only add complexity when I hit a real constraint."</p>
+<p><strong>Why this works:</strong> It's real, it shows self-awareness, and the correction story shows maturity. It doesn't threaten core competencies for this role.</p>`},
+
+{cat:"sys",diff:"core",cross:false,
+q:"Design a streaming AI chat API that a React frontend can consume. What does the full flow look like?",
+a:`<p><strong>Walk through each layer explicitly — Hitesh will care about the frontend side:</strong></p>
+<p><strong>Frontend (React):</strong> User types message → POST /api/chat with message body → instead of waiting for full response, open an EventSource or use fetch with ReadableStream → render each token chunk as it arrives → show typing indicator while streaming → on stream end, save message to chat history.</p>
+<p><strong>Backend (Express/FastAPI):</strong> Receive message → authenticate user → load conversation history from session store → call LLM with streaming enabled → yield each token chunk as SSE event: <code>data: {"token": "Hello"}\n\n</code> → on stream end, send <code>data: [DONE]\n\n</code> → save full response to DB async.</p>
+<p><strong>Error handling:</strong> If LLM API fails mid-stream, send <code>data: {"error": "stream_failed"}\n\n</code>. Frontend detects this event type and shows a retry button.</p>
+<p><strong>SSE vs WebSocket:</strong> SSE for one-way streaming (AI response to user) — simpler, works over HTTP/2, auto-reconnects. WebSocket only if you need bidirectional real-time (e.g., collaborative editing).</p>`},
+
+{cat:"sys",diff:"core",cross:true,
+q:"How would you design the API layer between your AI backend and a React frontend? What would you put in the contract?",
+a:`<p><strong>This is directly in Hitesh's world — be very precise:</strong></p>
+<p><strong>API contract includes:</strong></p>
+<p><strong>1. Response shape:</strong> Always <code>{ data: T | null, error: string | null }</code>. Frontend always checks error first. Never return raw objects — consistent shape means one error handler component handles everything.</p>
+<p><strong>2. Loading states:</strong> For async AI jobs, return <code>{ jobId, status: "pending" }</code> immediately with 202. Frontend polls <code>GET /jobs/:id/status</code>. This prevents 30-second spinners.</p>
+<p><strong>3. Streaming contract:</strong> SSE events have types — <code>{ type: "token", content: "..." }</code>, <code>{ type: "done" }</code>, <code>{ type: "error", message: "..." }</code>. Frontend switch-cases on type. No magic string parsing.</p>
+<p><strong>4. OpenAPI spec:</strong> Generate from code (FastAPI does this automatically). Frontend team can import into Postman or generate TypeScript types with openapi-typescript.</p>
+<p><strong>5. Versioning:</strong> /api/v1/ prefix. Never break existing frontend without a migration path.</p>`},
+
+{cat:"sys",diff:"deep",cross:true,
+q:"How do you handle a case where the AI feature breaks in production and the frontend shows garbage to users?",
+a:`<p><strong>Answer in layers — detection, containment, recovery:</strong></p>
+<p><strong>Detection:</strong> Every AI response runs through a validation function before being sent to the frontend. If the response fails schema validation or contains obvious hallucination signals (e.g., confidence score below threshold) → trigger fallback, don't send to UI.</p>
+<p><strong>Containment:</strong> The API never sends a raw AI error to the frontend. It catches, logs the full error server-side, and returns a graceful degraded response: <code>{ data: null, error: "AI service temporarily unavailable", fallback: "Here are our top properties based on your search." }</code>. Frontend renders the fallback content.</p>
+<p><strong>Feature flags:</strong> Every AI feature is behind a flag. If it starts breaking → flip the flag, feature disappears instantly for users, no deploy needed.</p>
+<p><strong>Monitoring:</strong> Alert fires if AI error rate exceeds 5% in a 5-minute window. On-call gets paged. Langfuse shows which prompt version started failing and when.</p>
+<p><strong>Recovery:</strong> Rollback prompt version via admin panel. Or route to a different model (e.g., fall back from GPT-4o to GPT-3.5) while investigating.</p>`},
+
+{cat:"sys",diff:"deep",cross:false,
+q:"Walk me through how you would build theSquare.AI booking assistant end to end — user types a query to a confirmed booking.",
+a:`<p><strong>Tell it as a story with 6 clear stages:</strong></p>
+<p><strong>1. User input:</strong> Corporate travel manager types "I need a 2-bed apartment in London for 3 nights from June 10 near Canary Wharf, budget £200/night."</p>
+<p><strong>2. Intent extraction:</strong> LLM parses the query into structured entities: location, dates, budget, size. Stored in session state. If anything is missing, the assistant asks a clarifying question before proceeding.</p>
+<p><strong>3. Property search:</strong> Structured query hits our PostgreSQL + vector search hybrid. Returns top 5 matching properties with availability confirmed via the Rentals United API.</p>
+<p><strong>4. Response generation:</strong> LLM receives the 5 properties + original query + conversation history. Generates a natural language recommendation: "Here are 3 options that match — the Canary Wharf Studio is closest to your meeting at £185/night..."</p>
+<p><strong>5. Booking confirmation:</strong> User says "book the first one." LLM calls the booking tool with extracted parameters. Tool calls our booking API. Returns confirmation number.</p>
+<p><strong>6. Frontend:</strong> Every stage streams tokens. UI shows typing effect. Booking confirmation triggers a success card component with booking reference and calendar invite option.</p>`},
+
+{cat:"sys",diff:"core",cross:false,
+q:"What happens between a user clicking 'Submit' in a React form and data appearing in a PostgreSQL database? Walk through every step.",
+a:`<p><strong>Full-stack question — show you know every layer:</strong></p>
+<p><strong>1. Browser:</strong> onClick handler fires → form data collected from controlled component state → validation runs client-side (required fields, format checks) → if valid, fetch/axios POST to API endpoint with JSON body and auth header.</p>
+<p><strong>2. Network:</strong> HTTP request leaves browser → DNS resolves hostname → TCP connection (or reuse existing) → TLS handshake if HTTPS → request reaches load balancer → forwarded to server instance.</p>
+<p><strong>3. Backend:</strong> Express/FastAPI receives request → CORS middleware checks origin → auth middleware validates JWT → route handler parses body → Zod/Pydantic validates input schema → service layer called with validated data.</p>
+<p><strong>4. Database:</strong> Service calls Prisma/SQLAlchemy → ORM generates parameterised SQL → connection pool provides a connection → query executes in PostgreSQL → row written → connection returned to pool → result returned up the chain.</p>
+<p><strong>5. Response:</strong> Service returns created record → route handler formats <code>{ data: record, error: null }</code> → 201 status sent → React Query / useState updates with new data → UI re-renders showing the new record.</p>`},
+
+{cat:"sys",diff:"deep",cross:true,
+q:"How would you add real-time notifications to a web app — e.g., 'your interview score is ready'?",
+a:`<p><strong>Three options — explain tradeoffs for a UI developer:</strong></p>
+<p><strong>Option 1 — Polling (simplest):</strong> Frontend calls <code>GET /jobs/:id/status</code> every 3 seconds. Simple to implement, works everywhere. Wasteful — most requests return "still processing." Good for low-frequency events.</p>
+<p><strong>Option 2 — SSE (recommended for this case):</strong> After interview completes, backend opens an SSE connection. When scoring finishes, sends a <code>data: {"type":"score_ready","interviewId":"..."}</code> event. Frontend EventSource listener fires, React updates UI. One-directional, lightweight, HTTP/2 friendly.</p>
+<p><strong>Option 3 — WebSockets:</strong> Full bidirectional. Overkill for notifications. Use for real-time collaboration (multiplayer, live document editing, chat).</p>
+<p><strong>For this app:</strong> SSE on the debrief page. Frontend opens SSE connection after interview completes. When backend finishes scoring (async job), it pushes the event. Frontend navigates to debrief automatically.</p>
+<p><strong>Alternative:</strong> Push notification via browser Notifications API + Service Worker. Better UX if user navigates away.</p>`},
+
+{cat:"ai",diff:"core",cross:false,
+q:"Explain what an LLM is to someone who builds UI for a living.",
+a:`<p>"An LLM is a very sophisticated autocomplete. When you type in a text editor and it suggests the next word — that's simple autocomplete based on frequency. An LLM does the same thing but at a much deeper level — it's been trained on billions of sentences, so it understands context, tone, and meaning.</p>
+<p>When you ask it 'summarise this property listing', it doesn't look up a database of summaries. It predicts, word by word, what a good summary of that text would look like — based on everything it learned during training.</p>
+<p>From your perspective as a UI developer, it's essentially an API that takes text in and returns text out. The input is called a prompt, the output is a completion. Your job is designing the interface that wraps around it — the input boxes, loading states, streaming renders, error states, and trust signals that make the AI output feel reliable."</p>`},
+
+{cat:"ai",diff:"core",cross:true,
+q:"What is hallucination and how do you prevent it from reaching the user?",
+a:`<p><strong>Explain the problem, then the solution chain:</strong></p>
+<p>"Hallucination is when an AI confidently says something that isn't true. It happens because LLMs are trained to produce plausible-sounding text — they don't have a fact-check step built in. The classic example is asking for a citation and the model invents a paper that doesn't exist.</p>
+<p><strong>Prevention layers:</strong></p>
+<p><strong>1. RAG:</strong> Don't let the AI rely on its training data for facts. Give it the actual data in the prompt. 'Here are the 5 matching properties — summarise them.' It can't hallucinate properties it didn't receive.</p>
+<p><strong>2. Output validation:</strong> Before sending to frontend, check the AI output against your schema. If it claims a property has 10 bedrooms and your DB says 2 — reject and retry.</p>
+<p><strong>3. Confidence gating:</strong> Some models return confidence scores. Below a threshold, show a fallback instead of the AI answer.</p>
+<p><strong>4. UI trust signals:</strong> Always show the source. 'Based on: [property listing link].' Users can verify. This is both a UX pattern and a safety mechanism."</p>`},
+
+{cat:"ai",diff:"deep",cross:true,
+q:"How does streaming work when calling an LLM API — what does the frontend actually receive?",
+a:`<p><strong>Walk through the technical reality in terms a UI dev will understand:</strong></p>
+<p>"Without streaming: you make one API call, wait 10–15 seconds, receive one giant JSON response. The user sees a blank screen, then suddenly a wall of text. Bad UX.</p>
+<p>With streaming: the LLM generates tokens one by one. The API sends each token immediately as a Server-Sent Event. The frontend receives a stream of small chunks: <code>'The'</code>, <code>' best'</code>, <code>' apartments'</code>, <code>' in'</code>, <code>' London'</code>...</p>
+<p><strong>In React, you'd handle it like this:</strong></p>
+<p><code>const response = await fetch('/api/chat', { method: 'POST', body: ... })</code></p>
+<p><code>const reader = response.body.getReader()</code></p>
+<p>Then in a loop, <code>reader.read()</code> gives you each chunk. You decode it and append to a <code>useState</code> string. React re-renders on each append — which is what creates the typing effect.</p>
+<p>The perceived performance improvement is massive — users see the first word in under 1 second instead of waiting 15 seconds for the full response."</p>`},
+
+{cat:"ai",diff:"core",cross:false,
+q:"What is a prompt and why does prompt design matter?",
+a:`<p>"A prompt is the instruction you give the AI. It's the difference between asking a junior developer to 'fix the bug' versus 'fix the null pointer exception in line 47 of auth.service.ts without changing the function signature and explain what caused it.'</p>
+<p>The second instruction gets a useful answer. The first gets a guess.</p>
+<p><strong>Why it matters in production:</strong> The same underlying model gives wildly different quality outputs depending on how you phrase the prompt. We've seen a 40% improvement in answer quality just from adding 'think step by step' and providing 2 examples of what a good answer looks like.</p>
+<p><strong>Practical impact on the frontend:</strong> If your prompts are bad, the UI has to handle more edge cases — empty outputs, wrong formats, unexpected content. Good prompts mean predictable outputs, which means simpler frontend code. We treat prompts like code — version controlled, reviewed, tested before deploy."</p>`},
+
+{cat:"ai",diff:"deep",cross:false,
+q:"What is the context window and why does it create a UX problem?",
+a:`<p>"The context window is the maximum amount of text an LLM can read in one go — like working memory. GPT-4o can handle about 128,000 tokens (roughly 100,000 words). Sounds huge, but it fills up fast in a chatbot.</p>
+<p>Imagine a corporate travel manager using our booking assistant for a 30-minute session — asking about 10 different apartments, comparing options, asking follow-up questions. After a while, the conversation history is so long it hits the limit. The model starts forgetting what the user asked at the beginning.</p>
+<p><strong>The UX problem this creates:</strong> User asks 'book the one from earlier' — but 'earlier' is now outside the context window. The AI says 'I don't know which one you mean.' The user is confused — they just talked about it.</p>
+<p><strong>How we solve it:</strong> Extract key entities from each turn (property ID, dates, budget, user preference) into a structured summary. That summary — not the raw conversation — gets injected at the start of each new turn. It's like giving the AI a briefing note instead of making it re-read the whole meeting transcript."</p>`},
+
+{cat:"ai",diff:"trap",cross:true,
+q:"If RAG is so good, why would you ever fine-tune a model instead?",
+a:`<p>"Great question. RAG and fine-tuning solve different problems.</p>
+<p><strong>RAG solves the knowledge problem</strong> — the model doesn't know about your specific data (your property listings, your pricing, your policies). You inject that data at query time.</p>
+<p><strong>Fine-tuning solves the behaviour problem</strong> — you want the model to always respond in a specific style, format, or tone. For example, thesqua.re always responds with formal corporate language, always structures property recommendations as a numbered list, always ends with a call to action. You can write that into the system prompt — but if it's complex enough, fine-tuning is more reliable and cheaper (smaller prompt = fewer tokens per call).</p>
+<p><strong>Real trap answer:</strong> Never fine-tune to inject knowledge. Facts go stale. If you fine-tune 'our London office is at 123 Fleet Street' and you move office, the model will confidently give the wrong address forever. Knowledge goes in RAG. Behaviour goes in fine-tuning."</p>`},
+
+{cat:"fe",diff:"core",cross:false,
+q:"What is the difference between server components and client components in Next.js?",
+a:`<p><strong>This is core Next.js 13+ knowledge:</strong></p>
+<p><strong>Server components (default):</strong> Render on the server. Can directly access databases, file system, secrets. Never run in the browser. Zero JavaScript sent to client for the component itself. Cannot use useState, useEffect, event handlers, or browser APIs.</p>
+<p><strong>Client components ('use client'):</strong> Rendered on both server (for initial HTML) and client (for interactivity). Can use React hooks, event handlers, browser APIs. JavaScript is sent to the browser.</p>
+<p><strong>Rule of thumb:</strong> Everything is server by default. Add 'use client' only when you need interactivity or browser APIs. Keep client components small — push data fetching up to server components and pass data down as props.</p>
+<p><strong>Example:</strong> A dashboard page is a server component that fetches data from the DB. The chart inside it that the user can filter is a client component. The server component passes the initial data as a prop to the client component.</p>
+<p><strong>Performance benefit:</strong> Less JavaScript shipped to browser = faster initial load = better Core Web Vitals.</p>`},
+
+{cat:"fe",diff:"core",cross:true,
+q:"What is hydration in React/Next.js and what causes hydration errors?",
+a:`<p>"Hydration is the process of attaching React's event listeners and state to the HTML that the server already rendered. The server sends HTML — the page looks right immediately. Then React runs in the browser, 'hydrates' that HTML by connecting its virtual DOM to it, making it interactive.</p>
+<p><strong>Hydration errors occur when the server-rendered HTML doesn't match what React would render client-side.</strong> Common causes:</p>
+<p><strong>1. Using browser-only APIs in server components:</strong> <code>window.localStorage</code>, <code>navigator</code>, <code>document</code> — these don't exist on the server.</p>
+<p><strong>2. Date/time differences:</strong> Server renders at one timestamp, client renders at a slightly different one. If you render <code>new Date().toLocaleString()</code> it will differ.</p>
+<p><strong>3. Conditional rendering based on auth that differs:</strong> Server renders for unauthenticated user, client has a session cookie — mismatch.</p>
+<p><strong>Fix:</strong> Move browser-dependent code into useEffect (runs client-only). Use suppressHydrationWarning for genuinely acceptable mismatches like timestamps. Use dynamic imports with ssr: false for components that must only run client-side.</p>`},
+
+{cat:"fe",diff:"deep",cross:false,
+q:"How does React Query (TanStack Query) improve API state management vs plain useEffect?",
+a:`<p>"Plain useEffect for data fetching has several problems you have to solve manually every time: loading state, error state, race conditions when the component unmounts, caching, refetching on window focus, pagination.</p>
+<p><strong>React Query handles all of this:</strong></p>
+<p><code>const { data, isLoading, error } = useQuery({ queryKey: ['banks'], queryFn: () => api.get('/banks') })</code></p>
+<p>That one hook gives you: automatic loading and error states, caching (same queryKey = same cached data across components), background refetching when window regains focus, stale-while-revalidate (show cached data immediately, fetch fresh data in background), and automatic retry on network failure.</p>
+<p><strong>Mutations:</strong> <code>useMutation</code> handles POST/PUT/DELETE with optimistic updates — update the UI immediately, roll back if the server fails.</p>
+<p><strong>In our InterviewAI app:</strong> React Query polls <code>/interviews/:id/status</code> every 2 seconds while scoring. When status becomes 'complete', it invalidates the debrief query and navigates to results. Without React Query this would be 40+ lines of useEffect, useRef, and cleanup code."</p>`},
+
+{cat:"fe",diff:"core",cross:false,
+q:"What are Core Web Vitals and how do you improve them?",
+a:`<p><strong>Three key metrics Google uses for page experience:</strong></p>
+<p><strong>LCP (Largest Contentful Paint):</strong> How fast the biggest visible element loads. Target: under 2.5s. Improve by: preloading hero images, using Next.js Image component (automatic WebP + lazy loading), hosting images on CDN, removing render-blocking scripts.</p>
+<p><strong>CLS (Cumulative Layout Shift):</strong> How much the page jumps around during load. Target: under 0.1. Improve by: always setting width/height on images and video, not injecting content above existing content, using CSS skeleton loaders instead of showing/hiding elements.</p>
+<p><strong>INP (Interaction to Next Paint):</strong> How quickly the page responds to user interactions. Target: under 200ms. Improve by: moving heavy computation to Web Workers, debouncing inputs, using React's useTransition for non-urgent updates.</p>
+<p><strong>Tools:</strong> Lighthouse in Chrome DevTools, Vercel Analytics, Google Search Console. I run Lighthouse on every PR for pages that affect SEO.</p>`},
+
+{cat:"fe",diff:"deep",cross:true,
+q:"How do you handle authentication state on the frontend — what gets stored where and why?",
+a:`<p><strong>Security-first answer:</strong></p>
+<p><strong>What NOT to do:</strong> Never store JWT access tokens in localStorage. JavaScript can read localStorage — any XSS vulnerability exposes the token. Attacker can steal it and impersonate the user.</p>
+<p><strong>What to do:</strong></p>
+<p><strong>Access token:</strong> Keep in memory only (React state or Zustand store). Lost on page refresh — that's intentional. Short-lived (15 minutes).</p>
+<p><strong>Refresh token:</strong> httpOnly + Secure cookie. JavaScript cannot read httpOnly cookies. Browser sends it automatically on requests to the same domain. Server uses it to issue new access tokens.</p>
+<p><strong>Session approach (NextAuth.js):</strong> NextAuth stores an encrypted session in a cookie. On each request, the session is verified server-side. You never handle raw JWTs in component code at all — just call <code>getServerSession()</code> or <code>useSession()</code>.</p>
+<p><strong>Page protection pattern:</strong> Server component checks session, redirects to /login if missing. Client component uses useSession() hook for conditional UI rendering (show admin menu only for ADMIN role).</p>`},
+
+{cat:"fe",diff:"trap",cross:true,
+q:"What is the difference between useMemo, useCallback, and React.memo — and when do you actually need them?",
+a:`<p><strong>The trap: most devs use these too early. Explain the right mental model:</strong></p>
+<p><strong>React.memo:</strong> Wraps a component. Prevents re-render if props haven't changed (shallow comparison). Use when a component is expensive to render AND its parent re-renders often with the same props.</p>
+<p><strong>useMemo:</strong> Memoizes a computed value. <code>const sortedList = useMemo(() => list.sort(...), [list])</code> — only re-sorts when list changes. Use for genuinely expensive computations (sorting/filtering large arrays, complex calculations).</p>
+<p><strong>useCallback:</strong> Memoizes a function reference. Mainly useful when passing callbacks to memoized child components — if the function reference changes every render, React.memo on the child does nothing.</p>
+<p><strong>When to actually use them:</strong> Profile first with React DevTools Profiler. Premature memoization adds complexity and can actually hurt performance (memoization itself has a cost). The classic mistake: wrapping every function in useCallback "just in case." Only memoize when you've measured a real performance problem.</p>
+<p><strong>Rule of thumb:</strong> Default to not memoizing. Add React.memo when Profiler shows unnecessary renders. Add useMemo when Profiler shows expensive computations. Add useCallback only when it's needed for memo'd child props.</p>`},
+
+{cat:"fs",diff:"core",cross:false,
+q:"What is CORS and why does it exist? How do you configure it correctly?",
+a:`<p>"CORS — Cross-Origin Resource Sharing — is a browser security mechanism that blocks JavaScript on one domain from making requests to a different domain, unless the server explicitly allows it.</p>
+<p><strong>Why it exists:</strong> Without CORS, if you're logged into your bank and you visit a malicious website, that site's JavaScript could make API calls to your bank using your session cookies. CORS prevents this by requiring the bank's server to explicitly say which origins are allowed.</p>
+<p><strong>How it works:</strong> Browser sends a preflight OPTIONS request: 'I'm from localhost:3000 — can I call you?' Server responds with <code>Access-Control-Allow-Origin: http://localhost:3000</code>. Browser sees the OK and allows the actual request.</p>
+<p><strong>Correct configuration:</strong></p>
+<p>Development: <code>origin: 'http://localhost:3000'</code></p>
+<p>Production: exact domain <code>origin: 'https://interviewai.com'</code></p>
+<p><strong>Never use:</strong> <code>origin: '*'</code> with <code>credentials: true</code> — browsers block this combination anyway, and it signals you don't understand what you're doing.</p>
+<p><strong>Common gotcha:</strong> CORS errors in browser don't mean the server is down — they mean the server responded but without the right headers. Check network tab — if you see a response, it's a CORS config issue, not a server crash.</p>`},
+
+{cat:"fs",diff:"core",cross:true,
+q:"What is the difference between SSR, SSG, ISR, and CSR in Next.js — when do you use each?",
+a:`<p><strong>Four rendering strategies — pick based on data freshness needs:</strong></p>
+<p><strong>SSR (Server-Side Rendering):</strong> Page rendered on server on every request. Data is always fresh. Use for: personalised pages (dashboard, profile), pages with auth, data that changes frequently. Slower TTFB but always fresh.</p>
+<p><strong>SSG (Static Site Generation):</strong> Page rendered at build time. Super fast — served from CDN. Use for: marketing pages, blog posts, documentation, anything that doesn't change per-user or changes infrequently.</p>
+<p><strong>ISR (Incremental Static Regeneration):</strong> SSG but with a revalidation interval. Page is static, but Next.js regenerates it in the background every N seconds. Use for: product listings, property search results — mostly static but need periodic updates without a full rebuild.</p>
+<p><strong>CSR (Client-Side Rendering):</strong> Empty HTML shell, React fetches data in browser. Use for: highly interactive dashboards, parts of the page that need real-time updates. Bad for SEO.</p>
+<p><strong>In InterviewAI:</strong> Login/register = SSR (auth check). Dashboard = SSR (personalised). Landing page = SSG. Bank detail = SSR (user's own data). Study mode = CSR (fully interactive, no SEO needed).</p>`},
+
+{cat:"fs",diff:"deep",cross:false,
+q:"How do you handle file uploads in a full-stack app — from frontend to cloud storage?",
+a:`<p><strong>Walk through each layer:</strong></p>
+<p><strong>Frontend:</strong> <code>&lt;input type="file"&gt;</code> → onChange captures File object → create FormData: <code>const fd = new FormData(); fd.append('file', file)</code> → POST to API with Content-Type: multipart/form-data (don't set manually — browser sets boundary automatically).</p>
+<p><strong>Backend options:</strong></p>
+<p><strong>Option A — Direct upload:</strong> Frontend POSTs file to your API → API streams to GCS/S3. Simple but doubles bandwidth — file goes client → server → cloud.</p>
+<p><strong>Option B — Presigned URL (better):</strong> Frontend POSTs metadata to your API → API generates a presigned GCS URL → returns URL to frontend → frontend uploads directly to GCS. File never touches your server. Faster, cheaper, scales better.</p>
+<p><strong>Security:</strong> Always validate file type and size server-side (not just client-side). Scan for malware if storing user content. Use random UUID filenames — never user-provided filenames (path traversal attacks). Store files in a private bucket, serve via signed URLs that expire.</p>
+<p><strong>In InterviewAI:</strong> Interview recordings use presigned URL approach — large video files go directly browser → GCS. The recording URL stored in DB is a path, not a presigned URL — we generate fresh signed URLs at access time with 1-hour expiry.</p>`},
+
+{cat:"fs",diff:"deep",cross:true,
+q:"What is the difference between optimistic updates and pessimistic updates in UI?",
+a:`<p>"This is about when you update the UI relative to the server confirming the action.</p>
+<p><strong>Pessimistic update:</strong> Wait for server confirmation before updating UI. User clicks 'Delete' → spinner → server confirms → item disappears. Safe but slow-feeling. Use for irreversible actions (payment, deletion of important data).</p>
+<p><strong>Optimistic update:</strong> Update the UI immediately as if the action succeeded, then reconcile with server response. User clicks 'Like' → heart fills instantly → server call happens in background. If server fails → revert UI, show error. Feels instant.</p>
+<p><strong>In React Query:</strong></p>
+<p><code>onMutate: async (newData) => { await queryClient.cancelQueries(['banks']); const prev = queryClient.getQueryData(['banks']); queryClient.setQueryData(['banks'], old => [...old, newData]); return { prev } }</code></p>
+<p><code>onError: (err, newData, context) => { queryClient.setQueryData(['banks'], context.prev) }</code></p>
+<p><strong>When to use optimistic:</strong> Social interactions (likes, follows), reordering lists, toggling settings. When to use pessimistic: financial transactions, deleting accounts, sending emails — anything you can't easily undo.</p>`},
+
+{cat:"fs",diff:"trap",cross:true,
+q:"A user reports that their data disappears after refreshing the page. Walk me through how you debug it.",
+a:`<p><strong>This is a debugging methodology question — show systematic thinking:</strong></p>
+<p><strong>Step 1 — Reproduce:</strong> Exactly replicate the user's steps. What page, what action, which browser, logged in or out?</p>
+<p><strong>Step 2 — Check network tab:</strong> After the action that 'saves' data, is there a POST/PUT request? What is the response? 200 with correct data? 401? 422? If no request fired, the issue is frontend — data was never sent.</p>
+<p><strong>Step 3 — Check the API response:</strong> Did the server actually confirm the save? A 200 response doesn't mean the data was persisted — check the response body. Does it match what was sent?</p>
+<p><strong>Step 4 — Check the database:</strong> Query directly. Is the row there? If not, the write failed silently. Check server logs for errors.</p>
+<p><strong>Step 5 — Check state management:</strong> Maybe data IS saved but the GET request after refresh returns stale cached data. Check React Query cache invalidation — did the mutation invalidate the relevant query?</p>
+<p><strong>Most common actual cause:</strong> The mutation succeeds but doesn't invalidate the query cache. React Query returns the old cached data after refresh. Fix: <code>queryClient.invalidateQueries(['resource'])</code> in the mutation's onSuccess callback.</p>`},
+
+{cat:"be",diff:"core",cross:false,
+q:"What is the difference between synchronous and asynchronous programming in Python?",
+a:`<p><strong>Explain with a concrete AI use case:</strong></p>
+<p><strong>Synchronous:</strong> Code executes line by line. When you call an LLM API, the entire thread blocks — nothing else can happen until the response comes back (typically 5–15 seconds). If 100 users are doing this simultaneously, you need 100 threads. Expensive and slow.</p>
+<p><strong>Asynchronous (asyncio):</strong> Instead of blocking, the function pauses at the <code>await</code> keyword and yields control back to the event loop. The event loop runs other coroutines while waiting. One thread handles thousands of concurrent I/O operations.</p>
+<p><code>async def score_answer(answer): result = await openai.chat.create(...); return result</code></p>
+<p><strong>Why it matters for AI:</strong> Scoring 20 interview answers sequentially = 20 × 3s = 60 seconds. Running all 20 with <code>await asyncio.gather(*[score_answer(a) for a in answers])</code> = ~3–5 seconds total (parallel I/O).</p>
+<p><strong>The GIL caveat:</strong> asyncio helps with I/O-bound tasks (API calls, DB queries). For CPU-bound tasks (image processing, heavy computation), use multiprocessing — asyncio can't bypass the GIL for CPU work.</p>`},
+
+{cat:"be",diff:"core",cross:false,
+q:"What is an API gateway and why would you use one?",
+a:`<p>"An API gateway sits in front of all your microservices and handles cross-cutting concerns so individual services don't have to.</p>
+<p><strong>What it handles:</strong> Authentication (validate JWT once, not in every service), rate limiting (100 req/min per user, enforced centrally), request routing (POST /api/v1/users → user service, POST /api/v1/banks → bank service), SSL termination, request/response logging, caching, and API versioning.</p>
+<p><strong>Without a gateway:</strong> Every service reimplements auth, every service has its own rate limiting, monitoring is fragmented.</p>
+<p><strong>With a gateway:</strong> One place to update auth logic, one place to add a new rate limit, one dashboard for all API traffic.</p>
+<p><strong>In our stack:</strong> On GCP, Cloud Run services sit behind Cloud API Gateway or just a load balancer for simpler setups. For the InterviewAI platform, Express middleware acts as a lightweight gateway — auth middleware, rate limiter, and error handler run before any route handler.</p>
+<p><strong>Popular options:</strong> AWS API Gateway, Kong, Nginx (self-managed), Cloudflare Workers (edge).</p>`},
+
+{cat:"be",diff:"deep",cross:false,
+q:"Explain database indexing — when does it help and when does it hurt?",
+a:`<p>"An index is a separate data structure the database maintains alongside your table — like a book's index at the back. Without it, a query like <code>SELECT * FROM users WHERE email = 'x@y.com'</code> scans every single row. With an index on email, PostgreSQL jumps directly to the matching row in O(log n) time.</p>
+<p><strong>When indexes help:</strong> Columns used in WHERE clauses, JOIN conditions, ORDER BY, and GROUP BY. Foreign key columns (userId, bankId) — always index these. Columns with high cardinality (email, UUID) — indexes are most effective here.</p>
+<p><strong>When indexes hurt:</strong></p>
+<p><strong>1. Write-heavy tables:</strong> Every INSERT, UPDATE, DELETE must also update all indexes. A table with 10 indexes takes 10× the write time.</p>
+<p><strong>2. Low cardinality columns:</strong> An index on a 'status' column with 3 possible values ('active', 'inactive', 'pending') is nearly useless — the database still has to read 33% of rows.</p>
+<p><strong>3. Small tables:</strong> Under ~1000 rows, a full table scan is often faster than using an index (overhead of reading the index itself isn't worth it).</p>
+<p><strong>Practical rule:</strong> Index foreign keys always. Index columns you filter or sort by in frequent queries. Profile with EXPLAIN ANALYZE before and after adding an index to verify it's actually used.</p>`},
+
+{cat:"be",diff:"deep",cross:true,
+q:"What is the difference between a monolith and microservices — and when should you NOT use microservices?",
+a:`<p><strong>The nuanced answer wins here:</strong></p>
+<p><strong>Monolith:</strong> All code in one deployable unit. Simpler to develop, test, debug, and deploy. Function calls between modules are just function calls — no network latency. Database transactions span the whole app. Right choice for most early-stage products.</p>
+<p><strong>Microservices:</strong> Each feature as a separate deployable service. Independent scaling, independent deployment, technology heterogeneity. But: distributed system complexity, network latency between services, distributed transactions are hard, operational overhead (Kubernetes, service mesh, distributed tracing).</p>
+<p><strong>When NOT to use microservices:</strong></p>
+<p>1. Team is small (under 10 engineers) — the overhead outweighs the benefits</p>
+<p>2. The domain is not well understood yet — premature service boundaries become wrong service boundaries</p>
+<p>3. You don't have strong DevOps capabilities — microservices without good CI/CD and observability are a nightmare</p>
+<p><strong>Martin Fowler's rule:</strong> Start with a monolith, extract services when a module has clear boundaries, high load that requires independent scaling, or a different deployment cycle from the rest of the app.</p>
+<p><strong>Our stack:</strong> thesqua.re is a monolith Flask app. The AI scoring system runs as a separate Cloud Run service — extracted because it has very different scaling needs (GPU, long-running jobs) and independent deploy cycle.</p>`},
+
+{cat:"beh",diff:"core",cross:false,
+q:"Why do you want to join Nagarro specifically?",
+a:`<p><strong>Be specific — generic answers fail here:</strong></p>
+<p>"Two reasons. First, Nagarro's focus on AI-driven product engineering aligns exactly with where I want to go. I've spent the last 2 years building AI features in production — RAG pipelines, LLM-powered assistants, MCP servers — and I want to go deeper in an environment where AI is central, not a side project.</p>
+<p>Second, the scale. At thesqua.re I own the full stack but it's a smaller team. Nagarro works across large enterprise clients — that means exposure to AI systems that need to handle serious scale, compliance requirements, and cross-functional teams. That's the next level for me.</p>
+<p>This specific role caught my attention because the JD explicitly mentions RAG patterns, vector search, and production LLM systems — which is exactly what I've been building. It felt like the description was written for my background."</p>
+<p><strong>Key: always end by looping back to the specific role requirements — it shows you read it carefully.</strong></p>`},
+
+{cat:"beh",diff:"core",cross:false,
+q:"Tell me about a time something you built broke in production. What happened and what did you learn?",
+a:`<p><strong>Use the Retell AI / Cloudflare WAF incident from thesqua.re:</strong></p>
+<p>"We built an outbound calling system for our AI agent Megan using Retell AI and Twilio. It worked perfectly in staging. In production, calls were being made but the webhook callbacks from Retell weren't reaching our Flask server — so the call state was never updating.</p>
+<p>I spent 2 hours checking our webhook handler — the code was fine. Then I checked our Cloud Run logs — no incoming requests at all. Then I checked Retell's dashboard — their servers were sending the webhooks. The requests were disappearing between Retell and us.</p>
+<p>Turned out Cloudflare WAF was blocking Retell's IP range as a suspected bot. The fix was adding Retell's IP ranges to the WAF allowlist — a one-line change. But diagnosing it took hours because I assumed the problem was in my code.</p>
+<p><strong>What I learned:</strong> When debugging production issues, check infrastructure before code. Network, firewall, and proxy issues look identical to application bugs from the inside. Now I always check the full request path first — load balancer logs, firewall logs, then application logs."</p>`},
+
+{cat:"beh",diff:"deep",cross:true,
+q:"How do you stay current with AI and engineering developments given how fast the field moves?",
+a:`<p><strong>Be specific — name real sources you actually use:</strong></p>
+<p>"I follow a few specific sources consistently rather than trying to read everything. For AI: Anthropic's model cards and research blog for capability updates, Simon Willison's blog for practical LLM engineering, and the LangChain/LangGraph changelog for framework changes that affect our tooling.</p>
+<p>For engineering: I read the Pragmatic Engineer for system design and team patterns. For specific technical questions I go deep on primary sources — the Attention Is All You Need paper when I needed to understand transformers properly, the HNSW paper when I was choosing a vector index.</p>
+<p>The most valuable thing has been building with new tools on real projects. I built the InterviewAI mock interview platform to learn Claude Code, LangGraph, and the full Anthropic API — hands-on is faster than reading for me.</p>
+<p>I also have a personal rule: when I see a new model release or framework update, I spend 30 minutes reading the changelog before deciding whether to go deeper. Most things don't require immediate action — but occasionally something (like Claude's extended thinking or OpenAI's batch API) changes how I'd architect a system."</p>`},
+
+{cat:"beh",diff:"trap",cross:true,
+q:"You disagree with a technical decision made by a senior engineer. What do you do?",
+a:`<p><strong>Show maturity — neither roll over nor be combative:</strong></p>
+<p>"First I make sure I actually understand their reasoning. I'll ask questions rather than lead with disagreement: 'Help me understand the tradeoff you're making here between X and Y.' Often what looks like a wrong decision has context I'm missing.</p>
+<p>If I still disagree after understanding their reasoning, I make my case with data — not opinion. A benchmark, a cost estimate, a reference to a documented failure mode. 'Based on our current load, approach A will hit the rate limit at 50 concurrent users — here's the calculation. I think approach B handles this case better.'</p>
+<p>If the decision is still made the other way, I commit fully and make it work. Half-hearted implementation of someone else's decision just proves them right about you, not about the decision.</p>
+<p>I draw the line at security risks or things that would harm users or the business seriously — those I escalate with documentation, not as a power move but as a risk management responsibility.</p>
+<p><strong>Real example from thesqua.re:</strong> I disagreed with using a third-party service for embeddings when we could self-host for 80% cost reduction. I built a POC with benchmarks in a day. The numbers made the case — we switched. That's the right way to win a technical argument."</p>`},
+
+{cat:"beh",diff:"core",cross:false,
+q:"What does ownership mean to you as an engineer?",
+a:`<p>"Ownership means the feature doesn't end when the code is merged. It means I care about whether it actually works for users, whether it's still working next month, and whether the on-call engineer can debug it at 2am without calling me.</p>
+<p>Practically: I write runbooks for features I build. I add monitoring before I consider something done — not as an afterthought. I check the error rate on my features after deploy, not just the deployment status.</p>
+<p>At thesqua.re, I own the AI integration layer end to end — from the prompt design through the API to the frontend rendering. When something breaks at 2am, I'm the one who gets paged, and I've set it up so I can diagnose and fix it remotely. That's what ownership means to me.</p>
+<p>The JD mentioned 'bias toward ownership and delivery' — which resonated because I've seen the alternative: engineers who build features and immediately move on. The features quietly degrade, no one notices until a user complains, and by then the original engineer has forgotten how it works. I try to build things I'd be comfortable supporting indefinitely."</p>`},
+];
+
+const CATS=[
+  {id:"all",label:"All"},
+  {id:"com",label:"Communication"},
+  {id:"sys",label:"System Design"},
+  {id:"ai",label:"AI Explained"},
+  {id:"fe",label:"Frontend"},
+  {id:"fs",label:"Full-Stack"},
+  {id:"be",label:"Backend"},
+  {id:"beh",label:"Behavioral"},
+];
+const TL={com:"Communication",sys:"System Design",ai:"AI Explained",fe:"Frontend",fs:"Full-Stack",be:"Backend",beh:"Behavioral"};
+const TC={com:"t-com",sys:"t-sys",ai:"t-ai",fe:"t-fe",fs:"t-fs",be:"t-be",beh:"t-beh"};
+const DL={core:"Core",deep:"Deep dive",trap:"🪤 Trap"};
+const DC={core:"dc",deep:"dd",trap:"dt"};
+
+let cat="all",idx=0,ansShown=false,seen=new Set(),weak=new Set(),mode="study",filtered=[];
+
+function getFiltered(){
+  let qs=Q.map((q,i)=>({...q,orig:i}));
+  if(cat!=="all") qs=qs.filter(q=>q.cat===cat);
+  if(mode==="weak") qs=qs.filter(q=>weak.has(q.orig));
+  return qs;
+}
+function setMode(m){
+  mode=m;
+  document.getElementById("m-study").className="mbtn"+(m==="study"?" on":"");
+  document.getElementById("m-weak").className="mbtn"+(m==="weak"?" on":"");
+  filtered=getFiltered();idx=0;render();
+}
+function setTab(c){cat=c;filtered=getFiltered();idx=0;render();}
+function render(){
+  filtered=getFiltered();
+  document.getElementById("tabs").innerHTML=CATS.map(c=>{
+    let cnt=c.id==="all"?Q.length:Q.filter(q=>q.cat===c.id).length;
+    return `<button class="tab${cat===c.id?" on":""}" onclick="setTab('${c.id}')">${c.label} <span style="opacity:.6">${cnt}</span></button>`;
+  }).join("");
+  if(!filtered.length){
+    document.getElementById("qnum").textContent="";
+    document.getElementById("qtag").textContent="";
+    document.getElementById("qdiff").textContent="";
+    document.getElementById("cwarn").className="cross-warn";
+    document.getElementById("qtext").textContent=mode==="weak"?"No questions marked yet.":"No questions.";
+    document.getElementById("ansbox").className="ans-box";
+    document.getElementById("pfill").style.width="0%";
+    document.getElementById("dots").innerHTML="";
+    return;
+  }
+  if(idx>=filtered.length) idx=filtered.length-1;
+  const q=filtered[idx];
+  seen.add(q.orig);
+  ansShown=false;
+  document.getElementById("qnum").textContent=`Q${idx+1}/${filtered.length}`;
+  const te=document.getElementById("qtag");
+  te.className=`qtag ${TC[q.cat]}`;te.textContent=TL[q.cat];
+  const de=document.getElementById("qdiff");
+  de.className=`qdiff ${DC[q.diff]}`;de.textContent=DL[q.diff];
+  document.getElementById("cwarn").className="cross-warn"+(q.cross?" show":"");
+  document.getElementById("qtext").textContent=q.q;
+  document.getElementById("ansbox").className="ans-box";
+  document.getElementById("ansbox").innerHTML=q.a;
+  document.getElementById("abtn").textContent="Show answer";
+  document.getElementById("wbtn").textContent=weak.has(q.orig)?"✓ Marked":"Mark for review";
+  const sf=filtered.filter(x=>seen.has(x.orig)).length;
+  document.getElementById("plabel").textContent=`Q${idx+1} of ${filtered.length}`;
+  document.getElementById("slabel").textContent=`${sf} seen`;
+  document.getElementById("pfill").style.width=`${Math.round(sf/filtered.length*100)}%`;
+  document.getElementById("dots").innerHTML=filtered.map((x,i)=>{
+    let cls="dot";
+    if(i===idx) cls+=" cur";
+    else if(weak.has(x.orig)) cls+=" wk";
+    else if(seen.has(x.orig)) cls+=" seen";
+    return `<div class="${cls}" onclick="goTo(${i})"></div>`;
+  }).join("");
+  document.getElementById("m-weak").textContent=`Marked${weak.size>0?" ("+weak.size+")":""}`;
+}
+function toggleAns(){
+  ansShown=!ansShown;
+  document.getElementById("ansbox").className="ans-box"+(ansShown?" show":"");
+  document.getElementById("abtn").textContent=ansShown?"Hide answer":"Show answer";
+}
+function markWeak(){
+  if(!filtered.length) return;
+  const q=filtered[idx];
+  if(weak.has(q.orig)) weak.delete(q.orig); else weak.add(q.orig);
+  document.getElementById("wbtn").textContent=weak.has(q.orig)?"✓ Marked":"Mark for review";
+  document.getElementById("m-weak").textContent=`Marked${weak.size>0?" ("+weak.size+")":""}`;
+}
+function next(){if(filtered.length) idx=(idx+1)%filtered.length;render();}
+function prev(){if(filtered.length) idx=(idx-1+filtered.length)%filtered.length;render();}
+function goTo(i){idx=i;render();}
+function tick(){
+  const now=new Date();
+  const target=new Date('2026-05-28T09:00:00');
+  const diff=target-now;
+  if(diff<=0){document.getElementById("cdval").textContent="Today!";return;}
+  const d=Math.floor(diff/86400000);
+  const h=Math.floor((diff%86400000)/3600000);
+  document.getElementById("cdval").textContent=`${d}d ${h}h`;
+}
+filtered=getFiltered();render();tick();setInterval(tick,60000);
+</script>
+</body>
+</html>
