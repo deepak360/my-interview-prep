@@ -3,40 +3,424 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Interview Prep</title>
+  <title>Interview Prep Hub</title>
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f172a;
+      --bg2: #1e293b;
+      --bg3: #263346;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --green: #1D9E75;
+      --green-dim: #0f4a38;
+      --text: #f1f5f9;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --border: #2d3f55;
+      --border-hover: #475569;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    html { font-size: 16px; }
+
     body {
-      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────── */
+    .site-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1a1f3c 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 24px 22px;
+      text-align: center;
+    }
+    .site-header .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(99,102,241,.12);
+      border: 1px solid rgba(99,102,241,.25);
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .site-header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
+    }
+    .site-header p {
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────────── */
+    .layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 20px 48px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* ── SECTION HEADERS ────────────────────────────────── */
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 14px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── STUDY FILE CARDS ───────────────────────────────── */
+    .file-cards { display: flex; flex-direction: column; gap: 10px; }
+
+    .file-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: background .15s, border-color .15s, transform .1s;
+      cursor: pointer;
+    }
+    .file-card:hover {
+      background: var(--bg3);
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+    }
+    .file-card:active { transform: translateY(0); }
+
+    .file-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      background: #0f172a;
-      color: white;
+      font-size: 20px;
+      flex-shrink: 0;
     }
-    h1 { margin-bottom: 30px; }
-    .btn {
-      display: block;
-      margin: 10px;
-      padding: 14px 32px;
-      background: #6366f1;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
+    .file-icon.indigo { background: rgba(99,102,241,.15); }
+    .file-icon.green  { background: rgba(29,158,117,.15); }
+    .file-icon.orange { background: rgba(245,158,11,.15); }
+    .file-icon.pink   { background: rgba(236,72,153,.15); }
+    .file-icon.blue   { background: rgba(59,130,246,.15); }
+    .file-icon.teal   { background: rgba(20,184,166,.15); }
+
+    .file-info { flex: 1; min-width: 0; }
+    .file-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .file-desc {
+      font-size: 12px;
+      color: var(--text2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .file-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .file-badge.q { background: rgba(29,158,117,.15); color: #1D9E75; }
+    .file-badge.new { background: rgba(99,102,241,.15); color: #818cf8; }
+
+    .file-arrow {
+      color: var(--text3);
       font-size: 16px;
+      margin-left: 4px;
+      transition: transform .15s, color .15s;
     }
-    .btn:hover { background: #4f46e5; }
-    @media (max-width: 480px) {
-      h1 { font-size: 22px; margin-bottom: 20px; }
-      .btn { padding: 16px 24px; font-size: 17px; width: 100%; max-width: 320px; text-align: center; }
+    .file-card:hover .file-arrow { transform: translateX(3px); color: var(--text2); }
+
+    /* ── QUICK LINKS PANEL ──────────────────────────────── */
+    .links-panel {
+      position: sticky;
+      top: 20px;
+    }
+
+    .link-group { margin-bottom: 20px; }
+
+    .link-group-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      padding: 0 2px 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 6px;
+    }
+    .link-group-header .cat-icon { font-size: 14px; }
+
+    .quick-link {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: background .12s;
+      color: inherit;
+    }
+    .quick-link:hover { background: var(--bg2); }
+
+    .quick-link-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .quick-link-body { min-width: 0; }
+    .quick-link-name {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .quick-link:hover .quick-link-name { color: #a5b4fc; }
+    .quick-link-desc {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* loading / error states */
+    .links-loading {
+      text-align: center;
+      color: var(--text3);
+      font-size: 13px;
+      padding: 24px 0;
+    }
+    .links-loading .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .links-hint {
+      font-size: 11px;
+      color: var(--text3);
+      text-align: center;
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: var(--bg2);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      line-height: 1.5;
+    }
+    .links-hint code {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 10px;
+      color: #a5b4fc;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 720px) {
+      .layout {
+        grid-template-columns: 1fr;
+        padding: 20px 14px 40px;
+        gap: 32px;
+      }
+      .links-panel { position: static; }
+      .file-desc { white-space: normal; }
+    }
+    @media (max-width: 400px) {
+      .site-header h1 { font-size: 21px; }
+      .file-card { padding: 12px 14px; gap: 12px; }
     }
   </style>
 </head>
 <body>
-  <h1>📚 Interview Prep Notes</h1>
-  <a class="btn" href="/nagarrow_interview_prep_v1.html">📄 File 1 - AI Backend V1</a>
-  <a class="btn" href="/nagarrow_interview_prep_v2.html">📄 File 2 - AI Backend V2</a>
-    <a class="btn" href="/nagarrow_interview_prep_v3.html">📄 File 3 - AI FullSatck V3</a>
+
+<header class="site-header">
+  <div class="badge">Nagarro Interview 2026</div>
+  <h1>📚 Interview Prep Hub</h1>
+  <p>AI Backend · Fullstack · DSA · System Design</p>
+</header>
+
+<div class="layout">
+
+  <!-- ── LEFT: STUDY FILES ────────────────────────────── -->
+  <section>
+    <div class="section-title">Study Files</div>
+    <div class="file-cards">
+
+      <a class="file-card" href="/nagarrow_interview_prep_v1.html">
+        <div class="file-icon indigo">🤖</div>
+        <div class="file-info">
+          <div class="file-title">AI Backend — V1</div>
+          <div class="file-desc">RAG pipelines · Agentic AI · Backend APIs · Production · Cloud</div>
+        </div>
+        <div class="file-meta">
+          <span class="file-badge q">28 Q</span>
+        </div>
+        <span class="file-arrow">›</span>
+      </a>
+
+      <a class="file-card" href="/nagarrow_interview_prep_v2.html">
+        <div class="file-icon green">🧠</div>
+        <div class="file-info">
+          <div class="file-title">AI Backend — V2</div>
+          <div class="file-desc">LLM Fundamentals · Embeddings · Fine-tuning · RAG · Agentic AI</div>
+        </div>
+        <div class="file-meta">
+          <span class="file-badge q">65 Q</span>
+        </div>
+        <span class="file-arrow">›</span>
+      </a>
+
+      <a class="file-card" href="/nagarrow_interview_prep_v3.html">
+        <div class="file-icon orange">🌐</div>
+        <div class="file-info">
+          <div class="file-title">AI Fullstack — V3</div>
+          <div class="file-desc">System Design · Frontend · Full-Stack · AI Explained Simply · Backend</div>
+        </div>
+        <div class="file-meta">
+          <span class="file-badge q">70 Q</span>
+        </div>
+        <span class="file-arrow">›</span>
+      </a>
+
+      <a class="file-card" href="/nagarrow_interview_prep_v4.html">
+        <div class="file-icon pink">⚡</div>
+        <div class="file-info">
+          <div class="file-title">DSA — V4</div>
+          <div class="file-desc">Arrays · Trees · Graphs · Dynamic Programming · Sorting · Searching</div>
+        </div>
+        <div class="file-meta">
+          <span class="file-badge new">DSA</span>
+        </div>
+        <span class="file-arrow">›</span>
+      </a>
+
+      <a class="file-card" href="/nagarrow_interview_prep_v5.html">
+        <div class="file-icon blue">🏗️</div>
+        <div class="file-info">
+          <div class="file-title">System Design Quick — V5</div>
+          <div class="file-desc">Quick reference cards for common system design patterns</div>
+        </div>
+        <div class="file-meta">
+          <span class="file-badge new">Quick</span>
+        </div>
+        <span class="file-arrow">›</span>
+      </a>
+
+      <a class="file-card" href="/nagarrow_interview_prep_v6.html">
+        <div class="file-icon teal">📐</div>
+        <div class="file-info">
+          <div class="file-title">System Design Full — V6</div>
+          <div class="file-desc">Deep dive system design · Trade-offs · Scalability · Database design</div>
+        </div>
+        <div class="file-meta">
+          <span class="file-badge new">Full</span>
+        </div>
+        <span class="file-arrow">›</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── RIGHT: QUICK LINKS ────────────────────────────── -->
+  <aside class="links-panel">
+    <div class="section-title">Quick Links</div>
+    <div id="links-root">
+      <div class="links-loading"><span class="spinner"></span>Loading…</div>
+    </div>
+    <div class="links-hint">
+      Add links by editing <code>links.json</code> — no database needed.
+    </div>
+  </aside>
+
+</div>
+
+<script>
+  async function loadLinks() {
+    const root = document.getElementById('links-root');
+    try {
+      const res = await fetch('/links.json?t=' + Date.now());
+      if (!res.ok) throw new Error('not found');
+      const groups = await res.json();
+      root.innerHTML = groups.map(group => `
+        <div class="link-group">
+          <div class="link-group-header">
+            <span class="cat-icon">${group.icon}</span>
+            ${group.category}
+          </div>
+          ${group.links.map(link => `
+            <a class="quick-link" href="${link.url}" target="_blank" rel="noopener">
+              <div class="quick-link-dot"></div>
+              <div class="quick-link-body">
+                <div class="quick-link-name">${link.name}</div>
+                ${link.desc ? `<div class="quick-link-desc">${link.desc}</div>` : ''}
+              </div>
+            </a>
+          `).join('')}
+        </div>
+      `).join('');
+    } catch (e) {
+      root.innerHTML = '<div class="links-loading" style="color:#64748b">Could not load links.json</div>';
+    }
+  }
+
+  loadLinks();
+</script>
+
 </body>
 </html>

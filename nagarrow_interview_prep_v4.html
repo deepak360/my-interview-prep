@@ -1,0 +1,2177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Interview Prep — Nagarro & Big Companies</title>
+<style>
+:root{
+  --bg:#ffffff;--bg2:#f8f9fa;--bg3:#f1f3f5;
+  --text:#1a1a2e;--text2:#495057;--text3:#868e96;
+  --border:#dee2e6;--border2:#ced4da;
+  --green:#1D9E75;--green2:#0F6E56;--green-bg:#E1F5EE;
+  --blue:#185FA5;--blue-bg:#E6F1FB;
+  --orange:#854F0B;--orange-bg:#FAEEDA;
+  --red:#A32D2D;--red-bg:#FCEBEB;
+  --purple:#3C3489;--purple-bg:#EEEDFE;
+  --teal:#085041;--teal-bg:#E1F5EE;
+  --code-bg:#f4f6f8;--code-border:#e2e8f0;
+  --shadow:0 1px 3px rgba(0,0,0,0.08);
+  --radius:8px;--radius-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1a1b2e;--bg2:#212338;--bg3:#2a2b45;
+    --text:#e8eaf6;--text2:#b0bec5;--text3:#78909c;
+    --border:#363850;--border2:#424560;
+    --code-bg:#252640;--code-border:#363850;
+    --green-bg:#0a2e22;--blue-bg:#0a1e35;
+    --orange-bg:#2e1a04;--red-bg:#2e0a0a;--purple-bg:#1a1535;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:16px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:0 1rem}
+.nav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px;height:52px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-logo{font-weight:700;color:var(--green);white-space:nowrap;font-size:15px;margin-right:8px}
+.nav-tab{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s;text-decoration:none}
+.nav-tab:hover,.nav-tab.active{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--green2) 0%,var(--green) 100%);color:#fff;padding:2.5rem 1.5rem;text-align:center}
+.hero h1{font-size:clamp(22px,5vw,34px);font-weight:700;margin-bottom:.5rem}
+.hero p{font-size:clamp(13px,3vw,16px);opacity:.9;max-width:600px;margin:0 auto .75rem}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.hero-chip{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 12px;font-size:12px}
+
+/* LAYOUT */
+.container{max-width:900px;margin:0 auto;padding:1.5rem 1rem}
+
+/* SECTION */
+.section{margin-bottom:3rem}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border)}
+.section-icon{width:36px;height:36px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.section-title{font-size:20px;font-weight:700;color:var(--text)}
+.section-sub{font-size:13px;color:var(--text3);margin-left:auto}
+
+/* DIFFICULTY BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;text-transform:uppercase;letter-spacing:.3px}
+.easy{background:var(--green-bg);color:var(--green2)}
+.medium{background:var(--orange-bg);color:var(--orange)}
+.hard{background:var(--red-bg);color:var(--red)}
+
+/* QUESTION CARD */
+.qcard{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1rem;overflow:hidden;transition:box-shadow .15s}
+.qcard:hover{box-shadow:var(--shadow)}
+.qcard-header{padding:1rem 1.25rem;cursor:pointer;display:flex;align-items:flex-start;gap:12px}
+.qcard-num{width:28px;height:28px;border-radius:50%;background:var(--bg3);color:var(--text3);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.qcard-main{flex:1;min-width:0}
+.qcard-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;align-items:center}
+.qcard-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.4}
+.qcard-chevron{color:var(--text3);font-size:18px;flex-shrink:0;margin-top:2px;transition:transform .2s}
+.qcard.open .qcard-chevron{transform:rotate(180deg)}
+.company-tag{font-size:10px;padding:1px 7px;border-radius:10px;background:var(--blue-bg);color:var(--blue);font-weight:500}
+.freq-tag{font-size:10px;padding:1px 7px;border-radius:10px;background:var(--purple-bg);color:var(--purple);font-weight:500}
+
+/* SOLUTION */
+.solution{display:none;padding:0 1.25rem 1.25rem;border-top:1px solid var(--border)}
+.qcard.open .solution{display:block}
+.sol-tabs{display:flex;gap:6px;margin:1rem 0 .75rem;flex-wrap:wrap}
+.sol-tab{font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+.sol-tab.on{background:var(--green);color:#fff;border-color:var(--green)}
+.sol-content{display:none}
+.sol-content.show{display:block}
+
+/* CODE */
+pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:var(--radius);padding:1rem;overflow-x:auto;font-size:13px;line-height:1.6;margin:.75rem 0}
+code{font-family:'Cascadia Code','Fira Code',monospace}
+.inline-code{background:var(--code-bg);border:1px solid var(--code-border);border-radius:4px;padding:1px 5px;font-size:13px;font-family:'Cascadia Code','Fira Code',monospace}
+
+/* COMPLEXITY */
+.complexity{display:flex;gap:8px;flex-wrap:wrap;margin:.75rem 0}
+.cx{font-size:12px;padding:3px 10px;border-radius:6px;border:1px solid var(--border)}
+.cx-time{background:var(--blue-bg);color:var(--blue);border-color:#b5d4f4}
+.cx-space{background:var(--green-bg);color:var(--green2);border-color:#9fe1cb}
+
+/* INSIGHT BOX */
+.insight{background:var(--orange-bg);border-left:3px solid #EF9F27;border-radius:0 var(--radius) var(--radius) 0;padding:.75rem 1rem;margin:.75rem 0;font-size:13px;color:var(--text)}
+.insight strong{color:var(--orange)}
+.cross{background:var(--purple-bg);border-left:3px solid #7F77DD;border-radius:0 var(--radius) var(--radius) 0;padding:.75rem 1rem;margin:.75rem 0;font-size:13px;color:var(--text)}
+.cross strong{color:var(--purple)}
+.pattern-box{background:var(--green-bg);border:1px solid #5DCAA5;border-radius:var(--radius);padding:.75rem 1rem;margin:.75rem 0;font-size:13px}
+.pattern-box strong{color:var(--green2)}
+
+/* STEPS */
+.steps{margin:.5rem 0;padding-left:1.25rem}
+.steps li{margin-bottom:.35rem;font-size:14px;color:var(--text2)}
+.steps li strong{color:var(--text)}
+
+/* SECTION NAV */
+.section-nav{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:2rem}
+.section-nav h3{font-size:14px;font-weight:600;margin-bottom:.75rem;color:var(--text2)}
+.section-nav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.snav-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg);color:var(--text);text-decoration:none;font-size:13px;transition:all .15s}
+.snav-item:hover{border-color:var(--green);color:var(--green)}
+.snav-icon{font-size:16px}
+
+/* PROGRESS */
+.progress-bar-wrap{background:var(--bg3);border-radius:4px;height:4px;margin:.5rem 0 1.5rem;overflow:hidden}
+.progress-bar-fill{height:4px;background:var(--green);border-radius:4px;transition:width .3s}
+
+/* TIPS BOX */
+.tips{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem}
+.tips h4{font-size:14px;font-weight:600;color:var(--green);margin-bottom:.5rem}
+.tips ul{padding-left:1.1rem;font-size:13px;color:var(--text2)}
+.tips li{margin-bottom:.3rem}
+
+/* MOBILE */
+@media(max-width:600px){
+  .hero{padding:1.75rem 1rem}
+  .qcard-header{padding:.875rem 1rem}
+  .solution{padding:0 1rem 1rem}
+  pre{font-size:12px;padding:.75rem}
+  .section-nav-grid{grid-template-columns:1fr 1fr}
+}
+
+/* PRINT */
+@media print{
+  .nav,.hero-chips,.sol-tabs{display:none}
+  .solution{display:block!important}
+  .sol-content{display:block!important}
+  .qcard{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="nav-logo">DSA Prep</span>
+    <a class="nav-tab active" href="#arrays">Arrays</a>
+    <a class="nav-tab" href="#strings">Strings</a>
+    <a class="nav-tab" href="#twopointer">2 Pointer</a>
+    <a class="nav-tab" href="#sliding">Sliding Window</a>
+    <a class="nav-tab" href="#stack">Stack</a>
+    <a class="nav-tab" href="#queue">Queue</a>
+    <a class="nav-tab" href="#binarysearch">Binary Search</a>
+    <a class="nav-tab" href="#linkedlist">Linked List</a>
+    <a class="nav-tab" href="#tree">Trees</a>
+    <a class="nav-tab" href="#heap">Heap & PQ</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>DSA Interview Prep Guide</h1>
+  <p>Nagarro, Amazon, Microsoft, Google — curated questions with brute force → optimal solutions, complexity analysis, and cross-questions</p>
+  <div class="hero-chips">
+    <span class="hero-chip">Easy → Medium → Hard</span>
+    <span class="hero-chip">Brute Force → Optimal</span>
+    <span class="hero-chip">Cross Questions</span>
+    <span class="hero-chip">Interview Tips</span>
+    <span class="hero-chip">Python Solutions</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Section Nav -->
+<div class="section-nav">
+  <h3>Jump to Topic</h3>
+  <div class="section-nav-grid">
+    <a href="#arrays" class="snav-item"><span class="snav-icon">📦</span>Arrays</a>
+    <a href="#strings" class="snav-item"><span class="snav-icon">🔤</span>Strings</a>
+    <a href="#twopointer" class="snav-item"><span class="snav-icon">👆👆</span>Two Pointer</a>
+    <a href="#sliding" class="snav-item"><span class="snav-icon">🪟</span>Sliding Window</a>
+    <a href="#stack" class="snav-item"><span class="snav-icon">🥞</span>Stack</a>
+    <a href="#queue" class="snav-item"><span class="snav-icon">🚶</span>Queue</a>
+    <a href="#binarysearch" class="snav-item"><span class="snav-icon">🔍</span>Binary Search</a>
+    <a href="#linkedlist" class="snav-item"><span class="snav-icon">🔗</span>Linked List</a>
+    <a href="#tree" class="snav-item"><span class="snav-icon">🌳</span>Trees</a>
+    <a href="#heap" class="snav-item"><span class="snav-icon">⛰️</span>Heap & PQ</a>
+  </div>
+</div>
+
+<div class="tips">
+  <h4>🎯 How to Use This Guide</h4>
+  <ul>
+    <li>Read the question → try to think of the approach for 2 minutes → then click to reveal</li>
+    <li>Each card shows: Brute Force → Optimised → Complexity → Cross-questions</li>
+    <li>Orange boxes = key insight/pattern to remember</li>
+    <li>Purple boxes = cross-questions the interviewer will ask</li>
+    <li>Always tell the interviewer your brute force first, then optimise</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ ARRAYS -->
+<section class="section" id="arrays">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--green-bg)">📦</div>
+  <div><div class="section-title">Arrays</div></div>
+  <div class="section-sub">Most asked at Nagarro</div>
+</div>
+
+<!-- Q1 -->
+<div class="qcard" id="q1">
+<div class="qcard-header" onclick="toggle('q1')">
+  <div class="qcard-num">1</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Amazon</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">Two Sum — Find two numbers that add up to a target</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q1','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q1','optimal')">Optimal</button>
+    <button class="sol-tab" onclick="showSol('q1','cross')">Cross Questions</button>
+  </div>
+
+  <div class="sol-content show" id="q1-brute">
+    <div class="insight"><strong>Problem:</strong> Given array [2,7,11,15], target=9 → return [0,1] (2+7=9)</div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:.5rem"><strong>Brute Force — O(n²):</strong> Check every pair</p>
+    <pre><code>def two_sum_brute(nums, target):
+    n = len(nums)
+    for i in range(n):
+        for j in range(i+1, n):
+            if nums[i] + nums[j] == target:
+                return [i, j]
+    return []
+
+# Time: O(n²)  Space: O(1)</code></pre>
+    <div class="complexity">
+      <span class="cx cx-time">Time: O(n²)</span>
+      <span class="cx cx-space">Space: O(1)</span>
+    </div>
+  </div>
+
+  <div class="sol-content" id="q1-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Use a HashMap. For each number, check if (target - num) already exists in the map. If yes → found! If no → store num with its index.</div>
+    <pre><code>def two_sum(nums, target):
+    seen = {}  # value -> index
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
+
+# Example: nums=[2,7,11,15], target=9
+# i=0: complement=7, not in seen, store {2:0}
+# i=1: complement=2, found! return [0,1] ✓</code></pre>
+    <div class="complexity">
+      <span class="cx cx-time">Time: O(n)</span>
+      <span class="cx cx-space">Space: O(n)</span>
+    </div>
+    <div class="pattern-box"><strong>Pattern to Remember:</strong> Whenever you need to find a pair with a condition → think HashMap first. "Store what you've seen, check what you need."</div>
+  </div>
+
+  <div class="sol-content" id="q1-cross">
+    <div class="cross">
+      <strong>Cross Questions Hitesh/interviewer will ask:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What if the array has duplicate numbers? → HashMap handles it (stores latest index)</li>
+        <li>What if there are multiple valid pairs? → Return all pairs: collect all into list</li>
+        <li>What if the array is sorted? → Use two-pointer approach, O(n) time O(1) space</li>
+        <li>Can you solve it without extra space? → Yes if sorted: two pointers. If unsorted: O(n²) brute force only</li>
+        <li>Why did you choose HashMap over sorting+two-pointer? → Sorting changes indices. HashMap preserves original indices.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="qcard" id="q2">
+<div class="qcard-header" onclick="toggle('q2')">
+  <div class="qcard-num">2</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Facebook</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">Move Zeroes to End — without changing order of non-zero elements</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q2','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q2','optimal')">Optimal</button>
+    <button class="sol-tab" onclick="showSol('q2','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q2-brute">
+    <div class="insight"><strong>Problem:</strong> [0,1,0,3,12] → [1,3,12,0,0] (in-place, maintain relative order)</div>
+    <pre><code>def move_zeroes_brute(nums):
+    # Collect non-zeros, then fill zeros
+    non_zero = [x for x in nums if x != 0]
+    for i in range(len(non_zero)):
+        nums[i] = non_zero[i]
+    for i in range(len(non_zero), len(nums)):
+        nums[i] = 0
+
+# Time: O(n)  Space: O(n) — extra array used</code></pre>
+    <div class="complexity">
+      <span class="cx cx-time">Time: O(n)</span>
+      <span class="cx cx-space">Space: O(n)</span>
+    </div>
+  </div>
+  <div class="sol-content" id="q2-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Two pointers. <code>write</code> pointer tracks next position for non-zero. Walk <code>read</code> through array — whenever you see non-zero, write it to <code>write</code> position, advance both.</div>
+    <pre><code>def move_zeroes(nums):
+    write = 0  # position to write next non-zero
+    
+    # Pass 1: move all non-zeros to front
+    for read in range(len(nums)):
+        if nums[read] != 0:
+            nums[write] = nums[read]
+            write += 1
+    
+    # Pass 2: fill rest with zeros
+    while write < len(nums):
+        nums[write] = 0
+        write += 1
+
+# [0,1,0,3,12] → write=0
+# read=1: nums[1]=1≠0, nums[0]=1, write=1
+# read=3: nums[3]=3≠0, nums[1]=3, write=2
+# read=4: nums[4]=12≠0, nums[2]=12, write=3
+# fill: nums[3]=0, nums[4]=0 → [1,3,12,0,0] ✓</code></pre>
+    <div class="complexity">
+      <span class="cx cx-time">Time: O(n)</span>
+      <span class="cx cx-space">Space: O(1) — in-place!</span>
+    </div>
+    <div class="pattern-box"><strong>Pattern:</strong> "Write pointer" technique — used for partitioning arrays in-place. Same pattern used in Remove Duplicates, Remove Element problems.</div>
+  </div>
+  <div class="sol-content" id="q2-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Can you do it with fewer writes? → Yes: swap instead of overwrite — only swap when nums[read]≠0 and read>write</li>
+        <li>What if you need to move non-zeros to end instead? → Reverse the logic, walk from right</li>
+        <li>What is the minimum number of operations? → Depends on number of zeroes. Can't do better than O(n).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q3 -->
+<div class="qcard" id="q3">
+<div class="qcard-header" onclick="toggle('q3')">
+  <div class="qcard-num">3</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Amazon</span><span class="company-tag">Adobe</span>
+      <span class="freq-tag">🔥 Frequent</span>
+    </div>
+    <div class="qcard-title">Maximum Subarray Sum — Kadane's Algorithm</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q3','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q3','optimal')">Kadane's</button>
+    <button class="sol-tab" onclick="showSol('q3','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q3-brute">
+    <div class="insight"><strong>Problem:</strong> [-2,1,-3,4,-1,2,1,-5,4] → 6 (subarray [4,-1,2,1])</div>
+    <pre><code>def max_subarray_brute(nums):
+    max_sum = float('-inf')
+    n = len(nums)
+    for i in range(n):
+        curr = 0
+        for j in range(i, n):
+            curr += nums[j]
+            max_sum = max(max_sum, curr)
+    return max_sum
+
+# Time: O(n²)  Space: O(1)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n²)</span><span class="cx cx-space">Space: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q3-optimal">
+    <div class="insight"><strong>Key Insight (Kadane's):</strong> At each position, decide: is it better to extend the current subarray, or start fresh? If current sum goes negative → restart from current element.</div>
+    <pre><code>def max_subarray(nums):
+    curr_sum = nums[0]   # current running sum
+    max_sum = nums[0]    # best seen so far
+    
+    for i in range(1, len(nums)):
+        # Either extend existing subarray OR start new one
+        curr_sum = max(nums[i], curr_sum + nums[i])
+        max_sum = max(max_sum, curr_sum)
+    
+    return max_sum
+
+# Trace: [-2,1,-3,4,-1,2,1,-5,4]
+# curr: -2 → 1 → -2→4 → 3→5→6→1→5
+# max:  -2 → 1 → 1→4 → 4→5→6→6→6 ✓</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1)</span></div>
+    <div class="pattern-box"><strong>Kadane's in one line:</strong> <code>curr = max(num, curr + num)</code> — if adding the current element makes things worse than starting fresh, restart.</div>
+  </div>
+  <div class="sol-content" id="q3-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Can you also return the subarray itself (not just sum)? → Track start/end indices when curr_sum resets and when max_sum updates</li>
+        <li>What if all elements are negative? → Kadane's still works — returns the least negative number</li>
+        <li>What about maximum product subarray? → Similar idea but track both min and max (negatives flip on multiplication)</li>
+        <li>Can you solve this with divide and conquer? → Yes, O(n log n) — split array, find max in left, right, and crossing middle</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q4 -->
+<div class="qcard" id="q4">
+<div class="qcard-header" onclick="toggle('q4')">
+  <div class="qcard-num">4</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Microsoft</span>
+    </div>
+    <div class="qcard-title">Product of Array Except Self — without division</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q4','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q4','optimal')">Prefix/Suffix</button>
+    <button class="sol-tab" onclick="showSol('q4','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q4-brute">
+    <div class="insight"><strong>Problem:</strong> [1,2,3,4] → [24,12,8,6]. No division allowed!</div>
+    <pre><code>def product_except_self_brute(nums):
+    n = len(nums)
+    result = []
+    for i in range(n):
+        product = 1
+        for j in range(n):
+            if j != i:
+                product *= nums[j]
+        result.append(product)
+    return result
+# Time: O(n²)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n²)</span><span class="cx cx-space">Space: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q4-optimal">
+    <div class="insight"><strong>Key Insight:</strong> For each index i, answer = (product of all elements to LEFT of i) × (product of all elements to RIGHT of i). Build prefix array and suffix array.</div>
+    <pre><code>def product_except_self(nums):
+    n = len(nums)
+    result = [1] * n
+    
+    # Pass 1: build prefix products (left to right)
+    prefix = 1
+    for i in range(n):
+        result[i] = prefix
+        prefix *= nums[i]
+    # result = [1, 1, 2, 6]
+    
+    # Pass 2: multiply suffix products (right to left)
+    suffix = 1
+    for i in range(n-1, -1, -1):
+        result[i] *= suffix
+        suffix *= nums[i]
+    # result = [24, 12, 8, 6] ✓
+    
+    return result</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1) extra</span></div>
+    <div class="pattern-box"><strong>Pattern:</strong> Prefix + Suffix trick. Use when you need "everything except current index." No extra arrays needed — reuse result array.</div>
+  </div>
+  <div class="sol-content" id="q4-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Why can't we use division? → What if there's a zero in the array? Division by zero breaks it</li>
+        <li>What if there are zeros in the array with division allowed? → Count zeros. If 2+ zeros → all zeros. If 1 zero → only that position has non-zero answer</li>
+        <li>How would you handle integer overflow? → Use long/BigInteger or modular arithmetic</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ STRINGS -->
+<section class="section" id="strings">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--blue-bg)">🔤</div>
+  <div><div class="section-title">Strings</div></div>
+  <div class="section-sub">Nagarro asks 2-3 string questions</div>
+</div>
+
+<!-- Q5 -->
+<div class="qcard" id="q5">
+<div class="qcard-header" onclick="toggle('q5')">
+  <div class="qcard-num">5</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Google</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">Valid Anagram — Check if two strings are anagrams</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q5','brute')">Sorting</button>
+    <button class="sol-tab" onclick="showSol('q5','optimal')">HashMap</button>
+    <button class="sol-tab" onclick="showSol('q5','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q5-brute">
+    <div class="insight"><strong>Problem:</strong> "anagram" and "nagaram" → True. "rat" and "car" → False</div>
+    <pre><code>def is_anagram_sort(s, t):
+    if len(s) != len(t):
+        return False
+    return sorted(s) == sorted(t)
+
+# Time: O(n log n)  Space: O(n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n log n)</span><span class="cx cx-space">Space: O(n)</span></div>
+  </div>
+  <div class="sol-content" id="q5-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Count frequency of each character in both strings. If all counts match → anagram.</div>
+    <pre><code>from collections import Counter
+
+def is_anagram(s, t):
+    if len(s) != len(t):
+        return False
+    return Counter(s) == Counter(t)
+
+# Manual version (no Counter):
+def is_anagram_manual(s, t):
+    if len(s) != len(t): return False
+    count = {}
+    for c in s:
+        count[c] = count.get(c, 0) + 1
+    for c in t:
+        if c not in count or count[c] == 0:
+            return False
+        count[c] -= 1
+    return True</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1) — max 26 chars</span></div>
+    <div class="pattern-box"><strong>Pattern:</strong> Character frequency counting with HashMap. Same pattern for group anagrams, first unique character problems.</div>
+  </div>
+  <div class="sol-content" id="q5-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What about Unicode characters (not just a-z)? → HashMap approach handles all Unicode. Array of 26 only works for lowercase English</li>
+        <li>Group Anagrams: given a list of words, group all anagrams together? → Use sorted word as key in HashMap</li>
+        <li>Is "ABC" anagram of "abc"? → Depends on requirements. Case-insensitive: convert both to lower first</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q6 -->
+<div class="qcard" id="q6">
+<div class="qcard-header" onclick="toggle('q6')">
+  <div class="qcard-num">6</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Apple</span>
+    </div>
+    <div class="qcard-title">Valid Palindrome — check if string reads same forwards and backwards</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q6','brute')">Simple</button>
+    <button class="sol-tab" onclick="showSol('q6','optimal')">Two Pointer</button>
+    <button class="sol-tab" onclick="showSol('q6','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q6-brute">
+    <div class="insight"><strong>Problem:</strong> "A man, a plan, a canal: Panama" → True (consider only alphanumeric)</div>
+    <pre><code>def is_palindrome_simple(s):
+    cleaned = ''.join(c.lower() for c in s if c.isalnum())
+    return cleaned == cleaned[::-1]
+
+# Time: O(n)  Space: O(n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(n)</span></div>
+  </div>
+  <div class="sol-content" id="q6-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Two pointers from both ends. Skip non-alphanumeric. Compare characters. If any mismatch → not palindrome.</div>
+    <pre><code>def is_palindrome(s):
+    left, right = 0, len(s) - 1
+    
+    while left < right:
+        # Skip non-alphanumeric
+        while left < right and not s[left].isalnum():
+            left += 1
+        while left < right and not s[right].isalnum():
+            right -= 1
+        
+        if s[left].lower() != s[right].lower():
+            return False
+        left += 1
+        right -= 1
+    
+    return True</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1) — in-place!</span></div>
+    <div class="pattern-box"><strong>Pattern:</strong> Two pointers from both ends. Used for palindrome check, reverse operations, partitioning.</div>
+  </div>
+  <div class="sol-content" id="q6-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Longest Palindromic Substring? → Expand around center for each character: O(n²)</li>
+        <li>How many palindromic substrings in a string? → Same expand-around-center approach, count all expansions</li>
+        <li>Is a number a palindrome? → Convert to string, check. Or mathematical reversal without string conversion</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ TWO POINTER -->
+<section class="section" id="twopointer">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--orange-bg)">👆</div>
+  <div><div class="section-title">Two Pointer</div></div>
+  <div class="section-sub">Essential pattern for pairs & partitioning</div>
+</div>
+
+<!-- Q7 -->
+<div class="qcard" id="q7">
+<div class="qcard-header" onclick="toggle('q7')">
+  <div class="qcard-num">7</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Amazon</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">3Sum — Find all triplets that sum to zero</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q7','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q7','optimal')">Sort + 2 Pointer</button>
+    <button class="sol-tab" onclick="showSol('q7','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q7-brute">
+    <div class="insight"><strong>Problem:</strong> [-1,0,1,2,-1,-4] → [[-1,-1,2],[-1,0,1]]</div>
+    <pre><code>def three_sum_brute(nums):
+    result = set()
+    n = len(nums)
+    for i in range(n):
+        for j in range(i+1, n):
+            for k in range(j+1, n):
+                if nums[i]+nums[j]+nums[k] == 0:
+                    result.add(tuple(sorted([nums[i],nums[j],nums[k]])))
+    return [list(t) for t in result]
+# Time: O(n³)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n³)</span><span class="cx cx-space">Space: O(n)</span></div>
+  </div>
+  <div class="sol-content" id="q7-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Sort the array. Fix one element (outer loop), then use two pointers on the remaining portion to find pairs that sum to -nums[i]. Skip duplicates carefully.</div>
+    <pre><code>def three_sum(nums):
+    nums.sort()
+    result = []
+    
+    for i in range(len(nums) - 2):
+        # Skip duplicates for i
+        if i > 0 and nums[i] == nums[i-1]:
+            continue
+        
+        left, right = i + 1, len(nums) - 1
+        
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            
+            if total == 0:
+                result.append([nums[i], nums[left], nums[right]])
+                # Skip duplicates for left and right
+                while left < right and nums[left] == nums[left+1]: left += 1
+                while left < right and nums[right] == nums[right-1]: right -= 1
+                left += 1
+                right -= 1
+            elif total < 0:
+                left += 1   # need bigger sum
+            else:
+                right -= 1  # need smaller sum
+    
+    return result</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n²)</span><span class="cx cx-space">Space: O(1)</span></div>
+    <div class="pattern-box"><strong>Pattern:</strong> Sort + fix one element + two pointer for the rest. Works for k-Sum problems. Always handle duplicates by skipping repeated elements.</div>
+  </div>
+  <div class="sol-content" id="q7-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>3Sum Closest: find triplet with sum closest to target? → Same approach, track minimum difference instead of exact match</li>
+        <li>4Sum? → Add one more outer loop, O(n³)</li>
+        <li>Why does sorting help here? → Enables two-pointer which requires sorted order. Also makes duplicate skipping easy.</li>
+        <li>Why can't we use HashSet instead of two pointer? → We can! O(n²) with HashSet for the inner pair, but two pointer is cleaner and uses O(1) space</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q8 -->
+<div class="qcard" id="q8">
+<div class="qcard-header" onclick="toggle('q8')">
+  <div class="qcard-num">8</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Google</span><span class="company-tag">Amazon</span>
+    </div>
+    <div class="qcard-title">Container with Most Water</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q8','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q8','optimal')">Two Pointer</button>
+    <button class="sol-tab" onclick="showSol('q8','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q8-brute">
+    <div class="insight"><strong>Problem:</strong> [1,8,6,2,5,4,8,3,7] → 49 (lines at index 1 and 8)</div>
+    <pre><code>def max_area_brute(height):
+    max_water = 0
+    n = len(height)
+    for i in range(n):
+        for j in range(i+1, n):
+            water = min(height[i], height[j]) * (j - i)
+            max_water = max(max_water, water)
+    return max_water
+# Time: O(n²)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n²)</span><span class="cx cx-space">Space: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q8-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Start with widest container (left=0, right=end). Water = min(h[L],h[R]) × width. To try to find more water, move the shorter line inward (moving the taller line can never increase water).</div>
+    <pre><code>def max_area(height):
+    left, right = 0, len(height) - 1
+    max_water = 0
+    
+    while left < right:
+        width = right - left
+        water = min(height[left], height[right]) * width
+        max_water = max(max_water, water)
+        
+        # Move the shorter line (it's the bottleneck)
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+    
+    return max_water</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1)</span></div>
+    <div class="pattern-box"><strong>Greedy insight:</strong> Moving the taller line can only decrease width without increasing height. So always move the shorter one — it's the only hope for improvement.</div>
+  </div>
+  <div class="sol-content" id="q8-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Why move the shorter line and not the taller? → Moving the taller can only decrease min(h[L],h[R]) or keep it same, while width decreases. Always worse.</li>
+        <li>Trapping Rain Water (harder version)? → Different — water trapped above each bar, use stack or two-pointer with left_max/right_max arrays</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ SLIDING WINDOW -->
+<section class="section" id="sliding">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--purple-bg)">🪟</div>
+  <div><div class="section-title">Sliding Window</div></div>
+  <div class="section-sub">Subarray & substring problems</div>
+</div>
+
+<!-- Q9 -->
+<div class="qcard" id="q9">
+<div class="qcard-header" onclick="toggle('q9')">
+  <div class="qcard-num">9</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Amazon</span><span class="company-tag">Google</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">Longest Substring Without Repeating Characters</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q9','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q9','optimal')">Sliding Window</button>
+    <button class="sol-tab" onclick="showSol('q9','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q9-brute">
+    <div class="insight"><strong>Problem:</strong> "abcabcbb" → 3 ("abc"). "pwwkew" → 3 ("wke")</div>
+    <pre><code>def length_of_longest_brute(s):
+    max_len = 0
+    n = len(s)
+    for i in range(n):
+        seen = set()
+        for j in range(i, n):
+            if s[j] in seen:
+                break
+            seen.add(s[j])
+            max_len = max(max_len, j - i + 1)
+    return max_len
+# Time: O(n²)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n²)</span><span class="cx cx-space">Space: O(min(n,m))</span></div>
+  </div>
+  <div class="sol-content" id="q9-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Maintain a window [left, right]. Expand right. When duplicate found, shrink from left until duplicate is removed. HashMap stores last seen index of each char for O(1) jump.</div>
+    <pre><code>def length_of_longest(s):
+    char_index = {}  # char -> last seen index
+    left = 0
+    max_len = 0
+    
+    for right in range(len(s)):
+        # If char seen and is inside current window
+        if s[right] in char_index and char_index[s[right]] >= left:
+            left = char_index[s[right]] + 1  # jump left past duplicate
+        
+        char_index[s[right]] = right  # update last seen
+        max_len = max(max_len, right - left + 1)
+    
+    return max_len
+
+# "abcabcbb"
+# right=0: a→{a:0}, len=1
+# right=3: a seen at 0, left=1, len=3 (bca)
+# right=4: b seen at 1, left=2, len=3 (cab)...</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(min(n,charset))</span></div>
+    <div class="pattern-box"><strong>Variable Sliding Window Template:</strong><br>left=0, window={}<br>for right in range(n): add s[right] to window<br>  while window invalid: remove s[left], left++<br>  update max_len</div>
+  </div>
+  <div class="sol-content" id="q9-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What if we allow at most K repeating characters? → Track frequency in window, shrink when any char freq > k</li>
+        <li>Longest substring with at most 2 distinct characters? → Similar: shrink window when distinct chars > 2</li>
+        <li>Minimum window substring containing all chars of T? → Same sliding window, but shrink to minimize rather than maximize</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q10 -->
+<div class="qcard" id="q10">
+<div class="qcard-header" onclick="toggle('q10')">
+  <div class="qcard-num">10</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Amazon</span><span class="company-tag">Microsoft</span>
+    </div>
+    <div class="qcard-title">Maximum Sum Subarray of Size K (Fixed Window)</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q10','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q10','optimal')">Fixed Window</button>
+    <button class="sol-tab" onclick="showSol('q10','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q10-brute">
+    <div class="insight"><strong>Problem:</strong> [2,1,5,1,3,2], k=3 → 9 (subarray [5,1,3])</div>
+    <pre><code>def max_sum_brute(arr, k):
+    max_sum = 0
+    for i in range(len(arr) - k + 1):
+        window_sum = sum(arr[i:i+k])
+        max_sum = max(max_sum, window_sum)
+    return max_sum
+# Time: O(n*k)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n×k)</span><span class="cx cx-space">Space: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q10-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Slide the window by adding the new right element and removing the leftmost element. Avoid recalculating entire sum each time.</div>
+    <pre><code>def max_sum_sliding(arr, k):
+    # Build first window
+    window_sum = sum(arr[:k])
+    max_sum = window_sum
+    
+    # Slide: add right, remove left
+    for i in range(k, len(arr)):
+        window_sum += arr[i]        # add new right
+        window_sum -= arr[i - k]    # remove old left
+        max_sum = max(max_sum, window_sum)
+    
+    return max_sum
+
+# [2,1,5,1,3,2], k=3
+# Initial: 2+1+5=8
+# slide: 8+1-2=7, 7+3-1=9(max), 9+2-3=8 → 9 ✓</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1)</span></div>
+    <div class="pattern-box"><strong>Fixed Window Template:</strong> Build first window of size k. Then slide: window += arr[right], window -= arr[right-k].</div>
+  </div>
+  <div class="sol-content" id="q10-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What if k is larger than array length? → Return 0 or raise error — handle edge case first</li>
+        <li>Average of all subarrays of size k? → Same sliding window, divide sum by k each step</li>
+        <li>Find first negative number in every window of size k? → Use a deque to track negatives within the window</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ STACK -->
+<section class="section" id="stack">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--orange-bg)">🥞</div>
+  <div><div class="section-title">Stack</div></div>
+  <div class="section-sub">LIFO — very common in Nagarro</div>
+</div>
+
+<!-- Q11 -->
+<div class="qcard" id="q11">
+<div class="qcard-header" onclick="toggle('q11')">
+  <div class="qcard-num">11</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Google</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">Valid Parentheses — check if brackets are balanced</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q11','brute')">Approach</button>
+    <button class="sol-tab" onclick="showSol('q11','optimal')">Stack Solution</button>
+    <button class="sol-tab" onclick="showSol('q11','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q11-brute">
+    <div class="insight"><strong>Problem:</strong> "()" → True. "()[]{}" → True. "(]" → False. "([)]" → False</div>
+    <p style="font-size:14px;color:var(--text2)">There's really only one clean approach — the stack:</p>
+    <ul class="steps">
+      <li>Open brackets → push to stack</li>
+      <li>Close bracket → check if top of stack matches</li>
+      <li>If mismatch or stack empty → invalid</li>
+      <li>At end, stack must be empty</li>
+    </ul>
+  </div>
+  <div class="sol-content" id="q11-optimal">
+    <pre><code>def is_valid(s):
+    stack = []
+    mapping = {')': '(', '}': '{', ']': '['}
+    
+    for char in s:
+        if char in '([{':
+            stack.append(char)  # push opening bracket
+        else:
+            # closing bracket: check stack
+            if not stack or stack[-1] != mapping[char]:
+                return False
+            stack.pop()
+    
+    return len(stack) == 0  # stack must be empty
+
+# "([)]": push (, push [, close ) needs ( but top is [ → False ✓
+# "()[{}]": push (, close )→pop(, push [, push {, close }→pop{, close ]→pop[ → True ✓</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(n)</span></div>
+    <div class="pattern-box"><strong>Stack Pattern:</strong> Whenever you need to match or track the most recent open element — use a stack. This pattern applies to: HTML tag validation, arithmetic expression evaluation, undo operations.</div>
+  </div>
+  <div class="sol-content" id="q11-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What if we have only one type of bracket? → Counter: +1 for open, -1 for close. Invalid if counter < 0 at any point or != 0 at end</li>
+        <li>Minimum additions to make string valid? → Count unmatched opens and unmatched closes at end</li>
+        <li>Generate all valid parentheses combinations for n pairs? → Backtracking recursion</li>
+        <li>How would you implement a stack from scratch? → Use a list with append() and pop()</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q12 -->
+<div class="qcard" id="q12">
+<div class="qcard-header" onclick="toggle('q12')">
+  <div class="qcard-num">12</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Amazon</span><span class="company-tag">Microsoft</span>
+    </div>
+    <div class="qcard-title">Next Greater Element — for each element find next greater on right</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q12','brute')">Brute Force</button>
+    <button class="sol-tab" onclick="showSol('q12','optimal')">Monotonic Stack</button>
+    <button class="sol-tab" onclick="showSol('q12','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q12-brute">
+    <div class="insight"><strong>Problem:</strong> [4,5,2,25] → [5,25,25,-1]. For each element, find the next element that is greater.</div>
+    <pre><code>def next_greater_brute(nums):
+    n = len(nums)
+    result = [-1] * n
+    for i in range(n):
+        for j in range(i+1, n):
+            if nums[j] > nums[i]:
+                result[i] = nums[j]
+                break
+    return result
+# Time: O(n²)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n²)</span><span class="cx cx-space">Space: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q12-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Monotonic Decreasing Stack. Walk right to left. Stack keeps elements waiting for their "next greater." When we see a larger element, it's the answer for everything in the stack that is smaller.</div>
+    <pre><code>def next_greater(nums):
+    n = len(nums)
+    result = [-1] * n
+    stack = []  # stores indices, decreasing from bottom
+    
+    for i in range(n - 1, -1, -1):  # right to left
+        # Pop elements smaller than current
+        while stack and stack[-1] <= nums[i]:
+            stack.pop()
+        
+        # Top of stack (if exists) is next greater
+        if stack:
+            result[i] = stack[-1]
+        
+        stack.append(nums[i])
+    
+    return result
+
+# [4,5,2,25]: process right to left
+# i=3: stack=[], result[3]=-1, push 25 → [25]
+# i=2: 25>2, result[2]=25, push 2 → [25,2]
+# i=1: pop 2(≤5), 25>5, result[1]=25, push 5 → [25,5]
+# i=0: pop 5(≤4)? No! 5>4, result[0]=5 → [5,25,25,-1] ✓</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(n)</span></div>
+    <div class="pattern-box"><strong>Monotonic Stack Pattern:</strong> Keep stack in sorted order (increasing or decreasing). When new element violates order → pop and process. Used for: Next Greater/Smaller, Largest Rectangle in Histogram, Daily Temperatures.</div>
+  </div>
+  <div class="sol-content" id="q12-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What about circular array (wrap around)? → Run the same loop twice (0 to 2n), use index % n</li>
+        <li>Previous Greater Element? → Same but walk left to right, stack stays decreasing</li>
+        <li>Daily Temperatures (days until warmer)? → Same pattern but store indices, answer = current_index - stack_index</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ QUEUE -->
+<section class="section" id="queue">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--blue-bg)">🚶</div>
+  <div><div class="section-title">Queue</div></div>
+  <div class="section-sub">FIFO — BFS and sliding window max</div>
+</div>
+
+<!-- Q13 -->
+<div class="qcard" id="q13">
+<div class="qcard-header" onclick="toggle('q13')">
+  <div class="qcard-num">13</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Amazon</span>
+    </div>
+    <div class="qcard-title">Implement Queue using Two Stacks</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q13','brute')">Two Stack Approach</button>
+    <button class="sol-tab" onclick="showSol('q13','optimal')">Lazy Transfer (Optimal)</button>
+    <button class="sol-tab" onclick="showSol('q13','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q13-brute">
+    <div class="insight"><strong>Problem:</strong> Implement enqueue and dequeue using only two stacks (no deque/list methods).</div>
+    <pre><code># Approach 1: Costly enqueue
+class QueueV1:
+    def __init__(self):
+        self.s1, self.s2 = [], []
+    
+    def enqueue(self, x):  # O(n)
+        while self.s1:
+            self.s2.append(self.s1.pop())
+        self.s1.append(x)
+        while self.s2:
+            self.s1.append(self.s2.pop())
+    
+    def dequeue(self):     # O(1)
+        return self.s1.pop() if self.s1 else -1</code></pre>
+    <div class="complexity"><span class="cx cx-time">Enqueue: O(n)</span><span class="cx cx-space">Dequeue: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q13-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Lazy transfer — only move items from s1 to s2 when s2 is empty. This gives amortized O(1) for both operations.</div>
+    <pre><code>class MyQueue:
+    def __init__(self):
+        self.inbox = []   # for push
+        self.outbox = []  # for pop
+    
+    def push(self, x):   # O(1)
+        self.inbox.append(x)
+    
+    def pop(self):       # amortized O(1)
+        self._transfer()
+        return self.outbox.pop()
+    
+    def peek(self):      # amortized O(1)
+        self._transfer()
+        return self.outbox[-1]
+    
+    def empty(self):
+        return not self.inbox and not self.outbox
+    
+    def _transfer(self):
+        # Only transfer when outbox is empty
+        if not self.outbox:
+            while self.inbox:
+                self.outbox.append(self.inbox.pop())
+
+# push(1),push(2),push(3) → inbox=[1,2,3]
+# pop() → transfer: outbox=[3,2,1] → pop 1 ✓
+# pop() → outbox=[3,2] → pop 2 ✓
+# push(4) → inbox=[4], outbox=[3]
+# pop() → outbox not empty → pop 3 ✓</code></pre>
+    <div class="complexity"><span class="cx cx-time">Amortized O(1) both ops</span><span class="cx cx-space">Space: O(n)</span></div>
+    <div class="pattern-box"><strong>Amortized Analysis:</strong> Each element is pushed and popped from each stack at most once. Total operations = 2n, so average per operation = O(1). Interviewers love when you explain amortized complexity.</div>
+  </div>
+  <div class="sol-content" id="q13-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Implement Stack using two Queues? → Costly push: move all elements from q2 to q1 after each push</li>
+        <li>What is amortized O(1)? → Average cost per operation over many operations. Some ops are expensive but occur rarely, so average stays low.</li>
+        <li>LRU Cache? → Doubly linked list + HashMap. Both are O(1). Asked frequently at senior levels.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ BINARY SEARCH -->
+<section class="section" id="binarysearch">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--green-bg)">🔍</div>
+  <div><div class="section-title">Binary Search</div></div>
+  <div class="section-sub">O(log n) — sorted arrays & search space reduction</div>
+</div>
+
+<!-- Q14 -->
+<div class="qcard" id="q14">
+<div class="qcard-header" onclick="toggle('q14')">
+  <div class="qcard-num">14</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">All companies</span>
+      <span class="freq-tag">🔥 Must Know</span>
+    </div>
+    <div class="qcard-title">Binary Search — Find element in sorted array</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q14','brute')">Linear Search</button>
+    <button class="sol-tab" onclick="showSol('q14','optimal')">Binary Search</button>
+    <button class="sol-tab" onclick="showSol('q14','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q14-brute">
+    <div class="insight"><strong>Problem:</strong> Sorted array [-1,0,3,5,9,12], target=9 → return index 4</div>
+    <pre><code>def search_linear(nums, target):
+    for i, num in enumerate(nums):
+        if num == target:
+            return i
+    return -1
+# Time: O(n)  Space: O(1)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q14-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Compare target to middle element. If smaller → search left half. If larger → search right half. Eliminate half the search space each step.</div>
+    <pre><code>def binary_search(nums, target):
+    low, high = 0, len(nums) - 1
+    
+    while low <= high:              # NOTE: <= not <
+        mid = low + (high - low) // 2  # avoids overflow
+        
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            low = mid + 1           # search right half
+        else:
+            high = mid - 1          # search left half
+    
+    return -1  # not found
+
+# COMMON BUGS TO AVOID:
+# 1. Use <= in while condition (not <)
+# 2. mid = low + (high-low)//2  (not (low+high)//2 — overflow in Java/C)
+# 3. low = mid+1 and high = mid-1  (not mid)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(log n)</span><span class="cx cx-space">Space: O(1)</span></div>
+    <div class="pattern-box"><strong>Template to memorise:</strong> low=0, high=n-1. while low≤high: mid=low+(high-low)//2. if found return. elif too small: low=mid+1. else: high=mid-1. return -1.</div>
+  </div>
+  <div class="sol-content" id="q14-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Find first/last occurrence of target? → Binary search but don't stop at first match — keep going left/right</li>
+        <li>Search in Rotated Sorted Array? → One half is always sorted. Determine which half, then decide where target lies</li>
+        <li>Find minimum in rotated sorted array? → Binary search on the "inflection point"</li>
+        <li>Peak element (greater than both neighbors)? → Binary search works even on unsorted arrays for monotonic conditions</li>
+        <li>Why mid = low+(high-low)//2 and not (low+high)//2? → Prevents integer overflow in languages with fixed-size integers</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q15 -->
+<div class="qcard" id="q15">
+<div class="qcard-header" onclick="toggle('q15')">
+  <div class="qcard-num">15</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Microsoft</span>
+    </div>
+    <div class="qcard-title">Find Minimum in Rotated Sorted Array</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q15','brute')">Linear Scan</button>
+    <button class="sol-tab" onclick="showSol('q15','optimal')">Binary Search</button>
+    <button class="sol-tab" onclick="showSol('q15','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q15-brute">
+    <div class="insight"><strong>Problem:</strong> [3,4,5,1,2] → 1. Array was sorted then rotated.</div>
+    <pre><code>def find_min_brute(nums):
+    return min(nums)
+# Time: O(n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q15-optimal">
+    <div class="insight"><strong>Key Insight:</strong> If nums[mid] > nums[right] → minimum is in right half (rotation point is right). Otherwise → minimum is in left half including mid.</div>
+    <pre><code>def find_min(nums):
+    low, high = 0, len(nums) - 1
+    
+    while low < high:
+        mid = low + (high - low) // 2
+        
+        if nums[mid] > nums[high]:
+            low = mid + 1   # min is in right half
+        else:
+            high = mid      # min is in left half (could be mid)
+    
+    return nums[low]
+
+# [3,4,5,1,2]: low=0,high=4,mid=2
+# nums[2]=5 > nums[4]=2 → low=3
+# low=3,high=4,mid=3: nums[3]=1 < nums[4]=2 → high=3
+# low=high=3 → return nums[3]=1 ✓</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(log n)</span><span class="cx cx-space">Space: O(1)</span></div>
+    <div class="pattern-box"><strong>Rotated Array Insight:</strong> Compare mid to right (not left). If mid>right → rotation in right half. This determines which side to search.</div>
+  </div>
+  <div class="sol-content" id="q15-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What if there are duplicates? → nums[mid]==nums[high] → can't determine which side, do high-- instead. Worst case O(n)</li>
+        <li>Search for a target in rotated sorted array? → Find which half is sorted, check if target in sorted half, binary search accordingly</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ LINKED LIST -->
+<section class="section" id="linkedlist">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--teal-bg)">🔗</div>
+  <div><div class="section-title">Linked List</div></div>
+  <div class="section-sub">Pointer manipulation — Nagarro favourite</div>
+</div>
+
+<!-- Q16 -->
+<div class="qcard" id="q16">
+<div class="qcard-header" onclick="toggle('q16')">
+  <div class="qcard-num">16</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Amazon</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">Reverse a Linked List</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q16','brute')">Using Stack</button>
+    <button class="sol-tab" onclick="showSol('q16','optimal')">In-Place (Optimal)</button>
+    <button class="sol-tab" onclick="showSol('q16','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q16-brute">
+    <div class="insight"><strong>Problem:</strong> 1→2→3→4→5 → 5→4→3→2→1</div>
+    <pre><code>class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverse_with_stack(head):
+    stack = []
+    curr = head
+    while curr:
+        stack.append(curr.val)
+        curr = curr.next
+    curr = head
+    while stack:
+        curr.val = stack.pop()
+        curr = curr.next
+    return head
+# Time: O(n)  Space: O(n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(n)</span></div>
+  </div>
+  <div class="sol-content" id="q16-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Three pointers: prev, curr, next. Walk through list reversing each link. Draw this on paper — it's 3 pointer movements per step.</div>
+    <pre><code>def reverse_list(head):
+    prev = None
+    curr = head
+    
+    while curr:
+        next_node = curr.next  # save next before we overwrite
+        curr.next = prev       # reverse the link
+        prev = curr            # move prev forward
+        curr = next_node       # move curr forward
+    
+    return prev  # prev is now the new head
+
+# Step by step: 1→2→3→None, prev=None
+# Step 1: save(2), 1.next=None, prev=1, curr=2
+# Step 2: save(3), 2.next=1, prev=2, curr=3
+# Step 3: save(None), 3.next=2, prev=3, curr=None
+# return prev=3 → 3→2→1 ✓</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1) — in-place!</span></div>
+    <div class="pattern-box"><strong>Memory aid:</strong> "Save next, reverse link, advance both." The 4 lines in the while loop in exactly that order.</div>
+  </div>
+  <div class="sol-content" id="q16-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Reverse in groups of K? → Reverse K nodes at a time, connect groups together</li>
+        <li>Check if linked list is a palindrome? → Find middle, reverse second half, compare both halves</li>
+        <li>Recursive reversal? → reverse(head.next), head.next.next = head, head.next = None</li>
+        <li>What's the difference between singly and doubly linked list? → Doubly has prev pointer too. Easier to traverse backwards. Used in LRU Cache.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q17 -->
+<div class="qcard" id="q17">
+<div class="qcard-header" onclick="toggle('q17')">
+  <div class="qcard-num">17</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Microsoft</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">Detect Cycle in Linked List — Floyd's Algorithm</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q17','brute')">HashSet Approach</button>
+    <button class="sol-tab" onclick="showSol('q17','optimal')">Floyd's (Fast/Slow)</button>
+    <button class="sol-tab" onclick="showSol('q17','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q17-brute">
+    <div class="insight"><strong>Problem:</strong> Given a linked list, return True if it has a cycle, False otherwise.</div>
+    <pre><code>def has_cycle_hashset(head):
+    seen = set()
+    curr = head
+    while curr:
+        if id(curr) in seen:
+            return True
+        seen.add(id(curr))
+        curr = curr.next
+    return False
+# Time: O(n)  Space: O(n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(n)</span></div>
+  </div>
+  <div class="sol-content" id="q17-optimal">
+    <div class="insight"><strong>Floyd's Cycle Detection:</strong> Slow pointer moves 1 step, fast moves 2 steps. If there's a cycle, fast will eventually lap slow and they'll meet. Like two runners on a circular track.</div>
+    <pre><code>def has_cycle(head):
+    slow = head
+    fast = head
+    
+    while fast and fast.next:
+        slow = slow.next        # move 1 step
+        fast = fast.next.next   # move 2 steps
+        
+        if slow == fast:        # they met → cycle!
+            return True
+    
+    return False  # fast reached end → no cycle
+
+# Why does this work?
+# If cycle exists: fast enters cycle first.
+# Relative speed of fast vs slow = 1 step/iteration.
+# Fast will always catch slow within (cycle_length) iterations.
+# They MUST meet — they can't skip each other (gap decreases by 1 each step)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(1) — no extra space!</span></div>
+    <div class="pattern-box"><strong>Fast/Slow Pointer:</strong> Used for cycle detection, finding middle of list, Nth node from end. Two runners at different speeds — one laps the other if running in circles.</div>
+  </div>
+  <div class="sol-content" id="q17-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Find the start of the cycle? → When slow and fast meet, move one to head. Advance both 1 step at a time. Where they meet again = cycle start.</li>
+        <li>Find length of the cycle? → Once they meet in cycle, keep slow still, advance fast until it comes back. Count steps.</li>
+        <li>Find middle of linked list? → Slow/fast pointers. When fast reaches end, slow is at middle.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q18 -->
+<div class="qcard" id="q18">
+<div class="qcard-header" onclick="toggle('q18')">
+  <div class="qcard-num">18</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Google</span>
+    </div>
+    <div class="qcard-title">Merge Two Sorted Linked Lists</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q18','brute')">Collect & Sort</button>
+    <button class="sol-tab" onclick="showSol('q18','optimal')">In-Place Merge</button>
+    <button class="sol-tab" onclick="showSol('q18','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q18-brute">
+    <div class="insight"><strong>Problem:</strong> 1→2→4 and 1→3→4 → 1→1→2→3→4→4</div>
+    <pre><code>def merge_brute(l1, l2):
+    vals = []
+    while l1: vals.append(l1.val); l1 = l1.next
+    while l2: vals.append(l2.val); l2 = l2.next
+    vals.sort()
+    dummy = ListNode(0)
+    curr = dummy
+    for v in vals:
+        curr.next = ListNode(v)
+        curr = curr.next
+    return dummy.next
+# Time: O((m+n)log(m+n))  Space: O(m+n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O((m+n)log(m+n))</span><span class="cx cx-space">Space: O(m+n)</span></div>
+  </div>
+  <div class="sol-content" id="q18-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Use a dummy head node to simplify edge cases. Compare heads of both lists, attach smaller one, advance that pointer. Attach remaining list at end.</div>
+    <pre><code>def merge_two_lists(l1, l2):
+    dummy = ListNode(0)  # dummy head to simplify code
+    curr = dummy
+    
+    while l1 and l2:
+        if l1.val <= l2.val:
+            curr.next = l1
+            l1 = l1.next
+        else:
+            curr.next = l2
+            l2 = l2.next
+        curr = curr.next
+    
+    # Attach remaining nodes
+    curr.next = l1 if l1 else l2
+    
+    return dummy.next
+
+# Dummy node trick: avoids special case for empty list start
+# Always return dummy.next</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(m+n)</span><span class="cx cx-space">Space: O(1)</span></div>
+    <div class="pattern-box"><strong>Dummy Head Trick:</strong> Create a dummy node before the result list. Eliminates "is the head set yet?" check. Return dummy.next at end. Standard trick for all linked list construction problems.</div>
+  </div>
+  <div class="sol-content" id="q18-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Merge K sorted linked lists? → Use a min-heap. Push first node of each list. Pop min, push that node's next. O(N log K)</li>
+        <li>Can you do it recursively? → Yes: merge(l1,l2) = l1 if l1.val≤l2.val else l2, with recursive call for next</li>
+        <li>Merge K sorted arrays? → Same heap approach or merge pairs iteratively</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ TREE -->
+<section class="section" id="tree">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--green-bg)">🌳</div>
+  <div><div class="section-title">Trees</div></div>
+  <div class="section-sub">Nagarro asks tree + graph heavily in coding rounds</div>
+</div>
+
+<!-- Q19 -->
+<div class="qcard" id="q19">
+<div class="qcard-header" onclick="toggle('q19')">
+  <div class="qcard-num">19</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge easy">Easy</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">All companies</span>
+      <span class="freq-tag">🔥 Must Know</span>
+    </div>
+    <div class="qcard-title">Tree Traversals — Inorder, Preorder, Postorder</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q19','brute')">Recursive</button>
+    <button class="sol-tab" onclick="showSol('q19','optimal')">Iterative (Stack)</button>
+    <button class="sol-tab" onclick="showSol('q19','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q19-brute">
+    <div class="insight"><strong>Problem:</strong> Given a binary tree, return nodes in inorder (left-root-right), preorder (root-left-right), postorder (left-right-root) order.</div>
+    <pre><code>class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val; self.left = left; self.right = right
+
+def inorder(root):      # Left → Root → Right
+    if not root: return []
+    return inorder(root.left) + [root.val] + inorder(root.right)
+
+def preorder(root):     # Root → Left → Right
+    if not root: return []
+    return [root.val] + preorder(root.left) + preorder(root.right)
+
+def postorder(root):    # Left → Right → Root
+    if not root: return []
+    return postorder(root.left) + postorder(root.right) + [root.val]
+
+# Inorder of BST = sorted order ← very important!</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(h) — h=height</span></div>
+  </div>
+  <div class="sol-content" id="q19-optimal">
+    <div class="insight"><strong>Iterative Inorder — often asked in interviews:</strong></div>
+    <pre><code>def inorder_iterative(root):
+    result = []
+    stack = []
+    curr = root
+    
+    while curr or stack:
+        # Go as far left as possible
+        while curr:
+            stack.append(curr)
+            curr = curr.left
+        
+        # Process node
+        curr = stack.pop()
+        result.append(curr.val)
+        
+        # Move to right subtree
+        curr = curr.right
+    
+    return result
+
+# Level Order (BFS) — also very commonly asked:
+from collections import deque
+
+def level_order(root):
+    if not root: return []
+    result, queue = [], deque([root])
+    while queue:
+        level = []
+        for _ in range(len(queue)):  # process one level at a time
+            node = queue.popleft()
+            level.append(node.val)
+            if node.left: queue.append(node.left)
+            if node.right: queue.append(node.right)
+        result.append(level)
+    return result</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(w) — w=max width</span></div>
+    <div class="pattern-box"><strong>Key fact:</strong> Inorder of BST gives sorted sequence. This is how you validate a BST and how you find kth smallest element.</div>
+  </div>
+  <div class="sol-content" id="q19-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What is the inorder traversal of a BST? → Gives nodes in ascending sorted order</li>
+        <li>How do you find height of a binary tree? → Recursive: 1 + max(height(left), height(right))</li>
+        <li>Check if binary tree is balanced? → Height of left subtree and right subtree differ by at most 1, recursively</li>
+        <li>Diameter of binary tree (longest path between any two nodes)? → For each node: diameter = left_height + right_height. Return max.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q20 -->
+<div class="qcard" id="q20">
+<div class="qcard-header" onclick="toggle('q20')">
+  <div class="qcard-num">20</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Amazon</span>
+    </div>
+    <div class="qcard-title">Lowest Common Ancestor (LCA) of Binary Tree</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q20','brute')">Path Finding</button>
+    <button class="sol-tab" onclick="showSol('q20','optimal')">Recursive DFS</button>
+    <button class="sol-tab" onclick="showSol('q20','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q20-brute">
+    <div class="insight"><strong>Problem:</strong> Find lowest common ancestor of nodes p and q in a binary tree.</div>
+    <pre><code>def lca_brute(root, p, q):
+    def find_path(node, target, path):
+        if not node: return False
+        path.append(node)
+        if node == target: return True
+        if find_path(node.left, target, path): return True
+        if find_path(node.right, target, path): return True
+        path.pop()
+        return False
+    
+    path_p, path_q = [], []
+    find_path(root, p, path_p)
+    find_path(root, q, path_q)
+    
+    lca = None
+    for a, b in zip(path_p, path_q):
+        if a == b: lca = a
+    return lca
+# Time: O(n)  Space: O(n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(n)</span></div>
+  </div>
+  <div class="sol-content" id="q20-optimal">
+    <div class="insight"><strong>Key Insight:</strong> DFS returning nodes. If current node is p or q → return it. LCA is where left and right both return non-null (found one target in each subtree).</div>
+    <pre><code>def lowest_common_ancestor(root, p, q):
+    if not root:
+        return None
+    
+    # If current node is p or q, it's the LCA (or ancestor of LCA)
+    if root == p or root == q:
+        return root
+    
+    # Search in left and right subtrees
+    left = lowest_common_ancestor(root.left, p, q)
+    right = lowest_common_ancestor(root.right, p, q)
+    
+    # If both sides returned something → current node is LCA
+    if left and right:
+        return root
+    
+    # Otherwise, return whichever side found something
+    return left if left else right
+
+# Why this works:
+# If p is in left subtree and q in right subtree → root is LCA
+# If both in same subtree → that subtree's LCA is returned up</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(h)</span></div>
+    <div class="pattern-box"><strong>DFS Return Pattern:</strong> Return the "found" node upward. When both left and right return non-null, you've found the split point = LCA. Elegant and O(n) single pass.</div>
+  </div>
+  <div class="sol-content" id="q20-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>LCA in a BST (not general tree)? → Simpler: if both p,q < root.val → go left. If both > → go right. Else root is LCA.</li>
+        <li>What if one node doesn't exist in the tree? → Modify to return (found_p, found_q, lca) tuple</li>
+        <li>LCA with parent pointers? → Walk up from both nodes, track visited. First common = LCA. Like finding intersection of two linked lists.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q21 -->
+<div class="qcard" id="q21">
+<div class="qcard-header" onclick="toggle('q21')">
+  <div class="qcard-num">21</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Microsoft</span>
+      <span class="freq-tag">🔥 Frequent</span>
+    </div>
+    <div class="qcard-title">Validate Binary Search Tree</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q21','brute')">Wrong Approach (trap!)</button>
+    <button class="sol-tab" onclick="showSol('q21','optimal')">Min/Max Bounds</button>
+    <button class="sol-tab" onclick="showSol('q21','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q21-brute">
+    <div class="insight"><strong>Common WRONG approach:</strong> Just checking left.val &lt; root.val &lt; right.val is not enough!</div>
+    <pre><code># WRONG! This fails for:
+#     5
+#    / \
+#   1   4
+#      / \
+#     3   6
+# 4's left child 3 < 5 (root) but the tree is NOT a valid BST!
+
+def is_bst_wrong(root):
+    if not root: return True
+    if root.left and root.left.val >= root.val: return False
+    if root.right and root.right.val <= root.val: return False
+    return is_bst_wrong(root.left) and is_bst_wrong(root.right)
+# THIS IS WRONG - doesn't check global constraints</code></pre>
+  </div>
+  <div class="sol-content" id="q21-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Pass min and max bounds through recursion. Each node must be strictly between its allowed range.</div>
+    <pre><code>def is_valid_bst(root):
+    def validate(node, min_val, max_val):
+        if not node:
+            return True
+        
+        # Node must be strictly within (min_val, max_val)
+        if node.val <= min_val or node.val >= max_val:
+            return False
+        
+        # Left subtree: upper bound = current val
+        # Right subtree: lower bound = current val
+        return (validate(node.left, min_val, node.val) and
+                validate(node.right, node.val, max_val))
+    
+    return validate(root, float('-inf'), float('inf'))
+
+# Alternative: Inorder traversal — should be strictly increasing
+def is_valid_bst_inorder(root):
+    prev = [float('-inf')]
+    def inorder(node):
+        if not node: return True
+        if not inorder(node.left): return False
+        if node.val <= prev[0]: return False
+        prev[0] = node.val
+        return inorder(node.right)
+    return inorder(root)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n)</span><span class="cx cx-space">Space: O(h)</span></div>
+    <div class="pattern-box"><strong>BST Property:</strong> ALL nodes in left subtree must be less than root. ALL nodes in right subtree must be greater. Not just direct children! Pass bounds as arguments.</div>
+  </div>
+  <div class="sol-content" id="q21-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>Find kth smallest element in BST? → Inorder traversal, return kth element. Or augment BST with subtree size.</li>
+        <li>Convert sorted array to BST? → Mid element = root, recurse on left half and right half</li>
+        <li>Insert into BST? → If val < root → go left, if val > root → go right, insert when null</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ HEAP -->
+<section class="section" id="heap">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--orange-bg)">⛰️</div>
+  <div><div class="section-title">Heap & Priority Queue</div></div>
+  <div class="section-sub">Nagarro asks Kth largest — always!</div>
+</div>
+
+<!-- Q22 -->
+<div class="qcard" id="q22">
+<div class="qcard-header" onclick="toggle('q22')">
+  <div class="qcard-num">22</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Nagarro</span><span class="company-tag">Amazon</span><span class="company-tag">Facebook</span>
+      <span class="freq-tag">🔥 Very Frequent</span>
+    </div>
+    <div class="qcard-title">Kth Largest Element in an Array</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q22','brute')">Sort</button>
+    <button class="sol-tab" onclick="showSol('q22','optimal')">Min-Heap</button>
+    <button class="sol-tab" onclick="showSol('q22','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q22-brute">
+    <div class="insight"><strong>Problem:</strong> [3,2,1,5,6,4], k=2 → 5 (2nd largest)</div>
+    <pre><code>def find_kth_largest_sort(nums, k):
+    nums.sort(reverse=True)
+    return nums[k-1]
+# Time: O(n log n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n log n)</span><span class="cx cx-space">Space: O(1)</span></div>
+  </div>
+  <div class="sol-content" id="q22-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Maintain a min-heap of size k. When heap size exceeds k, remove the smallest. At the end, the top of the heap = kth largest.</div>
+    <pre><code>import heapq
+
+def find_kth_largest(nums, k):
+    min_heap = []
+    
+    for num in nums:
+        heapq.heappush(min_heap, num)
+        
+        if len(min_heap) > k:
+            heapq.heappop(min_heap)  # remove smallest
+    
+    return min_heap[0]  # top = kth largest
+
+# Why min-heap? We want to KEEP the k largest elements.
+# min-heap's top is the SMALLEST of those k largest.
+# = kth largest overall!
+
+# [3,2,1,5,6,4], k=2:
+# heap after all: [5,6] (min-heap → [5,6])
+# top = 5 = 2nd largest ✓
+
+# Bonus: heapq in Python is min-heap by default
+# For max-heap: negate values or use [-x for x in nums]</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n log k)</span><span class="cx cx-space">Space: O(k)</span></div>
+    <div class="pattern-box"><strong>Heap Pattern:</strong> "Find top K elements" → min-heap of size K. "Find K smallest" → max-heap of size K (negate values). Heap size never exceeds K.</div>
+  </div>
+  <div class="sol-content" id="q22-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What if k is equal to n? → Just return the minimum of the array</li>
+        <li>Top K frequent elements? → Count frequencies, then use min-heap on (frequency, element). O(n log k)</li>
+        <li>Kth smallest in a sorted matrix? → Use min-heap, push first element of each row, pop k times</li>
+        <li>QuickSelect approach for Kth largest? → Average O(n) but O(n²) worst case. Heap is O(n log k) guaranteed.</li>
+        <li>Median of a stream? → Two heaps: max-heap for lower half, min-heap for upper half. Balance them.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q23 -->
+<div class="qcard" id="q23">
+<div class="qcard-header" onclick="toggle('q23')">
+  <div class="qcard-num">23</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge medium">Medium</span>
+      <span class="company-tag">Amazon</span><span class="company-tag">Microsoft</span>
+    </div>
+    <div class="qcard-title">Top K Frequent Elements</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q23','brute')">Sort by Frequency</button>
+    <button class="sol-tab" onclick="showSol('q23','optimal')">Heap + Bucket Sort</button>
+    <button class="sol-tab" onclick="showSol('q23','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q23-brute">
+    <div class="insight"><strong>Problem:</strong> [1,1,1,2,2,3], k=2 → [1,2]</div>
+    <pre><code>from collections import Counter
+
+def top_k_frequent_sort(nums, k):
+    count = Counter(nums)
+    return [x for x, _ in count.most_common(k)]
+# Time: O(n log n)  Space: O(n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">Time: O(n log n)</span><span class="cx cx-space">Space: O(n)</span></div>
+  </div>
+  <div class="sol-content" id="q23-optimal">
+    <div class="insight"><strong>Heap O(n log k) approach — better when k &lt;&lt; n:</strong></div>
+    <pre><code>import heapq
+from collections import Counter
+
+def top_k_frequent(nums, k):
+    count = Counter(nums)
+    
+    # Min-heap of (frequency, element), size k
+    heap = []
+    for num, freq in count.items():
+        heapq.heappush(heap, (freq, num))
+        if len(heap) > k:
+            heapq.heappop(heap)  # remove least frequent
+    
+    return [num for freq, num in heap]
+
+# Bucket Sort O(n) approach — optimal!
+def top_k_bucket(nums, k):
+    count = Counter(nums)
+    # Bucket index = frequency
+    buckets = [[] for _ in range(len(nums) + 1)]
+    for num, freq in count.items():
+        buckets[freq].append(num)
+    
+    result = []
+    for i in range(len(buckets) - 1, 0, -1):  # high freq first
+        result.extend(buckets[i])
+        if len(result) >= k:
+            return result[:k]
+    return result</code></pre>
+    <div class="complexity"><span class="cx cx-time">Heap: O(n log k) | Bucket: O(n)</span><span class="cx cx-space">Space: O(n)</span></div>
+    <div class="pattern-box"><strong>Bucket Sort insight:</strong> When values are bounded (frequency can't exceed n), use bucket sort for O(n). Frequency as index → each bucket contains elements with that frequency.</div>
+  </div>
+  <div class="sol-content" id="q23-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>What if there are ties in frequency? → Bucket sort returns all of them; heap returns any k</li>
+        <li>Sort Characters By Frequency? → Same approach but return a string: char * frequency, sorted by decreasing frequency</li>
+        <li>Why is bucket sort O(n) here when sort is O(n log n)? → Bucket sort doesn't use comparisons. It uses the value as an index. Valid when value range is bounded.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Q24 HARD -->
+<div class="qcard" id="q24">
+<div class="qcard-header" onclick="toggle('q24')">
+  <div class="qcard-num">24</div>
+  <div class="qcard-main">
+    <div class="qcard-meta">
+      <span class="badge hard">Hard</span>
+      <span class="company-tag">Amazon</span><span class="company-tag">Google</span>
+    </div>
+    <div class="qcard-title">Find Median from Data Stream</div>
+  </div>
+  <span class="qcard-chevron">▼</span>
+</div>
+<div class="solution">
+  <div class="sol-tabs">
+    <button class="sol-tab on" onclick="showSol('q24','brute')">Sort Each Time</button>
+    <button class="sol-tab" onclick="showSol('q24','optimal')">Two Heaps</button>
+    <button class="sol-tab" onclick="showSol('q24','cross')">Cross Questions</button>
+  </div>
+  <div class="sol-content show" id="q24-brute">
+    <div class="insight"><strong>Problem:</strong> Design data structure that supports addNum and findMedian. Median of a stream of numbers.</div>
+    <pre><code>class MedianFinder_Brute:
+    def __init__(self): self.data = []
+    def addNum(self, num): 
+        self.data.append(num)
+    def findMedian(self):
+        self.data.sort()  # O(n log n) each time!
+        n = len(self.data)
+        if n % 2 == 1: return self.data[n//2]
+        return (self.data[n//2-1] + self.data[n//2]) / 2
+# addNum O(1), findMedian O(n log n)</code></pre>
+    <div class="complexity"><span class="cx cx-time">findMedian: O(n log n)</span><span class="cx cx-space">Space: O(n)</span></div>
+  </div>
+  <div class="sol-content" id="q24-optimal">
+    <div class="insight"><strong>Key Insight:</strong> Maintain two heaps: max-heap for lower half, min-heap for upper half. Keep them balanced (size difference ≤ 1). Median = top of larger heap or average of both tops.</div>
+    <pre><code>import heapq
+
+class MedianFinder:
+    def __init__(self):
+        self.small = []  # max-heap (negate for Python min-heap)
+        self.large = []  # min-heap
+    
+    def addNum(self, num):
+        # Push to max-heap (lower half)
+        heapq.heappush(self.small, -num)
+        
+        # Balance: largest in small must be <= smallest in large
+        if self.small and self.large and (-self.small[0] > self.large[0]):
+            heapq.heappush(self.large, -heapq.heappop(self.small))
+        
+        # Balance sizes (differ by at most 1)
+        if len(self.small) > len(self.large) + 1:
+            heapq.heappush(self.large, -heapq.heappop(self.small))
+        if len(self.large) > len(self.small):
+            heapq.heappush(self.small, -heapq.heappop(self.large))
+    
+    def findMedian(self):
+        if len(self.small) > len(self.large):
+            return -self.small[0]
+        return (-self.small[0] + self.large[0]) / 2</code></pre>
+    <div class="complexity"><span class="cx cx-time">addNum: O(log n)</span><span class="cx cx-space">findMedian: O(1)</span></div>
+    <div class="pattern-box"><strong>Two Heap Pattern:</strong> max-heap for lower half (always ≤ min-heap for upper half). After each insert, rebalance so size differs by at most 1. Median = top of larger heap or average of both tops.</div>
+  </div>
+  <div class="sol-content" id="q24-cross">
+    <div class="cross">
+      <strong>Cross Questions:</strong>
+      <ul class="steps" style="margin-top:.5rem">
+        <li>How do you handle even vs odd total numbers? → Even: average of both tops. Odd: top of the larger heap.</li>
+        <li>Why Python's heapq is min-heap? → Push negative values to simulate max-heap. Remember to negate when reading.</li>
+        <li>Sliding window median? → Much harder — need ordered set or two heaps with lazy deletion</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- QUICK REFERENCE -->
+<section class="section">
+<div class="section-header">
+  <div class="section-icon" style="background:var(--blue-bg)">📋</div>
+  <div><div class="section-title">Quick Pattern Reference</div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem">
+  <div class="tips">
+    <h4>🪟 Sliding Window</h4>
+    <ul>
+      <li>Subarray/substring with condition</li>
+      <li>Fixed size: add right, remove left</li>
+      <li>Variable: expand right, shrink left when invalid</li>
+      <li>Key: what makes window invalid?</li>
+    </ul>
+  </div>
+  <div class="tips">
+    <h4>👆 Two Pointer</h4>
+    <ul>
+      <li>Sorted array pair problems</li>
+      <li>In-place partition (write pointer)</li>
+      <li>Palindrome check</li>
+      <li>One from each end, or both from start</li>
+    </ul>
+  </div>
+  <div class="tips">
+    <h4>🥞 Stack Patterns</h4>
+    <ul>
+      <li>Matching brackets/pairs</li>
+      <li>Monotonic stack for next greater/smaller</li>
+      <li>Expression evaluation</li>
+      <li>DFS iteratively</li>
+    </ul>
+  </div>
+  <div class="tips">
+    <h4>⛰️ Heap Patterns</h4>
+    <ul>
+      <li>Top K elements → heap size K</li>
+      <li>K largest → min-heap</li>
+      <li>K smallest → max-heap</li>
+      <li>Median stream → two heaps</li>
+    </ul>
+  </div>
+  <div class="tips">
+    <h4>🌳 Tree Patterns</h4>
+    <ul>
+      <li>DFS (recursive) for most tree problems</li>
+      <li>BFS (queue) for level-order problems</li>
+      <li>Inorder BST = sorted order</li>
+      <li>Pass bounds for BST validation</li>
+    </ul>
+  </div>
+  <div class="tips">
+    <h4>🔍 Binary Search</h4>
+    <ul>
+      <li>Sorted array → always binary search</li>
+      <li>low≤high, mid=low+(high-low)//2</li>
+      <li>Search space reduction problems</li>
+      <li>low=mid+1, high=mid-1 (never mid)</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+</div><!-- /container -->
+
+<script>
+function toggle(id){
+  const card=document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function showSol(qid, tab){
+  // hide all sol-content for this question
+  const card=document.getElementById(qid);
+  card.querySelectorAll('.sol-content').forEach(el=>el.classList.remove('show'));
+  card.querySelectorAll('.sol-tab').forEach(el=>el.classList.remove('on'));
+  
+  // show selected
+  const content=document.getElementById(qid+'-'+tab);
+  if(content) content.classList.add('show');
+  
+  // activate tab
+  const tabs=card.querySelectorAll('.sol-tab');
+  const tabNames=['brute','optimal','cross'];
+  const tabIdx=tabNames.indexOf(tab);
+  if(tabs[tabIdx]) tabs[tabIdx].classList.add('on');
+}
+
+// Smooth scroll for nav
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    // update active
+    document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
+
+// Update active nav on scroll
+const sections=document.querySelectorAll('section[id]');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      document.querySelectorAll('.nav-tab').forEach(t=>{
+        t.classList.toggle('active',t.getAttribute('href')==='#'+entry.target.id);
+      });
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>
