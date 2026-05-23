@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Full-Stack Interview Flashcards 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#fff;--bg2:#f8f9fa;--bg3:#f1f3f5;
+--ink:#14151a;--ink2:#4a5568;--ink3:#8892a4;
+--line:#e2e8f0;--line2:#cbd5e0;
+--py:#3B6D11;--py-bg:#EAF3DE;--py-mid:#639922;--py-border:#97C459;
+--js:#854F0B;--js-bg:#FAEEDA;--js-mid:#BA7517;--js-border:#EF9F27;
+--css:#3C3489;--css-bg:#EEEDFE;--css-mid:#7F77DD;--css-border:#AFA9EC;
+--db:#412402;--db-bg:#FFF8EE;--db-mid:#BA7517;--db-border:#FAC775;
+--api:#712B13;--api-bg:#FAECE7;--api-mid:#D85A30;--api-border:#F0997B;
+--git:#72243E;--git-bg:#FBEAF0;--git-mid:#D4537E;--git-border:#ED93B1;
+--cloud:#085041;--cloud-bg:#E1F5EE;--cloud-mid:#1D9E75;--cloud-border:#5DCAA5;
+--hot-bg:#FCEBEB;--hot:#A32D2D;
+--tricky-bg:#EEEDFE;--tricky:#3C3489;
+}
+@media(prefers-color-scheme:dark){:root{
+--bg:#0e1018;--bg2:#161b26;--bg3:#1c2232;
+--ink:#dde4f0;--ink2:#8a97b0;--ink3:#4e5a70;
+--line:#252d3e;--line2:#2e3850;
+--py-bg:#0d1f07;--js-bg:#1f1306;--css-bg:#130f30;--db-bg:#1a0f04;--api-bg:#1f0a06;--git-bg:#1f0a12;--cloud-bg:#041a12;
+--hot-bg:#1f0808;--tricky-bg:#130f30;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
+.topbar{position:sticky;top:0;z-index:99;background:var(--bg);border-bottom:1px solid var(--line);padding:0 1rem;overflow-x:auto;scrollbar-width:none}
+.topbar::-webkit-scrollbar{display:none}
+.topbar-inner{display:flex;align-items:center;gap:5px;height:48px;min-width:max-content}
+.logo{font-weight:600;font-size:13px;color:var(--ink);margin-right:10px;white-space:nowrap}
+.logo span{color:var(--py-mid)}
+.nl{font-size:11px;padding:4px 11px;border-radius:20px;border:1.5px solid var(--line2);color:var(--ink2);cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap}
+.nl:hover{background:var(--bg2)}
+.nl.py{color:var(--py);border-color:var(--py-border)}
+.nl.js{color:var(--js);border-color:var(--js-border)}
+.nl.css{color:var(--css);border-color:var(--css-border)}
+.nl.db{color:var(--db);border-color:var(--db-border)}
+.nl.api{color:var(--api);border-color:var(--api-border)}
+.nl.git{color:var(--git);border-color:var(--git-border)}
+.nl.cloud{color:var(--cloud);border-color:var(--cloud-border)}
+.nl.act-py{background:var(--py-mid);color:#fff;border-color:var(--py-mid)}
+.nl.act-js{background:var(--js-mid);color:#fff;border-color:var(--js-mid)}
+.nl.act-css{background:var(--css-mid);color:#fff;border-color:var(--css-mid)}
+.nl.act-db{background:var(--db-mid);color:#fff;border-color:var(--db-mid)}
+.nl.act-api{background:var(--api-mid);color:#fff;border-color:var(--api-mid)}
+.nl.act-git{background:var(--git-mid);color:#fff;border-color:var(--git-mid)}
+.nl.act-cloud{background:var(--cloud-mid);color:#fff;border-color:var(--cloud-mid)}
+.hero{padding:2.5rem 1.25rem 2rem;text-align:center;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(20px,4vw,34px);font-weight:600;letter-spacing:-.5px;margin-bottom:.5rem}
+.hero-sub{font-size:13px;color:var(--ink2);max-width:580px;margin:0 auto 1.5rem;line-height:1.7}
+.pill-row{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}
+.pill{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid}
+.prog-bar-wrap{background:var(--bg3);border-radius:4px;height:3px;margin:.6rem 0 0;overflow:hidden}
+.prog-fill{height:3px;border-radius:4px;background:var(--py-mid);transition:width .35s}
+.wrap{max-width:860px;margin:0 auto;padding:0 1rem 3rem}
+.sec-hdr{display:flex;align-items:center;gap:10px;margin:2.5rem 0 1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--line)}
+.sec-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.sec-title{font-size:17px;font-weight:600;letter-spacing:-.2px}
+.sec-sub{font-size:11px;color:var(--ink3);margin-left:auto}
+.sec-count{font-size:11px;font-weight:600;padding:2px 9px;border-radius:12px}
+.card{border:1px solid var(--line);border-radius:12px;margin-bottom:.875rem;background:var(--bg);overflow:hidden;transition:box-shadow .15s}
+.card:hover{box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.card-hdr{display:flex;align-items:flex-start;gap:10px;padding:1rem 1.25rem;cursor:pointer;user-select:none}
+.qnum{min-width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:2px}
+.qmain{flex:1;min-width:0}
+.qmeta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px;align-items:center}
+.qtitle{font-size:14px;font-weight:500;line-height:1.45;color:var(--ink)}
+.qchev{color:var(--ink3);font-size:12px;margin-top:3px;flex-shrink:0;transition:transform .22s}
+.card.open .qchev{transform:rotate(180deg)}
+.tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+.tag-py{background:var(--py-bg);color:var(--py)}
+.tag-js{background:var(--js-bg);color:var(--js)}
+.tag-css{background:var(--css-bg);color:var(--css)}
+.tag-db{background:var(--db-bg);color:var(--db)}
+.tag-api{background:var(--api-bg);color:var(--api)}
+.tag-git{background:var(--git-bg);color:var(--git)}
+.tag-cloud{background:var(--cloud-bg);color:var(--cloud)}
+.tag-hot{background:var(--hot-bg);color:var(--hot);font-weight:700}
+.tag-tricky{background:var(--tricky-bg);color:var(--tricky)}
+.qbody{display:none;padding:0 1.25rem 1.25rem;border-top:1px solid var(--line)}
+.card.open .qbody{display:block}
+.tabs{display:flex;gap:5px;margin:1rem 0 .875rem;flex-wrap:wrap}
+.tab{font-size:11px;padding:4px 13px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;transition:all .15s;font-weight:500}
+.tab:hover{background:var(--bg2)}
+.tab.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tc{display:none}
+.tc.show{display:block}
+.txt{font-size:13px;color:var(--ink2);line-height:1.8;margin:.4rem 0}
+.txt strong{color:var(--ink);font-weight:600}
+.pts{padding-left:1.2rem;margin:.5rem 0}
+.pts li{font-size:13px;color:var(--ink2);margin-bottom:.35rem;line-height:1.65}
+.pts li strong{color:var(--ink);font-weight:600}
+.code-wrap{background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:.875rem 1rem;margin:.75rem 0;overflow-x:auto;font-family:'Cascadia Code','Fira Code','JetBrains Mono',monospace;font-size:12px;line-height:1.75;color:var(--ink2);white-space:pre}
+.kw{color:#7F77DD}.fn{color:var(--py-mid)}.str{color:#3B6D11}.cm{color:var(--ink3)}.cls{color:#185FA5}.var{color:#854F0B}.num{color:#993C1D}
+.box{border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.7rem 0;font-size:13px;line-height:1.75;border-left:3px solid}
+.box strong{font-weight:600}
+.bans{background:var(--py-bg);border-color:var(--py-mid)}.bans strong{color:var(--py)}
+.bcx{background:var(--tricky-bg);border-color:var(--css-mid)}.bcx strong{color:var(--css)}
+.bwarn{background:var(--hot-bg);border-color:#E24B4A}.bwarn strong{color:var(--hot)}
+.btip{background:var(--js-bg);border-color:var(--js-mid)}.btip strong{color:var(--js)}
+.bcloud{background:var(--cloud-bg);border-color:var(--cloud-mid)}.bcloud strong{color:var(--cloud)}
+.ctbl{width:100%;border-collapse:collapse;font-size:12px;margin:.75rem 0}
+.ctbl th{background:var(--bg3);padding:7px 10px;text-align:left;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line2)}
+.ctbl td{padding:7px 10px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
+.ctbl tr:last-child td{border-bottom:none}
+.ctbl tr:hover td{background:var(--bg2)}
+.mark-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;margin-left:auto;transition:all .15s;flex-shrink:0}
+.mark-btn:hover{background:var(--bg2)}
+.mark-btn.marked{background:var(--js-bg);color:var(--js);border-color:var(--js-border)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem}
+.stat{flex:1;min-width:110px;background:var(--bg2);border-radius:10px;padding:.75rem 1rem;border:1px solid var(--line)}
+.stat-label{font-size:11px;color:var(--ink3);margin-bottom:.2rem;font-weight:500}
+.stat-val{font-size:21px;font-weight:600}
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+.filter-btn{font-size:11px;padding:4px 13px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;transition:all .15s;font-weight:500}
+.filter-btn:hover{background:var(--bg2)}
+.filter-btn.on{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.filter-label{font-size:11px;color:var(--ink3);font-weight:500}
+@media(max-width:640px){
+.card-hdr{padding:.875rem 1rem;gap:8px}
+.qbody{padding:0 1rem 1rem}
+.stats{gap:8px}
+.stat{min-width:80px;padding:.65rem .875rem}
+.stat-val{font-size:18px}
+.hero{padding:1.75rem 1rem 1.5rem}
+.sec-sub{display:none}
+.ctbl{font-size:11px}
+.ctbl th,.ctbl td{padding:5px 7px}
+.mark-btn{display:none}
+}
+@media(max-width:400px){
+.pill{font-size:11px;padding:4px 10px}
+.hero h1{font-size:20px}
+}
+</style>
+</head>
+<body>
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Full-stack interview flashcards — 35 questions across Python, JavaScript, HTML/CSS, Database, REST/GraphQL, Git/CI-CD, Cloud</h2>
+
+<div class="topbar"><div class="topbar-inner">
+  <span class="logo">&#9632; <span>Interview</span> Deck</span>
+  <a class="nl py" href="#s-py" id="nav-py">Python</a>
+  <a class="nl js" href="#s-js" id="nav-js">JS Frameworks</a>
+  <a class="nl css" href="#s-css" id="nav-css">HTML/CSS/ES6+</a>
+  <a class="nl db" href="#s-db" id="nav-db">Database</a>
+  <a class="nl api" href="#s-api" id="nav-api">REST/GraphQL</a>
+  <a class="nl git" href="#s-git" id="nav-git">Git/CI-CD</a>
+  <a class="nl cloud" href="#s-cloud" id="nav-cloud">Cloud</a>
+</div></div>
+
+<div class="hero">
+  <h1>Full-Stack Interview Flashcards</h1>
+  <p class="hero-sub">IIT-level · 35 questions · 7 topics · Theory + Code + Cross-question per card</p>
+  <div class="pill-row">
+    <span class="pill" style="background:var(--py-bg);color:var(--py);border-color:var(--py-border)">Python / Flask · 5</span>
+    <span class="pill" style="background:var(--js-bg);color:var(--js);border-color:var(--js-border)">JS Frameworks · 5</span>
+    <span class="pill" style="background:var(--css-bg);color:var(--css);border-color:var(--css-border)">HTML/CSS/ES6+ · 5</span>
+    <span class="pill" style="background:var(--db-bg);color:var(--db);border-color:var(--db-border)">Database · 5</span>
+    <span class="pill" style="background:var(--api-bg);color:var(--api);border-color:var(--api-border)">REST/GraphQL · 5</span>
+    <span class="pill" style="background:var(--git-bg);color:var(--git);border-color:var(--git-border)">Git/CI-CD · 5</span>
+    <span class="pill" style="background:var(--cloud-bg);color:var(--cloud);border-color:var(--cloud-border)">Cloud Platforms · 5</span>
+  </div>
+  <div class="prog-bar-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <p style="font-size:11px;color:var(--ink3);margin-top:.4rem" id="prog-label">0 of 35 opened</p>
+</div>
+
+<div class="wrap">
+<div class="stats">
+  <div class="stat"><div class="stat-label">Opened</div><div class="stat-val" id="s-opened" style="color:var(--py-mid)">0</div></div>
+  <div class="stat"><div class="stat-label">Remaining</div><div class="stat-val" id="s-left" style="color:var(--ink)">35</div></div>
+  <div class="stat"><div class="stat-label">Bookmarked</div><div class="stat-val" id="s-marked" style="color:var(--js-mid)">0</div></div>
+  <div class="stat"><div class="stat-label">Progress</div><div class="stat-val" id="s-pct" style="color:var(--cloud-mid)">0%</div></div>
+</div>
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn on" onclick="setFilter('all',this)">All (35)</button>
+  <button class="filter-btn" onclick="setFilter('hot',this)" style="color:var(--hot)">🔥 Hot</button>
+  <button class="filter-btn" onclick="setFilter('tricky',this)" style="color:var(--css)">⚡ Tricky</button>
+  <button class="filter-btn" onclick="setFilter('marked',this)">★ Bookmarked</button>
+</div>
+
+<!-- PYTHON -->
+<section id="s-py">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--py-mid)"></div>
+  <span class="sec-title">Python Programming</span>
+  <span class="sec-count" style="background:var(--py-bg);color:var(--py)">Flask · Django · FastAPI</span>
+  <span class="sec-sub">5 questions</span>
+</div>
+
+<div class="card" id="py1" data-tags="py tricky">
+<div class="card-hdr" onclick="tog('py1')">
+  <div class="qnum" style="background:var(--py-bg);color:var(--py)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-py">Python</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">What is the GIL in CPython and how does it affect multithreading performance?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('py1',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('py1','a')">Answer</button><button class="tab" onclick="st('py1','cx')">Cross-question</button></div>
+<div class="tc" id="py1-a">
+<p class="txt">The <strong>Global Interpreter Lock (GIL)</strong> is a mutex in CPython that allows only one thread to execute Python bytecode at a time. It protects CPython's reference-counted memory model from race conditions.</p>
+<ul class="pts">
+  <li><strong>CPU-bound tasks:</strong> threads don't scale beyond one core — GIL serialises them</li>
+  <li><strong>I/O-bound tasks:</strong> GIL is released during I/O waits, so threading helps for network/disk</li>
+  <li><strong>Fix:</strong> use <code>multiprocessing</code> (separate processes, each with its own GIL)</li>
+</ul>
+<div class="code-wrap"><span class="kw">import</span> threading
+
+<span class="kw">def</span> <span class="fn">cpu_task</span>():
+    n = <span class="num">0</span>
+    <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="num">10_000_000</span>): n += <span class="num">1</span>
+
+<span class="cm"># GIL: threads compete — slower than sequential for CPU work</span>
+t1 = threading.<span class="cls">Thread</span>(target=cpu_task)
+t2 = threading.<span class="cls">Thread</span>(target=cpu_task)
+t1.start(); t2.start(); t1.join(); t2.join()
+
+<span class="cm"># Fix: multiprocessing — each process has its own GIL</span>
+<span class="kw">from</span> multiprocessing <span class="kw">import</span> Pool
+<span class="kw">with</span> <span class="cls">Pool</span>(<span class="num">4</span>) <span class="kw">as</span> p:
+    p.map(cpu_task, [<span class="kw">None</span>] * <span class="num">4</span>)   <span class="cm"># true parallelism</span></div>
+<div class="box bans"><strong>Key insight:</strong> asyncio + threading → I/O concurrency (GIL released during waits). multiprocessing → CPU parallelism (bypasses GIL entirely). For ML inference use multiprocessing workers or a C-accelerated library like NumPy/PyTorch that releases the GIL internally.</div>
+</div>
+<div class="tc" id="py1-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "Design a CPU-bound ML inference service — would you use multiprocessing, asyncio, or Celery workers? What are the trade-offs, and how does FastAPI handle async vs sync endpoints internally?"</div>
+<p class="txt">Strong answer: FastAPI runs sync endpoints in a threadpool, async endpoints on the event loop. For CPU-bound inference, a separate model server (Triton, TorchServe) or Celery + Redis queue isolates the GIL entirely.</p>
+</div>
+</div>
+</div>
+
+<div class="card" id="py2" data-tags="py">
+<div class="card-hdr" onclick="tog('py2')">
+  <div class="qnum" style="background:var(--py-bg);color:var(--py)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-py">Flask</span></div>
+    <div class="qtitle">Explain Flask's application context vs request context. When is each pushed and popped?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('py2',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('py2','a')">Answer</button><button class="tab" onclick="st('py2','cx')">Cross-question</button></div>
+<div class="tc" id="py2-a">
+<p class="txt">Flask uses two context stacks via Python's <code>LocalStack</code>:</p>
+<ul class="pts">
+  <li><strong>AppContext:</strong> holds <code>current_app</code> and <code>g</code>. Pushed at request start or manually via <code>app.app_context()</code></li>
+  <li><strong>RequestContext:</strong> holds <code>request</code> and <code>session</code>. Pushed for every HTTP request, always popped at end</li>
+  <li>Accessing <code>current_app</code> outside a context raises <code>RuntimeError: Working outside of application context</code></li>
+</ul>
+<div class="code-wrap"><span class="kw">from</span> flask <span class="kw">import</span> Flask, g, current_app, request
+
+app = <span class="cls">Flask</span>(__name__)
+
+@app.before_request
+<span class="kw">def</span> <span class="fn">load_user</span>():
+    g.user = db.get_user(request.headers.get(<span class="str">'X-User-Id'</span>))
+
+@app.route(<span class="str">'/profile'</span>)
+<span class="kw">def</span> <span class="fn">profile</span>():
+    <span class="kw">return</span> {<span class="str">'user'</span>: g.user.name, <span class="str">'app'</span>: current_app.name}
+
+<span class="cm"># Explicit app context for CLI / background tasks</span>
+<span class="kw">with</span> app.app_context():
+    <span class="kw">print</span>(current_app.config[<span class="str">'DATABASE_URI'</span>])</div>
+</div>
+<div class="tc" id="py2-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "If you run a background Celery task that calls <code>current_app.config</code>, what happens and how do you fix it? Also — what is <code>g</code> used for and why doesn't it persist across requests?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="py3" data-tags="py tricky">
+<div class="card-hdr" onclick="tog('py3')">
+  <div class="qnum" style="background:var(--py-bg);color:var(--py)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-py">Python</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">What are Python descriptors? How do @property and @classmethod use them internally?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('py3',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('py3','a')">Answer</button><button class="tab" onclick="st('py3','cx')">Cross-question</button></div>
+<div class="tc" id="py3-a">
+<p class="txt">A <strong>descriptor</strong> is any object defining <code>__get__</code>, <code>__set__</code>, or <code>__delete__</code>. Python's attribute lookup triggers the descriptor protocol when accessing class attributes.</p>
+<ul class="pts">
+  <li><strong>Data descriptor:</strong> both <code>__get__</code> and <code>__set__</code> (e.g. <code>@property</code>) — takes priority over instance <code>__dict__</code></li>
+  <li><strong>Non-data descriptor:</strong> only <code>__get__</code> (functions, <code>@classmethod</code>) — instance dict can shadow it</li>
+</ul>
+<div class="code-wrap"><span class="kw">class</span> <span class="cls">Validator</span>:
+    <span class="kw">def</span> <span class="fn">__set_name__</span>(self, owner, name): self.name = name
+    <span class="kw">def</span> <span class="fn">__get__</span>(self, obj, objtype=<span class="kw">None</span>):
+        <span class="kw">if</span> obj <span class="kw">is None</span>: <span class="kw">return</span> self
+        <span class="kw">return</span> obj.__dict__.get(self.name)
+    <span class="kw">def</span> <span class="fn">__set__</span>(self, obj, value):
+        <span class="kw">if not</span> isinstance(value, int) <span class="kw">or</span> value < <span class="num">0</span>:
+            <span class="kw">raise</span> <span class="cls">ValueError</span>(<span class="str">f"{self.name} must be non-negative int"</span>)
+        obj.__dict__[self.name] = value
+
+<span class="kw">class</span> <span class="cls">Order</span>:
+    quantity = <span class="cls">Validator</span>()
+    price    = <span class="cls">Validator</span>()
+
+o = <span class="cls">Order</span>()
+o.quantity = <span class="num">5</span>    <span class="cm"># triggers __set__</span>
+o.quantity = <span class="num">-1</span>   <span class="cm"># raises ValueError</span></div>
+</div>
+<div class="tc" id="py3-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does SQLAlchemy's <code>Column()</code> leverage descriptors to intercept attribute access on model instances and track dirty fields for UPDATE statement generation? Describe the InstrumentedAttribute mechanism."</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="py4" data-tags="py hot">
+<div class="card-hdr" onclick="tog('py4')">
+  <div class="qnum" style="background:var(--py-bg);color:var(--py)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-py">Python</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain async/await in Python. When do you prefer asyncio over threading?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('py4',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('py4','a')">Answer</button><button class="tab" onclick="st('py4','cx')">Cross-question</button></div>
+<div class="tc" id="py4-a">
+<p class="txt">asyncio uses a single-threaded event loop with cooperative multitasking. <code>async def</code> defines a coroutine; <code>await</code> yields control back to the loop until the awaited coroutine completes.</p>
+<table class="ctbl">
+  <tr><th>Scenario</th><th>Best choice</th><th>Why</th></tr>
+  <tr><td>1000s of concurrent HTTP/DB calls</td><td>asyncio</td><td>No thread overhead, low memory per connection</td></tr>
+  <tr><td>Blocking third-party library</td><td>threading</td><td>Can't await a blocking call</td></tr>
+  <tr><td>CPU-bound computation</td><td>multiprocessing</td><td>Bypasses GIL entirely</td></tr>
+  <tr><td>Mixed I/O + CPU</td><td>asyncio + executor</td><td>run_in_executor offloads CPU parts</td></tr>
+</table>
+<div class="code-wrap"><span class="kw">import</span> asyncio, httpx
+
+<span class="kw">async def</span> <span class="fn">fetch</span>(url: str, client: httpx.<span class="cls">AsyncClient</span>):
+    r = <span class="kw">await</span> client.get(url, timeout=<span class="num">10</span>)
+    <span class="kw">return</span> r.json()
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    urls = [<span class="str">f"https://api.example.com/item/{i}"</span> <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">100</span>)]
+    <span class="kw">async with</span> httpx.<span class="cls">AsyncClient</span>() <span class="kw">as</span> client:
+        results = <span class="kw">await</span> asyncio.gather(*[fetch(u, client) <span class="kw">for</span> u <span class="kw">in</span> urls])
+    <span class="kw">return</span> results   <span class="cm"># 100 concurrent requests, single thread</span>
+
+asyncio.run(main())</div>
+</div>
+<div class="tc" id="py4-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does FastAPI leverage asyncio under the hood? What happens if you call a synchronous SQLAlchemy ORM query directly inside an <code>async def</code> FastAPI route — and how do you fix it using <code>run_in_executor</code> or an async ORM?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="py5" data-tags="py tricky">
+<div class="card-hdr" onclick="tog('py5')">
+  <div class="qnum" style="background:var(--py-bg);color:var(--py)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-py">Python</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">What is the difference between __new__ and __init__? When would you override __new__?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('py5',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('py5','a')">Answer</button><button class="tab" onclick="st('py5','cx')">Cross-question</button></div>
+<div class="tc" id="py5-a">
+<p class="txt"><code>__new__</code> creates and returns the instance. <code>__init__</code> receives the already-created instance and initialises it. Override <code>__new__</code> to control instance creation itself: Singleton, cached instances, subclassing immutable types.</p>
+<div class="code-wrap"><span class="kw">class</span> <span class="cls">Singleton</span>:
+    _instance = <span class="kw">None</span>
+    <span class="kw">def</span> <span class="fn">__new__</span>(cls, *args, **kwargs):
+        <span class="kw">if</span> cls._instance <span class="kw">is None</span>:
+            cls._instance = super().__new__(cls)
+        <span class="kw">return</span> cls._instance     <span class="cm"># always the same object</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, val):
+        self.val = val            <span class="cm"># still re-runs every time!</span>
+
+a = <span class="cls">Singleton</span>(<span class="num">1</span>)
+b = <span class="cls">Singleton</span>(<span class="num">2</span>)
+<span class="kw">print</span>(a <span class="kw">is</span> b)    <span class="cm"># True</span>
+<span class="kw">print</span>(a.val)     <span class="cm"># 2 — __init__ ran again on same object</span></div>
+<div class="box bwarn"><strong>Gotcha:</strong> __init__ still runs even when __new__ returns the cached instance. Guard with <code>if not hasattr(self, '_initialised')</code> to initialise only once.</div>
+</div>
+<div class="tc" id="py5-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does the Singleton pattern differ from a module-level variable in Python — which is preferable for a Flask config object? What are the thread-safety implications of this naive Singleton?"</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- JS FRAMEWORKS -->
+<section id="s-js">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--js-mid)"></div>
+  <span class="sec-title">JavaScript Frameworks</span>
+  <span class="sec-count" style="background:var(--js-bg);color:var(--js)">React · Angular · Vue</span>
+  <span class="sec-sub">5 questions</span>
+</div>
+
+<div class="card" id="js1" data-tags="js hot">
+<div class="card-hdr" onclick="tog('js1')">
+  <div class="qnum" style="background:var(--js-bg);color:var(--js)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-js">React</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain React's reconciliation algorithm (Fiber) and the role of the key prop.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('js1',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('js1','a')">Answer</button><button class="tab" onclick="st('js1','cx')">Cross-question</button></div>
+<div class="tc" id="js1-a">
+<p class="txt">React's Fiber reconciler diffs virtual DOM trees using two heuristics: (1) elements of different types produce different trees; (2) <code>key</code> props provide stable identity for list items — O(n) diff instead of O(n³).</p>
+<div class="code-wrap"><span class="cm">// BAD – index key causes stale state on reorder/filter</span>
+{items.map((item, i) => &lt;Row key={i} data={item} /&gt;)}
+
+<span class="cm">// GOOD – stable unique ID follows the data</span>
+{items.map(item => &lt;Row key={item.id} data={item} /&gt;)}
+
+<span class="cm">// Why: Row has internal useState (e.g. a checkbox)</span>
+<span class="cm">// Index keys: React reuses component instance at position N</span>
+<span class="cm">// after reorder — checkbox state sticks to the position, not the item</span>
+<span class="cm">// ID keys: React moves the component instance with the data</span></div>
+</div>
+<div class="tc" id="js1-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does React 18's concurrent mode change reconciliation? What is time-slicing, how does <code>useTransition</code> keep the UI responsive during expensive renders, and what is the difference between <code>startTransition</code> and <code>useDeferredValue</code>?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="js2" data-tags="js tricky">
+<div class="card-hdr" onclick="tog('js2')">
+  <div class="qnum" style="background:var(--js-bg);color:var(--js)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-js">React</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">How does useEffect cleanup work? Explain dependency array pitfalls with examples.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('js2',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('js2','a')">Answer</button><button class="tab" onclick="st('js2','cx')">Cross-question</button></div>
+<div class="tc" id="js2-a">
+<p class="txt">The cleanup function runs before the next effect execution or on unmount — used to cancel subscriptions, clear timers, and abort fetches.</p>
+<ul class="pts">
+  <li><strong>Omitted dependency:</strong> stale closure — captures old value forever</li>
+  <li><strong>Inline object/array in deps:</strong> new reference every render → infinite loop</li>
+  <li><strong>async callback:</strong> effect callbacks can't be async — use an inner async function</li>
+</ul>
+<div class="code-wrap">useEffect(() => {
+  <span class="kw">const</span> controller = <span class="kw">new</span> AbortController();
+  <span class="kw">async function</span> load() {
+    <span class="kw">try</span> {
+      <span class="kw">const</span> res = <span class="kw">await</span> fetch(<span class="str">'/api/data'</span>, { signal: controller.signal });
+      setData(<span class="kw">await</span> res.json());
+    } <span class="kw">catch</span>(e) {
+      <span class="kw">if</span> (e.name !== <span class="str">'AbortError'</span>) setError(e);
+    }
+  }
+  load();
+  <span class="kw">return</span> () => controller.abort();  <span class="cm">// cleanup on unmount or re-run</span>
+}, [url]);  <span class="cm">// re-run only when url changes</span></div>
+</div>
+<div class="tc" id="js2-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is the <code>useEffectEvent</code> RFC in React 19 and what stale closure problem does it solve? How does <code>useCallback</code> interact with the dependency array when passing callbacks to memoized children?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="js3" data-tags="js hot">
+<div class="card-hdr" onclick="tog('js3')">
+  <div class="qnum" style="background:var(--js-bg);color:var(--js)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-js">Angular</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain Angular's Default vs OnPush change detection strategies.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('js3',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('js3','a')">Answer</button><button class="tab" onclick="st('js3','cx')">Cross-question</button></div>
+<div class="tc" id="js3-a">
+<p class="txt"><strong>Default:</strong> runs change detection on the entire tree on every async event — O(n), expensive at scale. <strong>OnPush:</strong> only checks a component when its <code>@Input</code> references change, an async pipe emits, or <code>markForCheck()</code> is called manually. Requires immutable data patterns.</p>
+<div class="code-wrap">@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: <span class="str">'{{ item.name }}'</span>
+})
+<span class="kw">export class</span> RowComponent { @Input() item!: Item; }
+
+<span class="cm">// WRONG: mutates same ref — OnPush won't detect</span>
+<span class="kw">this</span>.item.name = <span class="str">'New'</span>;
+
+<span class="cm">// CORRECT: new object reference triggers check</span>
+<span class="kw">this</span>.item = { ...<span class="kw">this</span>.item, name: <span class="str">'New'</span> };</div>
+</div>
+<div class="tc" id="js3-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does the RxJS <code>async</code> pipe interact with OnPush — does it call <code>markForCheck()</code> automatically? How does Angular 17's Signals model eliminate the need for manual change detection entirely?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="js4" data-tags="js">
+<div class="card-hdr" onclick="tog('js4')">
+  <div class="qnum" style="background:var(--js-bg);color:var(--js)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-js">Vue 3</span></div>
+    <div class="qtitle">What is Vue 3's Composition API? How does it compare to Options API?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('js4',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('js4','a')">Answer</button><button class="tab" onclick="st('js4','cx')">Cross-question</button></div>
+<div class="tc" id="js4-a">
+<p class="txt">Composition API groups logic by <strong>feature</strong> rather than lifecycle option. Enables logic reuse via composables, full TypeScript inference, and avoids scattering one feature across <code>data</code>, <code>methods</code>, <code>watch</code>, and lifecycle hooks.</p>
+<div class="code-wrap"><span class="cm">// Composable — reusable reactive logic (like a React hook)</span>
+<span class="kw">import</span> { ref, onMounted } <span class="kw">from</span> <span class="str">'vue'</span>
+
+<span class="kw">export function</span> useFetch(url) {
+  <span class="kw">const</span> data = ref(<span class="kw">null</span>), loading = ref(<span class="kw">true</span>), error = ref(<span class="kw">null</span>)
+  onMounted(<span class="kw">async</span> () => {
+    <span class="kw">try</span> { <span class="kw">const</span> r = <span class="kw">await</span> fetch(url); data.value = <span class="kw">await</span> r.json() }
+    <span class="kw">catch</span>(e) { error.value = e }
+    <span class="kw">finally</span> { loading.value = <span class="kw">false</span> }
+  })
+  <span class="kw">return</span> { data, loading, error }
+}
+
+<span class="cm">// In a component using &lt;script setup&gt;</span>
+<span class="kw">const</span> { data, loading } = useFetch(<span class="str">'/api/properties'</span>)</div>
+</div>
+<div class="tc" id="js4-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does Vue 3's <code>&lt;script setup&gt;</code> compile differently from a standard <code>setup()</code> function? How does Vue's Proxy-based reactivity system differ from React's immutable state model — and what are the performance implications of each?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="js5" data-tags="js tricky">
+<div class="card-hdr" onclick="tog('js5')">
+  <div class="qnum" style="background:var(--js-bg);color:var(--js)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-js">React</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">What is the virtual DOM? How does it differ from the real DOM and what are its performance trade-offs?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('js5',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('js5','a')">Answer</button><button class="tab" onclick="st('js5','cx')">Cross-question</button></div>
+<div class="tc" id="js5-a">
+<p class="txt">The vDOM is a lightweight in-memory JS object tree mirroring the real DOM. On state change, React renders a new vDOM tree, diffs it O(n), and batches minimal real DOM mutations. Real DOM mutations are expensive because they can trigger layout/paint cycles; the vDOM batches changes outside the pipeline.</p>
+<div class="box btip"><strong>Trade-off:</strong> vDOM overhead makes single-element updates slightly slower than targeted <code>el.textContent = x</code>. The benefit appears at scale with 100s of components. Svelte and Solid.js compile away the vDOM entirely — they produce direct DOM operations at build time with no runtime diffing overhead.</div>
+</div>
+<div class="tc" id="js5-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "Svelte compiles away the virtual DOM. What are the trade-offs of Svelte's compiled approach vs React's runtime approach at scale — bundle size, ecosystem, server components, and long-term maintainability?"</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- HTML/CSS -->
+<section id="s-css">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--css-mid)"></div>
+  <span class="sec-title">HTML5, CSS3 &amp; ES6+</span>
+  <span class="sec-count" style="background:var(--css-bg);color:var(--css)">Semantics · Layout · JS</span>
+  <span class="sec-sub">5 questions</span>
+</div>
+
+<div class="card" id="css1" data-tags="css tricky">
+<div class="card-hdr" onclick="tog('css1')">
+  <div class="qnum" style="background:var(--css-bg);color:var(--css)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-css">CSS</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Explain CSS specificity calculation and the cascade. How does !important interact?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('css1',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('css1','a')">Answer</button><button class="tab" onclick="st('css1','cx')">Cross-question</button></div>
+<div class="tc" id="css1-a">
+<p class="txt">Specificity is a 3-tuple <strong>(A, B, C)</strong>: A = inline styles, B = ID count, C = class/attribute/pseudo-class count. Element selectors score below C. Higher tuple wins regardless of source order; equal specificity → last declared wins. <code>!important</code> overrides all specificity.</p>
+<div class="code-wrap"><span class="cm">/* (0,0,1) */</span>  a { color: green; }
+<span class="cm">/* (0,1,1) */</span>  .nav a { color: blue; }
+<span class="cm">/* (1,0,0) */</span>  #header { color: red; }   <span class="cm">/* always beats above */</span>
+<span class="cm">/* !important overrides all */</span>
+a { color: purple !important; }
+<span class="cm">/* Two !important declarations → fall back to specificity */</span>
+<span class="cm">/* #nav .item:hover span → (1, 2, 1) */</span></div>
+<div class="box bwarn"><strong>!important arms-race:</strong> two competing !important declarations fall back to specificity again. Overuse makes CSS unmaintainable. Prefer CSS Layers (@layer) for cascade control.</div>
+</div>
+<div class="tc" id="css1-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does <code>:where()</code> differ from <code>:is()</code> in specificity? How does <code>@layer</code> (CSS Cascade Layers) give a more maintainable alternative to !important for managing library vs application styles?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="css2" data-tags="css hot">
+<div class="card-hdr" onclick="tog('css2')">
+  <div class="qnum" style="background:var(--css-bg);color:var(--css)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-css">CSS</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain CSS Grid vs Flexbox — when do you choose one over the other?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('css2',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('css2','a')">Answer</button><button class="tab" onclick="st('css2','cx')">Cross-question</button></div>
+<div class="tc" id="css2-a">
+<p class="txt"><strong>Flexbox:</strong> one-dimensional (row OR column), content-driven sizing — the content decides how much space it needs. <strong>Grid:</strong> two-dimensional (rows AND columns), layout-driven — you define the structure and place items into it.</p>
+<table class="ctbl">
+  <tr><th>Scenario</th><th>Best choice</th></tr>
+  <tr><td>Navigation bar, button group, card inner alignment</td><td>Flexbox</td></tr>
+  <tr><td>Page layout (header/sidebar/main/footer)</td><td>Grid</td></tr>
+  <tr><td>Responsive card grid</td><td>Grid (auto-fill)</td></tr>
+  <tr><td>Overlapping elements, named areas</td><td>Grid</td></tr>
+</table>
+<div class="code-wrap"><span class="cm">/* Grid: responsive auto-fill card layout */</span>
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+<span class="cm">/* Grid: named-area page layout */</span>
+.layout {
+  display: grid;
+  grid-template-areas: "header header" "sidebar main" "footer footer";
+  grid-template-columns: 240px 1fr;
+}</div>
+</div>
+<div class="tc" id="css2-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How would you build a masonry layout in pure CSS without JS — what is the <code>masonry</code> value for <code>grid-template-rows</code> and its current browser support? What is CSS <code>subgrid</code> and when would you use it?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="css3" data-tags="css tricky">
+<div class="card-hdr" onclick="tog('css3')">
+  <div class="qnum" style="background:var(--css-bg);color:var(--css)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-css">ES6+</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">What are JavaScript closures? Explain the classic var loop bug and three ways to fix it.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('css3',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('css3','a')">Answer</button><button class="tab" onclick="st('css3','cx')">Cross-question</button></div>
+<div class="tc" id="css3-a">
+<p class="txt">A closure is a function that retains a reference to its <strong>lexical scope</strong> even after the outer function returns. Every JS function is a closure.</p>
+<div class="code-wrap"><span class="cm">// Bug: all handlers share the same var i (function-scoped)</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++)
+  buttons[i].onclick = () => console.log(i);  <span class="cm">// always logs 3!</span>
+
+<span class="cm">// Fix 1: let — block-scoped, new binding per iteration</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++)
+  buttons[i].onclick = () => console.log(i);  <span class="cm">// 0, 1, 2 ✓</span>
+
+<span class="cm">// Fix 2: IIFE captures i in a new scope</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++)
+  (j => { buttons[j].onclick = () => console.log(j); })(i);
+
+<span class="cm">// Fix 3: bind</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++)
+  buttons[i].onclick = console.log.bind(<span class="kw">null</span>, i);</div>
+</div>
+<div class="tc" id="css3-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "Explain Promises vs async/await vs generators and how they relate internally. What is the microtask queue, and why does a resolved Promise callback always run before <code>setTimeout(fn, 0)</code>?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="css4" data-tags="css">
+<div class="card-hdr" onclick="tog('css4')">
+  <div class="qnum" style="background:var(--css-bg);color:var(--css)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-css">HTML5</span></div>
+    <div class="qtitle">What is the HTML5 semantic element model? Why does it matter for accessibility and SEO?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('css4',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('css4','a')">Answer</button><button class="tab" onclick="st('css4','cx')">Cross-question</button></div>
+<div class="tc" id="css4-a">
+<p class="txt">Semantic elements — <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code> — convey meaning. Screen readers use them as landmarks. Search engines weight <code>&lt;article&gt;</code> and heading hierarchy over <code>&lt;div&gt;</code> soup.</p>
+<div class="code-wrap">&lt;!-- Non-semantic (div soup) --&gt;
+&lt;div class="header"&gt;&lt;div class="nav"&gt;...&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- Semantic HTML5 --&gt;
+&lt;header&gt;
+  &lt;nav aria-label="Main navigation"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/" &gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/properties" aria-current="page"&gt;Properties&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+&lt;main&gt;
+  &lt;article&gt;
+    &lt;h1&gt;Serviced Apartments in London&lt;/h1&gt;
+  &lt;/article&gt;
+&lt;/main&gt;</div>
+</div>
+<div class="tc" id="css4-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does the accessibility tree differ from the DOM tree, and what does <code>aria-hidden='true'</code> do to it? What is the first rule of ARIA — when should you use ARIA roles vs native semantic HTML?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="css5" data-tags="css hot">
+<div class="card-hdr" onclick="tog('css5')">
+  <div class="qnum" style="background:var(--css-bg);color:var(--css)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-css">ES6+</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain ES6 Promises vs async/await vs generators. How do they relate internally?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('css5',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('css5','a')">Answer</button><button class="tab" onclick="st('css5','cx')">Cross-question</button></div>
+<div class="tc" id="css5-a">
+<p class="txt">Promises are a state machine (pending → fulfilled/rejected). async/await is syntactic sugar — transpiles to a generator + Promise runner. Generators (<code>function*</code>, <code>yield</code>) are the underlying pausable mechanism that async functions use internally.</p>
+<div class="code-wrap"><span class="cm">// 1. Promise chain</span>
+fetch(<span class="str">'/api'</span>).then(r => r.json()).then(console.log)
+
+<span class="cm">// 2. async/await (transpiles to Promise chain)</span>
+<span class="kw">async function</span> load() {
+  <span class="kw">const</span> r = <span class="kw">await</span> fetch(<span class="str">'/api'</span>);
+  console.log(<span class="kw">await</span> r.json());
+}
+
+<span class="cm">// 3. Generator — what async/await compiles to internally</span>
+<span class="kw">function</span>* gen() {
+  <span class="kw">const</span> r = <span class="kw">yield</span> fetch(<span class="str">'/api'</span>);     <span class="cm">// pauses here</span>
+  console.log(<span class="kw">yield</span> r.json());       <span class="cm">// pauses again</span>
+}
+<span class="cm">// Needs a runner (like co() or Redux-saga) to advance it</span></div>
+</div>
+<div class="tc" id="css5-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is the microtask queue vs the macrotask queue? Why does <code>Promise.resolve().then(fn)</code> always execute before <code>setTimeout(fn, 0)</code>? Where does <code>queueMicrotask()</code> fit in?"</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- DATABASE -->
+<section id="s-db">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--db-mid)"></div>
+  <span class="sec-title">Database Design &amp; Query Optimisation</span>
+  <span class="sec-count" style="background:var(--db-bg);color:var(--db)">PostgreSQL · Indexes · MVCC</span>
+  <span class="sec-sub">5 questions</span>
+</div>
+
+<div class="card" id="db1" data-tags="db hot">
+<div class="card-hdr" onclick="tog('db1')">
+  <div class="qnum" style="background:var(--db-bg);color:var(--db)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-db">PostgreSQL</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain B-Tree vs Hash indexes in PostgreSQL. When does each perform better?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('db1',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('db1','a')">Answer</button><button class="tab" onclick="st('db1','cx')">Cross-question</button></div>
+<div class="tc" id="db1-a">
+<table class="ctbl">
+  <tr><th>Index type</th><th>Supports</th><th>Lookup</th><th>Use when</th></tr>
+  <tr><td><strong>B-Tree</strong></td><td>=, &lt;, &gt;, BETWEEN, ORDER BY, LIKE 'x%'</td><td>O(log n)</td><td>Default — almost always</td></tr>
+  <tr><td><strong>Hash</strong></td><td>= only</td><td>O(1)</td><td>Huge table, equality-only queries</td></tr>
+  <tr><td><strong>GIN</strong></td><td>JSONB, arrays, full-text</td><td>—</td><td>JSONB containment @&gt;</td></tr>
+  <tr><td><strong>BRIN</strong></td><td>Range on physical order</td><td>—</td><td>Time-series, append-only data</td></tr>
+</table>
+<div class="code-wrap"><span class="cm">-- B-Tree: range + equality + ORDER BY</span>
+<span class="kw">CREATE INDEX</span> idx_checkin <span class="kw">ON</span> bookings (checkin_date);
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> bookings
+<span class="kw">WHERE</span> checkin_date <span class="kw">BETWEEN</span> <span class="str">'2025-01-01'</span> <span class="kw">AND</span> <span class="str">'2025-03-31'</span>;
+
+<span class="cm">-- Hash: equality only</span>
+<span class="kw">CREATE INDEX</span> idx_email <span class="kw">ON</span> users <span class="kw">USING HASH</span> (email);
+
+<span class="cm">-- Partial index: only index active rows (smaller + faster)</span>
+<span class="kw">CREATE INDEX</span> idx_active <span class="kw">ON</span> bookings (status) <span class="kw">WHERE</span> status = <span class="str">'active'</span>;</div>
+</div>
+<div class="tc" id="db1-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is a covering index and how does it eliminate a table heap fetch? Demonstrate with <code>EXPLAIN (ANALYZE, BUFFERS)</code>. When would you use PostgreSQL 11+'s <code>INCLUDE</code> columns vs a composite index?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="db2" data-tags="db tricky">
+<div class="card-hdr" onclick="tog('db2')">
+  <div class="qnum" style="background:var(--db-bg);color:var(--db)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-db">PostgreSQL</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Explain MVCC in PostgreSQL — how does it enable concurrent reads and writes without locking?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('db2',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('db2','a')">Answer</button><button class="tab" onclick="st('db2','cx')">Cross-question</button></div>
+<div class="tc" id="db2-a">
+<p class="txt">MVCC stores <strong>multiple versions</strong> of each row. PostgreSQL adds <code>xmin</code> (created by) and <code>xmax</code> (deleted by) system columns. Each transaction sees a snapshot consistent with its start time. <strong>Readers never block writers; writers never block readers.</strong></p>
+<div class="code-wrap"><span class="cm">-- Transaction A reads its consistent snapshot</span>
+<span class="kw">BEGIN</span>;  <span class="cm">-- snapshot taken at T1</span>
+<span class="kw">SELECT</span> balance <span class="kw">FROM</span> accounts <span class="kw">WHERE</span> id = <span class="num">1</span>;  <span class="cm">-- returns 1000</span>
+
+<span class="cm">-- B updates and commits concurrently (no lock on A's read)</span>
+<span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance = <span class="num">800</span> <span class="kw">WHERE</span> id = <span class="num">1</span>; <span class="kw">COMMIT</span>;
+
+<span class="cm">-- A still sees 1000 — its snapshot is unchanged</span>
+<span class="kw">SELECT</span> balance <span class="kw">FROM</span> accounts <span class="kw">WHERE</span> id = <span class="num">1</span>;  <span class="cm">-- still 1000</span>
+<span class="kw">COMMIT</span>;
+
+<span class="cm">-- Dead tuples accumulate; check and clean them</span>
+<span class="kw">SELECT</span> relname, n_dead_tup, last_vacuum <span class="kw">FROM</span> pg_stat_user_tables;</div>
+<div class="box bwarn"><strong>Pitfall:</strong> long-running transactions prevent VACUUM from reclaiming old row versions → table bloat. Monitor <code>pg_stat_activity</code> for idle-in-transaction connections.</div>
+</div>
+<div class="tc" id="db2-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is a phantom read and which isolation level prevents it? How does PostgreSQL's Serializable Snapshot Isolation (SSI) differ from 2PL (two-phase locking) used in MySQL InnoDB at SERIALIZABLE?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="db3" data-tags="db hot">
+<div class="card-hdr" onclick="tog('db3')">
+  <div class="qnum" style="background:var(--db-bg);color:var(--db)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-db">ORM</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">How do you diagnose and fix N+1 query problems in SQLAlchemy / Django ORM?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('db3',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('db3','a')">Answer</button><button class="tab" onclick="st('db3','cx')">Cross-question</button></div>
+<div class="tc" id="db3-a">
+<p class="txt">N+1: fetch N records then issue one query per record for a related entity → O(N) round trips. Diagnose via query logging, Django Debug Toolbar, or <code>assertNumQueries</code> in tests.</p>
+<div class="code-wrap"><span class="cm"># N+1 problem: 1 + N queries</span>
+bookings = Booking.query.all()
+<span class="kw">for</span> b <span class="kw">in</span> bookings:
+    <span class="kw">print</span>(b.guest.name)   <span class="cm"># lazy: SELECT * FROM guests WHERE id=? × N</span>
+
+<span class="cm"># Fix: eager load with JOIN (SQLAlchemy)</span>
+<span class="kw">from</span> sqlalchemy.orm <span class="kw">import</span> joinedload
+bookings = Booking.query.options(joinedload(Booking.guest)).all()
+
+<span class="cm"># Django equivalents</span>
+Booking.objects.select_related(<span class="str">'guest'</span>).all()           <span class="cm"># JOIN</span>
+Booking.objects.prefetch_related(<span class="str">'rooms__amenities'</span>)   <span class="cm"># 2nd batch query</span></div>
+</div>
+<div class="tc" id="db3-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "When would <code>subqueryload</code> be preferable to <code>joinedload</code>? What is the Cartesian explosion problem with <code>joinedload</code> on a one-to-many with a large result set — and how do you detect it in <code>EXPLAIN</code> output?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="db4" data-tags="db">
+<div class="card-hdr" onclick="tog('db4')">
+  <div class="qnum" style="background:var(--db-bg);color:var(--db)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-db">Database</span></div>
+    <div class="qtitle">What are normal forms? Explain 1NF through BCNF with a concrete example.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('db4',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('db4','a')">Answer</button><button class="tab" onclick="st('db4','cx')">Cross-question</button></div>
+<div class="tc" id="db4-a">
+<ul class="pts">
+  <li><strong>1NF:</strong> atomic values, no repeating groups, unique rows</li>
+  <li><strong>2NF:</strong> no partial dependency on a composite key</li>
+  <li><strong>3NF:</strong> no transitive dependency — non-key attrs depend only on the key</li>
+  <li><strong>BCNF:</strong> every determinant must be a candidate key (stricter than 3NF)</li>
+</ul>
+<div class="code-wrap"><span class="cm">-- 2NF violation (composite key: booking_id + room_id)</span>
+booking_rooms(booking_id, room_id, hotel_name)
+<span class="cm">-- hotel_name depends only on room_id — partial dependency</span>
+<span class="cm">-- Fix: rooms(room_id, hotel_name) + booking_rooms(booking_id, room_id)</span>
+
+<span class="cm">-- 3NF violation</span>
+bookings(id, guest_id, guest_city, guest_country)
+<span class="cm">-- guest_country → guest_city → id (transitive)</span>
+<span class="cm">-- Fix: guests(id, city_id) + cities(city_id, city, country)</span></div>
+</div>
+<div class="tc" id="db4-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "When would you intentionally denormalise — for example, storing a pre-computed booking total? What consistency mechanisms (triggers, application logic, materialised views) would you use to keep it in sync?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="db5" data-tags="db tricky">
+<div class="card-hdr" onclick="tog('db5')">
+  <div class="qnum" style="background:var(--db-bg);color:var(--db)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-db">Database</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Explain database sharding vs replication. When do you choose each?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('db5',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('db5','a')">Answer</button><button class="tab" onclick="st('db5','cx')">Cross-question</button></div>
+<div class="tc" id="db5-a">
+<p class="txt"><strong>Replication:</strong> copies full dataset to multiple nodes — improves read scalability and fault tolerance, but full dataset must fit on one node. <strong>Sharding:</strong> partitions data horizontally by a shard key — handles data volumes or write throughput exceeding a single machine.</p>
+<div class="code-wrap"><span class="cm">-- PostgreSQL native range partitioning</span>
+<span class="kw">CREATE TABLE</span> bookings (
+  id <span class="cls">BIGINT</span>, checkin <span class="cls">DATE</span>, guest_id <span class="cls">INT</span>
+) <span class="kw">PARTITION BY RANGE</span> (checkin);
+
+<span class="kw">CREATE TABLE</span> bookings_2025 <span class="kw">PARTITION OF</span> bookings
+  <span class="kw">FOR VALUES FROM</span> (<span class="str">'2025-01-01'</span>) <span class="kw">TO</span> (<span class="str">'2026-01-01'</span>);
+
+<span class="cm">-- Planner auto-prunes partitions for date-filtered queries</span>
+<span class="kw">EXPLAIN SELECT</span> * <span class="kw">FROM</span> bookings <span class="kw">WHERE</span> checkin = <span class="str">'2025-06-01'</span>;
+<span class="cm">-- Only bookings_2025 is scanned</span></div>
+</div>
+<div class="tc" id="db5-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is the resharding problem with <code>user_id % N</code> when N changes? How does consistent hashing with virtual nodes minimise data movement during cluster resizing — and how does DynamoDB implement this internally?"</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- REST/GRAPHQL -->
+<section id="s-api">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--api-mid)"></div>
+  <span class="sec-title">RESTful &amp; GraphQL API Design</span>
+  <span class="sec-count" style="background:var(--api-bg);color:var(--api)">REST · GraphQL · OAuth</span>
+  <span class="sec-sub">5 questions</span>
+</div>
+
+<div class="card" id="api1" data-tags="api hot">
+<div class="card-hdr" onclick="tog('api1')">
+  <div class="qnum" style="background:var(--api-bg);color:var(--api)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-api">REST</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain REST constraints: statelessness, uniform interface, and HATEOAS.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('api1',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('api1','a')">Answer</button><button class="tab" onclick="st('api1','cx')">Cross-question</button></div>
+<div class="tc" id="api1-a">
+<p class="txt"><strong>Stateless:</strong> each request must contain all context — no server-side session. <strong>HATEOAS:</strong> responses include hypermedia links to valid next actions — the client navigates via links, not hardcoded URLs. Most APIs reach Richardson Level 2 (HTTP verbs + resources) and skip HATEOAS.</p>
+<div class="code-wrap"><span class="cm">// HATEOAS response (Level 3 REST)</span>
+{
+  <span class="str">"booking"</span>: { <span class="str">"id"</span>: <span class="str">"B123"</span>, <span class="str">"status"</span>: <span class="str">"pending"</span> },
+  <span class="str">"_links"</span>: {
+    <span class="str">"self"</span>:    { <span class="str">"href"</span>: <span class="str">"/bookings/B123"</span>,         <span class="str">"method"</span>: <span class="str">"GET"</span>    },
+    <span class="str">"confirm"</span>: { <span class="str">"href"</span>: <span class="str">"/bookings/B123/confirm"</span>, <span class="str">"method"</span>: <span class="str">"POST"</span>   },
+    <span class="str">"cancel"</span>:  { <span class="str">"href"</span>: <span class="str">"/bookings/B123/cancel"</span>,  <span class="str">"method"</span>: <span class="str">"DELETE"</span> }
+  }
+}
+<span class="cm">// Stateless: JWT in Authorization header, not server session</span>
+GET /api/bookings/B123
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...</div>
+</div>
+<div class="tc" id="api1-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is the Richardson Maturity Model? Why do most production APIs stop at Level 2 rather than Level 3 HATEOAS — what are the real-world trade-offs in terms of client complexity, discoverability, and caching?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="api2" data-tags="api hot">
+<div class="card-hdr" onclick="tog('api2')">
+  <div class="qnum" style="background:var(--api-bg);color:var(--api)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-api">GraphQL</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">What are GraphQL's advantages over REST? Explain N+1 and DataLoader batching.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('api2',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('api2','a')">Answer</button><button class="tab" onclick="st('api2','cx')">Cross-question</button></div>
+<div class="tc" id="api2-a">
+<p class="txt">GraphQL lets clients specify exactly the shape of data needed in one request — eliminates over/under-fetching. Queries fetch, mutations modify, subscriptions push real-time updates. The N+1 problem is amplified in resolvers; <strong>DataLoader</strong> batches and deduplicates calls within one event loop tick.</p>
+<div class="code-wrap"><span class="cm"># GraphQL: client controls exact fields returned</span>
+query GetBooking($id: ID!) {
+  booking(id: $id) {
+    id status checkinDate
+    guest { name email }
+    property { name city pricePerNight }
+  }
+}
+
+<span class="cm"># DataLoader: batches all guest_id lookups into 1 SQL query</span>
+<span class="kw">from</span> promise.dataloader <span class="kw">import</span> DataLoader
+
+<span class="kw">class</span> GuestLoader(DataLoader):
+    <span class="kw">def</span> batch_load_fn(self, guest_ids):
+        guests = Guest.query.filter(Guest.id.in_(guest_ids)).all()
+        mapping = {g.id: g <span class="kw">for</span> g <span class="kw">in</span> guests}
+        <span class="kw">return</span> Promise.resolve([mapping.get(id) <span class="kw">for</span> id <span class="kw">in</span> guest_ids])</div>
+</div>
+<div class="tc" id="api2-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does Apollo Federation v2 compose schemas from multiple microservices? What is the difference between schema stitching (deprecated) and Federation — and how does the <code>@key</code> directive enable cross-service entity resolution?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="api3" data-tags="api tricky">
+<div class="card-hdr" onclick="tog('api3')">
+  <div class="qnum" style="background:var(--api-bg);color:var(--api)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-api">OAuth</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Explain OAuth 2.0 flows: Authorization Code, Client Credentials, and PKCE.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('api3',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('api3','a')">Answer</button><button class="tab" onclick="st('api3','cx')">Cross-question</button></div>
+<div class="tc" id="api3-a">
+<table class="ctbl">
+  <tr><th>Flow</th><th>Use case</th><th>Key detail</th></tr>
+  <tr><td><strong>Auth Code</strong></td><td>Web apps with user login</td><td>Server exchanges code for tokens — secret stays server-side</td></tr>
+  <tr><td><strong>Client Credentials</strong></td><td>Machine-to-machine</td><td>No user — service authenticates directly with client secret</td></tr>
+  <tr><td><strong>PKCE</strong></td><td>SPAs / mobile (public clients)</td><td>Code verifier + challenge — prevents code interception attacks</td></tr>
+</table>
+<div class="code-wrap"><span class="cm">// PKCE: SPA can't store a client secret securely</span>
+<span class="kw">const</span> verifier  = crypto.randomBytes(<span class="num">32</span>).toString(<span class="str">'base64url'</span>);
+<span class="kw">const</span> challenge = crypto.createHash(<span class="str">'sha256'</span>)
+  .update(verifier).digest(<span class="str">'base64url'</span>);
+
+<span class="cm">// 1. Redirect with challenge (hash of verifier)</span>
+<span class="kw">const</span> url = <span class="str">`https://auth.example.com/authorize?response_type=code&client_id=SPA&code_challenge=${challenge}&code_challenge_method=S256`</span>;
+
+<span class="cm">// 2. Exchange code — include plaintext verifier so server can verify</span>
+<span class="kw">await</span> fetch(<span class="str">'/oauth/token'</span>, { body: JSON.stringify({ code, code_verifier: verifier }) });</div>
+</div>
+<div class="tc" id="api3-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is the difference between opaque tokens and JWTs? How do you invalidate a JWT access token before its <code>exp</code> claim — and what is the refresh token rotation pattern for preventing token theft?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="api4" data-tags="api">
+<div class="card-hdr" onclick="tog('api4')">
+  <div class="qnum" style="background:var(--api-bg);color:var(--api)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-api">REST</span></div>
+    <div class="qtitle">How do you design a versioned REST API? Compare URL, header, and media-type versioning.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('api4',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('api4','a')">Answer</button><button class="tab" onclick="st('api4','cx')">Cross-question</button></div>
+<div class="tc" id="api4-a">
+<table class="ctbl">
+  <tr><th>Strategy</th><th>Example</th><th>Pros</th><th>Cons</th></tr>
+  <tr><td><strong>URL versioning</strong></td><td><code>/api/v2/bookings</code></td><td>Visible, cacheable, easy to test</td><td>Pollutes URLs, duplicates routes</td></tr>
+  <tr><td><strong>Header</strong></td><td><code>Accept-Version: 2</code></td><td>Clean URLs</td><td>Hard to test in browser</td></tr>
+  <tr><td><strong>Media type</strong></td><td><code>Accept: application/vnd.co.v2+json</code></td><td>Most REST-correct</td><td>Complex, unfamiliar to many</td></tr>
+</table>
+<div class="code-wrap"><span class="cm"># Flask URL versioning blueprint pattern</span>
+v1 = Blueprint(<span class="str">'v1'</span>, __name__, url_prefix=<span class="str">'/api/v1'</span>)
+v2 = Blueprint(<span class="str">'v2'</span>, __name__, url_prefix=<span class="str">'/api/v2'</span>)
+
+@v2.route(<span class="str">'/bookings/&lt;int:id&gt;'</span>)
+<span class="kw">def</span> get_booking_v2(id):
+    <span class="kw">return</span> booking_schema_v2.dump(Booking.query.get(id))</div>
+</div>
+<div class="tc" id="api4-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How do you distinguish breaking vs non-breaking API changes? What is your deprecation strategy — sunset headers, SDK versioning, migration guides — and how long do you maintain a deprecated version?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="api5" data-tags="api hot">
+<div class="card-hdr" onclick="tog('api5')">
+  <div class="qnum" style="background:var(--api-bg);color:var(--api)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-api">REST</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">How do you implement API rate limiting? Explain token bucket vs leaky bucket vs sliding window.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('api5',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('api5','a')">Answer</button><button class="tab" onclick="st('api5','cx')">Cross-question</button></div>
+<div class="tc" id="api5-a">
+<table class="ctbl">
+  <tr><th>Algorithm</th><th>Bursts?</th><th>Common use</th></tr>
+  <tr><td><strong>Token bucket</strong></td><td>Yes (up to capacity)</td><td>APIs allowing short bursts</td></tr>
+  <tr><td><strong>Leaky bucket</strong></td><td>No (queued at fixed rate)</td><td>Traffic shaping (smooth output)</td></tr>
+  <tr><td><strong>Sliding window</strong></td><td>Partial</td><td>Simplest correct Redis implementation</td></tr>
+</table>
+<div class="code-wrap"><span class="cm"># Redis sliding window rate limiter (Flask)</span>
+<span class="kw">import</span> redis, time
+r = redis.Redis()
+
+<span class="kw">def</span> rate_limit(user_id, limit=<span class="num">100</span>, window=<span class="num">60</span>):
+    now = time.time()
+    key = <span class="str">f"rl:{user_id}"</span>
+    pipe = r.pipeline()
+    pipe.zremrangebyscore(key, <span class="num">0</span>, now - window)   <span class="cm"># evict expired</span>
+    pipe.zadd(key, {str(now): now})                 <span class="cm"># add current request</span>
+    pipe.zcard(key)                                 <span class="cm"># count in window</span>
+    pipe.expire(key, window)
+    _, _, count, _ = pipe.execute()
+    <span class="kw">return</span> count &lt;= limit
+
+@app.before_request
+<span class="kw">def</span> check_rate():
+    <span class="kw">if not</span> rate_limit(g.user_id):
+        <span class="kw">return</span> {<span class="str">'error'</span>: <span class="str">'Too Many Requests'</span>}, <span class="num">429</span></div>
+</div>
+<div class="tc" id="api5-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does Cloudflare's edge-layer rate limiting work — and how is it architecturally different from application-level rate limiting? What are the trade-offs of enforcing at the CDN/WAF vs inside your Flask/FastAPI app?"</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- GIT/CICD -->
+<section id="s-git">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--git-mid)"></div>
+  <span class="sec-title">Version Control &amp; CI/CD</span>
+  <span class="sec-count" style="background:var(--git-bg);color:var(--git)">Git · Cloud Build · GitOps</span>
+  <span class="sec-sub">5 questions</span>
+</div>
+
+<div class="card" id="git1" data-tags="git tricky">
+<div class="card-hdr" onclick="tog('git1')">
+  <div class="qnum" style="background:var(--git-bg);color:var(--git)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-git">Git</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Explain Git's internal object model: blobs, trees, commits, and refs.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('git1',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('git1','a')">Answer</button><button class="tab" onclick="st('git1','cx')">Cross-question</button></div>
+<div class="tc" id="git1-a">
+<p class="txt">Git is a content-addressed filesystem. Every object is stored by SHA-1 hash in <code>.git/objects/</code>:</p>
+<ul class="pts">
+  <li><strong>blob:</strong> raw file contents (no filename or metadata)</li>
+  <li><strong>tree:</strong> directory listing — maps filenames to blob/tree SHAs</li>
+  <li><strong>commit:</strong> tree SHA + parent SHA(s) + author + timestamp + message</li>
+  <li><strong>ref:</strong> named pointer to a commit SHA (a branch is just a text file in <code>.git/refs/</code>)</li>
+</ul>
+<div class="code-wrap">git cat-file -t HEAD           <span class="cm"># 'commit'</span>
+git cat-file -p HEAD           <span class="cm"># tree SHA, parent, author, message</span>
+git cat-file -p HEAD^{tree}    <span class="cm"># directory listing (filename → SHA)</span>
+git cat-file -p &lt;blob-sha&gt;    <span class="cm"># raw file content</span>
+
+echo -n <span class="str">"hello"</span> | git hash-object --stdin  <span class="cm"># hash any content</span>
+
+cat .git/refs/heads/main       <span class="cm"># just a commit SHA</span>
+cat .git/HEAD                  <span class="cm"># ref: refs/heads/main</span></div>
+</div>
+<div class="tc" id="git1-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does <code>git rebase</code> differ from <code>git merge</code> in terms of commit graph topology — and what is the golden rule of rebasing? What does <code>git rerere</code> do to help with repeated conflicts in long-running rebases?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="git2" data-tags="git hot">
+<div class="card-hdr" onclick="tog('git2')">
+  <div class="qnum" style="background:var(--git-bg);color:var(--git)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-git">CI/CD</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Design a CI/CD pipeline for a Flask microservice deployed to Cloud Run.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('git2',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('git2','a')">Answer</button><button class="tab" onclick="st('git2','cx')">Cross-question</button></div>
+<div class="tc" id="git2-a">
+<p class="txt">Stages: <strong>Lint</strong> (ruff) → <strong>Test</strong> (pytest + coverage gate ≥80%) → <strong>Build &amp; push</strong> Docker image → <strong>Deploy staging</strong> (Cloud Run traffic tag) → <strong>Smoke tests</strong> → <strong>Manual approval</strong> → <strong>Deploy production</strong>. Rollback: retrafic to previous revision in seconds.</p>
+<div class="code-wrap"><span class="cm"># cloudbuild.yaml</span>
+steps:
+  - name: <span class="str">'python:3.12'</span>
+    entrypoint: bash
+    args: [<span class="str">'-c'</span>, <span class="str">'pip install -r requirements.txt && ruff check . && pytest --cov=app --cov-fail-under=80'</span>]
+
+  - name: <span class="str">'gcr.io/cloud-builders/docker'</span>
+    args: [<span class="str">'build'</span>, <span class="str">'-t'</span>, <span class="str">'us-central1-docker.pkg.dev/$PROJECT_ID/api/booking:$SHORT_SHA'</span>, <span class="str">'.'</span>]
+
+  - name: <span class="str">'gcr.io/cloud-builders/docker'</span>
+    args: [<span class="str">'push'</span>, <span class="str">'us-central1-docker.pkg.dev/$PROJECT_ID/api/booking:$SHORT_SHA'</span>]
+
+  - name: <span class="str">'gcr.io/google.com/cloudsdktool/cloud-sdk'</span>
+    entrypoint: gcloud
+    args: [<span class="str">'run'</span>,<span class="str">'deploy'</span>,<span class="str">'booking-svc'</span>,
+     <span class="str">'--image'</span>,<span class="str">'us-central1-docker.pkg.dev/$PROJECT_ID/api/booking:$SHORT_SHA'</span>,
+     <span class="str">'--region'</span>,<span class="str">'us-central1'</span>,<span class="str">'--tag'</span>,<span class="str">'staging'</span>]</div>
+</div>
+<div class="tc" id="git2-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How would you implement blue-green vs canary deployment on Cloud Run using traffic splitting? What are the rollback procedures, and how do you automate canary promotion based on error-rate metrics from Cloud Monitoring?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="git3" data-tags="git hot">
+<div class="card-hdr" onclick="tog('git3')">
+  <div class="qnum" style="background:var(--git-bg);color:var(--git)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-git">GitOps</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">What is a GitOps workflow? How does ArgoCD implement continuous reconciliation?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('git3',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('git3','a')">Answer</button><button class="tab" onclick="st('git3','cx')">Cross-question</button></div>
+<div class="tc" id="git3-a">
+<p class="txt">GitOps: the Git repo is the <strong>single source of truth</strong> for desired cluster state. PRs are the change control mechanism — full audit trail, easy rollback. ArgoCD watches the repo and reconciles actual Kubernetes state to match — any manual <code>kubectl</code> change is auto-reverted (<code>selfHeal: true</code>).</p>
+<div class="code-wrap">apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: thesquare-api
+  namespace: argocd
+spec:
+  source:
+    repoURL: https://github.com/org/infra-repo
+    targetRevision: HEAD
+    path: k8s/thesquare-api/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      prune: true      <span class="cm"># remove deleted k8s resources</span>
+      selfHeal: true   <span class="cm"># revert any manual kubectl changes</span></div>
+</div>
+<div class="tc" id="git3-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How do you manage secrets in a GitOps workflow where you can't commit plaintext? Compare Sealed Secrets (encrypted in Git) vs External Secrets Operator (reference GCP Secret Manager) — what are the key-rotation trade-offs?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="git4" data-tags="git">
+<div class="card-hdr" onclick="tog('git4')">
+  <div class="qnum" style="background:var(--git-bg);color:var(--git)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-git">Git</span></div>
+    <div class="qtitle">Explain merge vs rebase vs cherry-pick — when do you use each?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('git4',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('git4','a')">Answer</button><button class="tab" onclick="st('git4','cx')">Cross-question</button></div>
+<div class="tc" id="git4-a">
+<table class="ctbl">
+  <tr><th>Command</th><th>What it does</th><th>Use when</th></tr>
+  <tr><td><strong>merge</strong></td><td>Creates merge commit, preserves full history</td><td>Integrating feature branches, safe on shared branches</td></tr>
+  <tr><td><strong>rebase</strong></td><td>Replays commits onto new base, rewrites SHAs — linear history</td><td>Local cleanup before PR (never on shared branches)</td></tr>
+  <tr><td><strong>cherry-pick</strong></td><td>Applies one specific commit to current branch</td><td>Backporting a hotfix to a release branch</td></tr>
+</table>
+<div class="code-wrap">git checkout main && git merge feature/search        <span class="cm"># safe, explicit history</span>
+git checkout feature/search && git rebase main       <span class="cm"># linear, local only</span>
+git checkout release/v2 && git cherry-pick abc1234   <span class="cm"># backport hotfix</span>
+git rebase -i HEAD~5                                 <span class="cm"># squash WIP commits</span></div>
+</div>
+<div class="tc" id="git4-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is the difference between <code>--ff-only</code>, <code>--no-ff</code>, and <code>--squash</code> merge strategies? When would you enforce <code>--ff-only</code> merges via branch protection rules on a team's main branch?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="git5" data-tags="git tricky">
+<div class="card-hdr" onclick="tog('git5')">
+  <div class="qnum" style="background:var(--git-bg);color:var(--git)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-git">Strategy</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Explain trunk-based development vs Gitflow. What are the scalability trade-offs?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('git5',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('git5','a')">Answer</button><button class="tab" onclick="st('git5','cx')">Cross-question</button></div>
+<div class="tc" id="git5-a">
+<p class="txt"><strong>Gitflow:</strong> long-lived develop/release/hotfix branches — predictable release cycles, but creates merge debt and integration pain. <strong>Trunk-based:</strong> all devs commit to main daily via short-lived branches + feature flags — every commit deployable. Requires strong CI discipline.</p>
+<div class="code-wrap"><span class="cm"># Feature flags enable trunk-based dev — WIP hidden behind a flag</span>
+FEATURE_FLAGS = {
+    <span class="str">'new_booking_flow'</span>: os.getenv(<span class="str">'FF_NEW_BOOKING'</span>, <span class="str">'false'</span>) == <span class="str">'true'</span>,
+}
+
+@app.route(<span class="str">'/book'</span>)
+<span class="kw">def</span> book():
+    <span class="kw">if</span> FEATURE_FLAGS[<span class="str">'new_booking_flow'</span>]:
+        <span class="kw">return</span> new_booking_handler()
+    <span class="kw">return</span> legacy_booking_handler()
+
+<span class="cm"># staging: FF_NEW_BOOKING=true  →  production: FF_NEW_BOOKING=false</span></div>
+</div>
+<div class="tc" id="git5-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How do you implement a percentage-based feature rollout (0% → 10% → 50% → 100%) with user-sticky targeting? Compare building in-house vs LaunchDarkly/Unleash — and what observability do you need to safely automate the rollout?"</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CLOUD -->
+<section id="s-cloud">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--cloud-mid)"></div>
+  <span class="sec-title">Cloud Platforms</span>
+  <span class="sec-count" style="background:var(--cloud-bg);color:var(--cloud)">GCP · AWS · Kubernetes</span>
+  <span class="sec-sub">5 questions</span>
+</div>
+
+<div class="card" id="cl1" data-tags="cloud hot">
+<div class="card-hdr" onclick="tog('cl1')">
+  <div class="qnum" style="background:var(--cloud-bg);color:var(--cloud)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-cloud">GCP</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain IaaS vs PaaS vs SaaS with cloud examples. Where does Cloud Run fit?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('cl1',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('cl1','a')">Answer</button><button class="tab" onclick="st('cl1','cx')">Cross-question</button></div>
+<div class="tc" id="cl1-a">
+<table class="ctbl">
+  <tr><th>Model</th><th>You manage</th><th>Cloud manages</th><th>Examples</th></tr>
+  <tr><td><strong>IaaS</strong></td><td>OS, runtime, scaling, patches</td><td>Hypervisor, hardware</td><td>EC2, Compute Engine, Azure VMs</td></tr>
+  <tr><td><strong>PaaS</strong></td><td>Code or container</td><td>Runtime, autoscaling, infra</td><td>Cloud Run, App Engine, Heroku</td></tr>
+  <tr><td><strong>SaaS</strong></td><td>Configuration only</td><td>Everything</td><td>Gmail, Salesforce, Vercel</td></tr>
+</table>
+<div class="code-wrap"><span class="cm"># Cloud Run: PaaS — you ship a container, GCP manages the rest</span>
+gcloud run deploy booking-api \
+  --image us-central1-docker.pkg.dev/proj/api/booking:v3 \
+  --region us-central1 \
+  --min-instances <span class="num">0</span> \     <span class="cm"># scale-to-zero</span>
+  --max-instances <span class="num">100</span> \
+  --memory <span class="num">512</span>Mi</div>
+<div class="box bcloud"><strong>IaaS equivalent effort:</strong> provision VM → install Python → configure nginx + gunicorn → write systemd service → set up managed instance group → configure load balancer + health checks. Cloud Run eliminates all of this.</div>
+</div>
+<div class="tc" id="cl1-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What are the cold start latency implications of Cloud Run's scale-to-zero? What three strategies would you use to minimise cold starts for a latency-sensitive API — and how does <code>--min-instances 1</code> cost compare to the latency benefit?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="cl2" data-tags="cloud tricky">
+<div class="card-hdr" onclick="tog('cl2')">
+  <div class="qnum" style="background:var(--cloud-bg);color:var(--cloud)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-cloud">Theory</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">What is the CAP theorem? How do DynamoDB and PostgreSQL RDS make different trade-offs?</div>
+  </div>
+  <button class="mark-btn" onclick="mark('cl2',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('cl2','a')">Answer</button><button class="tab" onclick="st('cl2','cx')">Cross-question</button></div>
+<div class="tc" id="cl2-a">
+<p class="txt">CAP: a distributed system can guarantee at most two of <strong>Consistency</strong> (all nodes see same data), <strong>Availability</strong> (every request gets a response), <strong>Partition Tolerance</strong> (survives network splits). Since partitions are unavoidable, systems choose CP or AP.</p>
+<table class="ctbl">
+  <tr><th>System</th><th>Choice</th><th>Trade-off</th></tr>
+  <tr><td>DynamoDB (default)</td><td>AP</td><td>Eventually consistent — may return stale data</td></tr>
+  <tr><td>DynamoDB (ConsistentRead: true)</td><td>CP</td><td>2× read cost, may block during partition</td></tr>
+  <tr><td>PostgreSQL RDS (primary)</td><td>CP</td><td>Unavailable ~30s during failover</td></tr>
+  <tr><td>PostgreSQL read replica</td><td>AP</td><td>Replication lag — stale reads possible</td></tr>
+</table>
+</div>
+<div class="tc" id="cl2-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "How does Google Spanner claim external consistency (effectively CA) across global regions using TrueTime — is it truly CAP-compliant? How does the PACELC theorem extend CAP to also describe latency vs consistency trade-offs?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="cl3" data-tags="cloud hot">
+<div class="card-hdr" onclick="tog('cl3')">
+  <div class="qnum" style="background:var(--cloud-bg);color:var(--cloud)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-cloud">Kubernetes</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Explain pod scheduling, resource requests vs limits, and what happens when limits are exceeded.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('cl3',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('cl3','a')">Answer</button><button class="tab" onclick="st('cl3','cx')">Cross-question</button></div>
+<div class="tc" id="cl3-a">
+<p class="txt"><strong>Requests</strong> = guaranteed by scheduler (node must have capacity). <strong>Limits</strong> = maximum allowed. CPU over limit → <strong>throttled</strong> (not killed). Memory over limit → <strong>OOM killed</strong> → pod restarts. <code>requests == limits</code> = Guaranteed QoS class.</p>
+<div class="code-wrap">resources:
+  requests:
+    memory: <span class="str">"128Mi"</span>   <span class="cm"># scheduler reserves this</span>
+    cpu:    <span class="str">"250m"</span>    <span class="cm"># 0.25 core guaranteed</span>
+  limits:
+    memory: <span class="str">"512Mi"</span>   <span class="cm"># OOM killed if exceeded — pod restarts</span>
+    cpu:    <span class="str">"1000m"</span>   <span class="cm"># CPU-throttled if exceeded (not killed)</span>
+
+kubectl get pod booking-api -o jsonpath='{.status.qosClass}'
+<span class="cm"># Guaranteed | Burstable | BestEffort</span></div>
+</div>
+<div class="tc" id="cl3-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "What is a Vertical Pod Autoscaler (VPA) and how does it interact with HPA? Can you run both simultaneously — and what is the conflict when VPA tries to change the resource limits that HPA is using as a scaling signal?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="cl4" data-tags="cloud">
+<div class="card-hdr" onclick="tog('cl4')">
+  <div class="qnum" style="background:var(--cloud-bg);color:var(--cloud)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-cloud">AWS</span></div>
+    <div class="qtitle">How does AWS Lambda's execution model work? Explain cold starts, concurrency, provisioned concurrency.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('cl4',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('cl4','a')">Answer</button><button class="tab" onclick="st('cl4','cx')">Cross-question</button></div>
+<div class="tc" id="cl4-a">
+<p class="txt">Lambda runs in Firecracker micro-VMs. First invocation = cold start (100ms–2s: download code, init runtime, run module-level code). Subsequent invocations reuse the warm container. Concurrency = simultaneous invocations (default account limit: 1000). Provisioned concurrency pre-warms N containers — eliminates cold start at extra cost.</p>
+<div class="code-wrap"><span class="kw">import</span> boto3, json
+
+<span class="cm"># Module-level code runs once on cold start — cache expensive init here</span>
+dynamodb = boto3.resource(<span class="str">'dynamodb'</span>)
+table = dynamodb.Table(<span class="str">'Bookings'</span>)   <span class="cm"># reused across warm invocations</span>
+
+<span class="kw">def</span> handler(event, context):
+    <span class="cm"># Runs on every invocation</span>
+    booking_id = event[<span class="str">'pathParameters'</span>][<span class="str">'id'</span>]
+    item = table.get_item(Key={<span class="str">'id'</span>: booking_id}).get(<span class="str">'Item'</span>)
+    <span class="kw">return</span> {<span class="str">'statusCode'</span>: <span class="num">200</span>, <span class="str">'body'</span>: json.dumps(item)}</div>
+</div>
+<div class="tc" id="cl4-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "Why is JVM Lambda cold start (Java/Kotlin) significantly worse than Python or Node.js — and what is SnapStart? How do Lambda execution environment reuse patterns affect security isolation between invocations (residual in-memory data)?"</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="cl5" data-tags="cloud tricky">
+<div class="card-hdr" onclick="tog('cl5')">
+  <div class="qnum" style="background:var(--cloud-bg);color:var(--cloud)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-cloud">Networking</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Explain VPC design: subnets, route tables, NAT gateways, and security groups vs NACLs.</div>
+  </div>
+  <button class="mark-btn" onclick="mark('cl5',event)">★ Bookmark</button>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('cl5','a')">Answer</button><button class="tab" onclick="st('cl5','cx')">Cross-question</button></div>
+<div class="tc" id="cl5-a">
+<table class="ctbl">
+  <tr><th></th><th>Security Groups</th><th>NACLs</th></tr>
+  <tr><td><strong>Level</strong></td><td>Instance (ENI)</td><td>Subnet</td></tr>
+  <tr><td><strong>Stateful?</strong></td><td>Yes — return traffic auto-allowed</td><td>No — must allow inbound AND outbound explicitly</td></tr>
+  <tr><td><strong>Rules</strong></td><td>Allow only</td><td>Allow and deny</td></tr>
+  <tr><td><strong>Use</strong></td><td>Primary access control</td><td>Defence-in-depth, IP blocklisting</td></tr>
+</table>
+<div class="code-wrap"><span class="cm"># Terraform: public + private subnet pattern</span>
+resource <span class="str">"aws_vpc"</span> <span class="str">"main"</span> { cidr_block = <span class="str">"10.0.0.0/16"</span> }
+
+resource <span class="str">"aws_subnet"</span> <span class="str">"public"</span> {
+  cidr_block              = <span class="str">"10.0.1.0/24"</span>
+  map_public_ip_on_launch = true   <span class="cm"># routed via Internet Gateway</span>
+}
+resource <span class="str">"aws_subnet"</span> <span class="str">"private"</span> {
+  cidr_block = <span class="str">"10.0.2.0/24"</span>   <span class="cm"># outbound only via NAT Gateway</span>
+}
+resource <span class="str">"aws_security_group"</span> <span class="str">"api"</span> {
+  ingress { from_port=<span class="num">443</span> to_port=<span class="num">443</span> protocol=<span class="str">"tcp"</span> cidr_blocks=[<span class="str">"0.0.0.0/0"</span>] }
+  egress  { from_port=<span class="num">0</span>   to_port=<span class="num">0</span>   protocol=<span class="str">"-1"</span>  cidr_blocks=[<span class="str">"0.0.0.0/0"</span>] }
+}</div>
+</div>
+<div class="tc" id="cl5-cx">
+<div class="box bcx"><strong>Cross-question:</strong> "Design a multi-tier VPC: ALB → App servers → RDS. What security group rules do you set on each tier? How do you ensure RDS is never reachable from the internet while the app tier can still connect to it?"</div>
+</div>
+</div>
+</div>
+</section>
+
+</div><!-- /wrap -->
+
+<script>
+const TOTAL = 35;
+let opened = new Set(), marked = new Set(), filter = 'all';
+
+function tog(id) {
+  const c = document.getElementById(id);
+  c.classList.toggle('open');
+  if (c.classList.contains('open')) { opened.add(id); openFirstTab(id); }
+  updateStats();
+}
+
+function openFirstTab(id) {
+  const c = document.getElementById(id);
+  if (!c.classList.contains('open')) return;
+  const tabs = c.querySelectorAll('.tab');
+  const tcs  = c.querySelectorAll('.tc');
+  tabs.forEach(t => t.classList.remove('active'));
+  tcs.forEach(t  => t.classList.remove('show'));
+  if (tabs[0]) tabs[0].classList.add('active');
+  if (tcs[0])  tcs[0].classList.add('show');
+}
+
+function st(cid, tab) {
+  const c = document.getElementById(cid);
+  c.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  c.querySelectorAll('.tc').forEach(t  => t.classList.remove('show'));
+  const names = ['a','cx'];
+  const i = names.indexOf(tab);
+  const tabs = c.querySelectorAll('.tab');
+  const tcs  = c.querySelectorAll('.tc');
+  if (tabs[i]) tabs[i].classList.add('active');
+  const target = document.getElementById(cid + '-' + tab);
+  if (target) target.classList.add('show');
+}
+
+function mark(id, e) {
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  if (marked.has(id)) {
+    marked.delete(id);
+    btn.classList.remove('marked');
+    btn.textContent = '★ Bookmark';
+  } else {
+    marked.add(id);
+    btn.classList.add('marked');
+    btn.textContent = '★ Bookmarked';
+  }
+  updateStats();
+}
+
+function updateStats() {
+  const pct = Math.round(opened.size / TOTAL * 100);
+  document.getElementById('s-opened').textContent = opened.size;
+  document.getElementById('s-left').textContent   = TOTAL - opened.size;
+  document.getElementById('s-marked').textContent = marked.size;
+  document.getElementById('s-pct').textContent    = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = opened.size + ' of ' + TOTAL + ' opened';
+}
+
+function setFilter(f, btn) {
+  filter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.card').forEach(c => {
+    const tags = c.dataset.tags || '';
+    let show = f === 'all' ? true
+             : f === 'hot'     ? tags.includes('hot')
+             : f === 'tricky'  ? tags.includes('tricky')
+             : f === 'marked'  ? marked.has(c.id) : true;
+    c.style.display = show ? '' : 'none';
+  });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+const sectionMap = {'s-py':'nav-py','s-js':'nav-js','s-css':'nav-css','s-db':'nav-db','s-api':'nav-api','s-git':'nav-git','s-cloud':'nav-cloud'};
+const classMap   = {'nav-py':'act-py','nav-js':'act-js','nav-css':'act-css','nav-db':'act-db','nav-api':'act-api','nav-git':'act-git','nav-cloud':'act-cloud'};
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    document.querySelectorAll('.nl').forEach(n => n.className = n.className.replace(/\bact-\w+\b/g,'').trim());
+    const navId = sectionMap[e.target.id];
+    if (navId) document.getElementById(navId)?.classList.add(classMap[navId]);
+  });
+}, { threshold: 0.12 });
+Object.keys(sectionMap).forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+</script>
+</body>
+</html>

@@ -1,0 +1,2356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LangChain Ecosystem — AI Interview Flashcards 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#fff;--bg2:#f8f9fa;--bg3:#f1f3f5;
+--ink:#14151a;--ink2:#4a5568;--ink3:#8892a4;
+--line:#e2e8f0;--line2:#cbd5e0;
+--lc:#0F6E56;--lc-bg:#E1F5EE;--lc-mid:#1D9E75;
+--lg:#185FA5;--lg-bg:#E6F1FB;--lg-mid:#378ADD;
+--ls:#633806;--ls-bg:#FAEEDA;--ls-mid:#EF9F27;
+--lf:#72243E;--lf-bg:#FBEAF0;--lf-mid:#D4537E;
+--p:#3C3489;--p-bg:#EEEDFE;
+--r:#A32D2D;--r-bg:#FCEBEB;
+}
+@media(prefers-color-scheme:dark){:root{
+--bg:#0e1018;--bg2:#161b26;--bg3:#1c2232;
+--ink:#dde4f0;--ink2:#8a97b0;--ink3:#4e5a70;
+--line:#252d3e;--line2:#2e3850;
+--lc-bg:#0a2419;--lg-bg:#091525;--ls-bg:#1f1306;--lf-bg:#1f0a12;--p-bg:#130f30;--r-bg:#1f0808;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
+
+/* ── TOP NAV ── */
+.topbar{position:sticky;top:0;z-index:99;background:var(--bg);border-bottom:1px solid var(--line);padding:0 1rem;overflow-x:auto;scrollbar-width:none}
+.topbar::-webkit-scrollbar{display:none}
+.topbar-inner{display:flex;align-items:center;gap:6px;height:48px;min-width:max-content}
+.logo{font-weight:500;font-size:14px;color:var(--lc-mid);margin-right:8px;white-space:nowrap}
+.nl{font-size:11px;padding:3px 11px;border-radius:20px;border:1px solid var(--line2);color:var(--ink2);cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap}
+.nl:hover{background:var(--bg2)}
+.nl.lc{color:var(--lc);border-color:var(--lc)}
+.nl.lg{color:var(--lg);border-color:var(--lg)}
+.nl.ls{color:var(--ls);border-color:var(--ls-mid)}
+.nl.lf{color:var(--lf);border-color:var(--lf-mid)}
+.nl.active-lc{background:var(--lc);color:#fff;border-color:var(--lc)}
+.nl.active-lg{background:var(--lg);color:#fff;border-color:var(--lg)}
+.nl.active-ls{background:var(--ls-mid);color:#fff;border-color:var(--ls-mid)}
+.nl.active-lf{background:var(--lf-mid);color:#fff;border-color:var(--lf-mid)}
+
+/* ── HERO ── */
+.hero{padding:2.5rem 1.25rem 2rem;text-align:center;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(22px,4vw,36px);font-weight:500;letter-spacing:-.4px;margin-bottom:.5rem}
+.hero-sub{font-size:14px;color:var(--ink2);max-width:600px;margin:0 auto 1.25rem}
+.lib-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.lib-pill{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;border:1px solid}
+
+/* ── PROGRESS ── */
+.prog-bar-wrap{background:var(--bg3);border-radius:4px;height:3px;margin:.5rem 0 0;overflow:hidden}
+.prog-fill{height:3px;border-radius:4px;transition:width .3s}
+
+/* ── MAIN ── */
+.wrap{max-width:860px;margin:0 auto;padding:0 1rem 3rem}
+
+/* ── SECTION HEADER ── */
+.sec-hdr{display:flex;align-items:center;gap:10px;margin:2.5rem 0 1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--line)}
+.sec-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.sec-title{font-size:18px;font-weight:500}
+.sec-sub{font-size:12px;color:var(--ink3);margin-left:auto}
+.sec-count{font-size:12px;font-weight:500;padding:2px 9px;border-radius:12px}
+
+/* ── CARD ── */
+.card{border:1px solid var(--line);border-radius:12px;margin-bottom:.875rem;background:var(--bg);overflow:hidden;transition:box-shadow .15s}
+.card:hover{box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.card-hdr{display:flex;align-items:flex-start;gap:10px;padding:1rem 1.25rem;cursor:pointer}
+.qnum{min-width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:1px}
+.qmain{flex:1;min-width:0}
+.qmeta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;align-items:center}
+.qtitle{font-size:14px;font-weight:500;line-height:1.4;color:var(--ink)}
+.qchev{color:var(--ink3);font-size:13px;margin-top:2px;flex-shrink:0;transition:transform .2s}
+.card.open .qchev{transform:rotate(180deg)}
+
+/* ── TAGS ── */
+.tag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:10px}
+.tag-core{background:var(--lc-bg);color:var(--lc)}
+.tag-graph{background:var(--lg-bg);color:var(--lg)}
+.tag-smith{background:var(--ls-bg);color:var(--ls)}
+.tag-fuse{background:var(--lf-bg);color:var(--lf)}
+.tag-hot{background:var(--r-bg);color:var(--r);font-weight:600}
+.tag-tricky{background:var(--p-bg);color:var(--p)}
+
+/* ── BODY ── */
+.qbody{display:none;padding:0 1.25rem 1.25rem;border-top:1px solid var(--line)}
+.card.open .qbody{display:block}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:5px;margin:1rem 0 .875rem;flex-wrap:wrap}
+.tab{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;transition:all .15s}
+.tc{display:none}
+.tc.show{display:block}
+
+/* ── TEXT ── */
+.txt{font-size:13px;color:var(--ink2);line-height:1.75;margin:.4rem 0}
+.txt strong{color:var(--ink);font-weight:500}
+.pts{padding-left:1.1rem;margin:.4rem 0}
+.pts li{font-size:13px;color:var(--ink2);margin-bottom:.3rem;line-height:1.65}
+.pts li strong{color:var(--ink);font-weight:500}
+
+/* ── CODE BLOCK ── */
+.code-wrap{background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:.875rem 1rem;margin:.65rem 0;overflow-x:auto;font-family:var(--font-mono,'Cascadia Code','Fira Code',monospace);font-size:12px;line-height:1.7;color:var(--ink2)}
+.code-wrap .kw{color:#7F77DD}
+.code-wrap .fn{color:var(--lc-mid)}
+.code-wrap .str{color:#3B6D11}
+.code-wrap .cm{color:var(--ink3)}
+.code-wrap .cls{color:#185FA5}
+.code-wrap .var{color:#854F0B}
+
+/* ── CALLOUTS ── */
+.box{border-radius:0 8px 8px 0;padding:.65rem 1rem;margin:.65rem 0;font-size:13px;line-height:1.7}
+.box strong{font-weight:500}
+.bans{background:var(--lc-bg);border-left:3px solid var(--lc-mid)}
+.bans strong{color:var(--lc)}
+.bcx{background:var(--p-bg);border-left:3px solid #7F77DD}
+.bcx strong{color:var(--p)}
+.bwarn{background:var(--r-bg);border-left:3px solid #E24B4A}
+.bwarn strong{color:var(--r)}
+.btip{background:var(--ls-bg);border-left:3px solid var(--ls-mid)}
+.btip strong{color:var(--ls)}
+
+/* ── COMPARISON TABLE ── */
+.ctbl{width:100%;border-collapse:collapse;font-size:12px;margin:.65rem 0}
+.ctbl th{background:var(--bg3);padding:7px 10px;text-align:left;font-weight:500;color:var(--ink);border-bottom:1px solid var(--line2)}
+.ctbl td{padding:7px 10px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
+.ctbl tr:last-child td{border-bottom:none}
+.ctbl tr:hover td{background:var(--bg2)}
+
+/* ── MARKS ── */
+.mark-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;margin-left:auto;transition:all .15s}
+.mark-btn.marked{background:var(--ls-bg);color:var(--ls);border-color:var(--ls-mid)}
+
+/* ── STATS ROW ── */
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem}
+.stat{flex:1;min-width:110px;background:var(--bg2);border-radius:8px;padding:.75rem 1rem}
+.stat-label{font-size:11px;color:var(--ink3);margin-bottom:.25rem}
+.stat-val{font-size:20px;font-weight:500}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+.filter-btn{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;transition:all .15s}
+.filter-btn.on{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+
+/* ── MOBILE ── */
+@media(max-width:600px){.card-hdr{padding:.875rem 1rem}.qbody{padding:0 1rem 1rem}.stats{gap:8px}.stat{min-width:90px}}
+</style>
+</head>
+<body>
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden">LangChain ecosystem AI interview flashcards covering LangChain, LangGraph, LangSmith, and LangFuse</h2>
+
+<div class="topbar"><div class="topbar-inner">
+  <span class="logo">AI Interview Cards</span>
+  <a class="nl lc" href="#langchain" id="nav-lc">LangChain</a>
+  <a class="nl lg" href="#langgraph" id="nav-lg">LangGraph</a>
+  <a class="nl ls" href="#langsmith" id="nav-ls">LangSmith</a>
+  <a class="nl lf" href="#langfuse" id="nav-lf">LangFuse</a>
+</div></div>
+
+<div class="hero">
+  <h1>LangChain Ecosystem<br>AI Interview Flashcards</h1>
+  <p class="hero-sub">LangChain · LangGraph · LangSmith · LangFuse — theory, code, tricky questions, and cross-question answers sequentially organised</p>
+  <div class="lib-pills">
+    <span class="lib-pill" style="background:var(--lc-bg);color:var(--lc);border-color:var(--lc-mid)">LangChain · 20 cards</span>
+    <span class="lib-pill" style="background:var(--lg-bg);color:var(--lg);border-color:var(--lg-mid)">LangGraph · 14 cards</span>
+    <span class="lib-pill" style="background:var(--ls-bg);color:var(--ls);border-color:var(--ls-mid)">LangSmith · 7 cards</span>
+    <span class="lib-pill" style="background:var(--lf-bg);color:var(--lf);border-color:var(--lf-mid)">LangFuse · 6 cards</span>
+  </div>
+  <div class="prog-bar-wrap" style="max-width:500px;margin:.875rem auto 0"><div class="prog-fill" id="prog-fill" style="background:var(--lc-mid);width:0%"></div></div>
+  <div style="font-size:12px;color:var(--ink3);margin-top:.4rem" id="prog-label">0 of 47 opened</div>
+</div>
+
+<div class="wrap">
+
+<div class="stats">
+  <div class="stat"><div class="stat-label">Total cards</div><div class="stat-val" style="color:var(--ink)">47</div></div>
+  <div class="stat"><div class="stat-label">Opened</div><div class="stat-val" style="color:var(--lc-mid)" id="s-opened">0</div></div>
+  <div class="stat"><div class="stat-label">Marked</div><div class="stat-val" style="color:var(--ls-mid)" id="s-marked">0</div></div>
+  <div class="stat"><div class="stat-label">Hot topics</div><div class="stat-val" style="color:var(--r)">12</div></div>
+</div>
+
+<div class="filter-bar">
+  <span style="font-size:12px;color:var(--ink3)">Filter:</span>
+  <button class="filter-btn on" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" onclick="setFilter('hot',this)">Hot topics only</button>
+  <button class="filter-btn" onclick="setFilter('tricky',this)">Tricky</button>
+  <button class="filter-btn" onclick="setFilter('marked',this)">Marked</button>
+</div>
+
+<!-- ════════════════════════════════ LANGCHAIN ════════════════════════════════ -->
+<section id="langchain">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--lc-mid)"></div>
+  <div class="sec-title" style="color:var(--lc)">LangChain</div>
+  <span class="sec-count" style="background:var(--lc-bg);color:var(--lc)">20 questions</span>
+  <div class="sec-sub">Components, chains, runnables, RAG, tools</div>
+</div>
+
+<div class="card" id="lc1" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc1')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Why do we need LangChain? What problem does it solve?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc1','a')">Answer</button><button class="tab" onclick="st('lc1','cx')">Cross Questions</button></div>
+<div class="tc" id="lc1-a">
+<div class="box bans"><strong>Core answer:</strong> Building LLM-powered apps requires wiring together many pieces — LLM calls, prompt management, memory, retrieval, tools, output parsing. Without LangChain you write this plumbing from scratch in every project. LangChain is the standard library for this plumbing.</div>
+<p class="txt">Problems it solves:</p>
+<ul class="pts">
+<li><strong>Prompt management</strong> — template variables, versioning, formatting for different models</li>
+<li><strong>Chaining</strong> — output of one LLM call feeds into the next; without LangChain this is manual string passing</li>
+<li><strong>Retrieval (RAG)</strong> — document loading, splitting, embedding, vector search all standardised</li>
+<li><strong>Tool use</strong> — standardised interface to give LLMs the ability to call functions/APIs</li>
+<li><strong>Memory</strong> — conversation history management without manual context window stitching</li>
+<li><strong>Model switching</strong> — swap OpenAI for Anthropic/Gemini with one line change</li>
+</ul>
+<div class="code-wrap"><span class="cm"># Without LangChain — manual plumbing</span>
+response = openai.chat.completions.create(
+  model=<span class="str">"gpt-4o"</span>, messages=[{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:prompt}]
+)
+answer = response.choices[<span class="var">0</span>].message.content
+
+<span class="cm"># With LangChain — composable, swappable</span>
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+<span class="kw">from</span> langchain_core.prompts <span class="kw">import</span> ChatPromptTemplate
+
+llm = <span class="cls">ChatOpenAI</span>(model=<span class="str">"gpt-4o"</span>)
+prompt = <span class="cls">ChatPromptTemplate</span>.from_template(<span class="str">"Answer: {question}"</span>)
+chain = prompt | llm  <span class="cm"># LCEL pipe operator</span>
+result = chain.invoke({<span class="str">"question"</span>: <span class="str">"What is RAG?"</span>})</div>
+</div>
+<div class="tc" id="lc1-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: When would you NOT use LangChain?</strong> → Simple single LLM call with no chaining, retrieval or tools — direct SDK is simpler and has less overhead. LangChain adds abstraction cost.</li>
+<li><strong>Q: LangChain vs LlamaIndex?</strong> → LangChain: general purpose, chains, agents, tools, broad ecosystem. LlamaIndex: specialised for RAG/indexing, better data connectors, more advanced retrieval strategies. Often used together.</li>
+<li><strong>Q: What is LCEL?</strong> → LangChain Expression Language. The pipe operator | composes runnables. Enables streaming, async, batch, tracing out of the box. Replaced the older Chain classes.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc2" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc2')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">What is LCEL (LangChain Expression Language) and how does the Runnable interface work?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc2','a')">Answer</button><button class="tab" onclick="st('lc2','cx')">Cross Questions</button></div>
+<div class="tc" id="lc2-a">
+<p class="txt">LCEL is a declarative way to compose chains using the pipe operator <code>|</code>. Every component implements the <code>Runnable</code> interface, which means every component has the same methods: <code>invoke</code>, <code>stream</code>, <code>batch</code>, <code>ainvoke</code>, <code>astream</code>.</p>
+<div class="code-wrap"><span class="kw">from</span> langchain_core.runnables <span class="kw">import</span> RunnablePassthrough, RunnableLambda
+<span class="kw">from</span> langchain_core.output_parsers <span class="kw">import</span> StrOutputParser
+
+<span class="cm"># Every | creates a RunnableSequence</span>
+chain = prompt | llm | <span class="cls">StrOutputParser</span>()
+
+<span class="cm"># All 4 modes work on any chain</span>
+chain.invoke({<span class="str">"question"</span>: <span class="str">"..."</span>})          <span class="cm"># sync</span>
+<span class="kw">await</span> chain.ainvoke({<span class="str">"question"</span>: <span class="str">"..."</span>})    <span class="cm"># async</span>
+chain.batch([{<span class="str">"question"</span>: <span class="str">"a"</span>}, {<span class="str">"question"</span>: <span class="str">"b"</span>}])  <span class="cm"># batch</span>
+<span class="kw">for</span> chunk <span class="kw">in</span> chain.stream({<span class="str">"question"</span>: <span class="str">"..."</span>}):  <span class="cm"># streaming</span>
+    print(chunk, end=<span class="str">""</span>, flush=<span class="cls">True</span>)
+
+<span class="cm"># RunnableParallel — run multiple chains in parallel</span>
+<span class="kw">from</span> langchain_core.runnables <span class="kw">import</span> RunnableParallel
+
+parallel = <span class="cls">RunnableParallel</span>({
+    <span class="str">"summary"</span>: summary_chain,
+    <span class="str">"keywords"</span>: keyword_chain,
+})
+result = parallel.invoke({<span class="str">"text"</span>: <span class="str">"..."</span>})  <span class="cm"># both run in parallel</span>
+
+<span class="cm"># RunnableLambda — wrap any function as a Runnable</span>
+upcase = <span class="cls">RunnableLambda</span>(<span class="kw">lambda</span> x: x.upper())
+chain = prompt | llm | <span class="cls">StrOutputParser</span>() | upcase</div>
+<div class="box bans"><strong>Key insight:</strong> Because everything is a Runnable, you can swap components without changing the rest of the chain. Swap <code>ChatOpenAI</code> for <code>ChatAnthropic</code> — everything else stays the same.</div>
+</div>
+<div class="tc" id="lc2-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What is RunnablePassthrough?</strong> → Passes input through unchanged. Used in RAG chains to forward the original question alongside retrieved context. <code>{"context": retriever, "question": RunnablePassthrough()}</code></li>
+<li><strong>Q: What is the difference between invoke and stream?</strong> → invoke waits for complete response. stream yields tokens as they arrive. Both work identically on any Runnable.</li>
+<li><strong>Q: How do you add retries to a Runnable?</strong> → <code>chain.with_retry(stop_after_attempt=3)</code>. Works on any Runnable transparently.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc3" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc3')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Prompts in LangChain — ChatPromptTemplate, system/human/AI messages, few-shot</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc3','a')">Answer</button><button class="tab" onclick="st('lc3','cx')">Cross Q</button></div>
+<div class="tc" id="lc3-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_core.prompts <span class="kw">import</span> (
+    ChatPromptTemplate, SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate, FewShotChatMessagePromptTemplate
+)
+
+<span class="cm"># Standard chat prompt</span>
+prompt = <span class="cls">ChatPromptTemplate</span>.from_messages([
+    (<span class="str">"system"</span>, <span class="str">"You are a helpful AI. Answer in {language}."</span>),
+    (<span class="str">"human"</span>, <span class="str">"{question}"</span>),
+])
+
+<span class="cm"># Few-shot prompt</span>
+examples = [
+    {<span class="str">"input"</span>: <span class="str">"happy"</span>, <span class="str">"output"</span>: <span class="str">"sad"</span>},
+    {<span class="str">"input"</span>: <span class="str">"tall"</span>,  <span class="str">"output"</span>: <span class="str">"short"</span>},
+]
+example_prompt = <span class="cls">ChatPromptTemplate</span>.from_messages([
+    (<span class="str">"human"</span>, <span class="str">"{input}"</span>), (<span class="str">"ai"</span>, <span class="str">"{output}"</span>)
+])
+few_shot = <span class="cls">FewShotChatMessagePromptTemplate</span>(
+    examples=examples, example_prompt=example_prompt
+)
+final_prompt = <span class="cls">ChatPromptTemplate</span>.from_messages([
+    (<span class="str">"system"</span>, <span class="str">"Give the antonym."</span>),
+    few_shot,
+    (<span class="str">"human"</span>, <span class="str">"{input}"</span>),
+])
+
+<span class="cm"># Partial prompts — pre-fill some variables</span>
+partial = prompt.partial(language=<span class="str">"Hindi"</span>)
+chain = partial | llm   <span class="cm"># only needs {question} now</span></div>
+</div>
+<div class="tc" id="lc3-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: Difference between PromptTemplate and ChatPromptTemplate?</strong> → PromptTemplate = single string, used with completion-style models. ChatPromptTemplate = list of messages (system/human/ai), used with chat models. Always use ChatPromptTemplate for modern models.</li>
+<li><strong>Q: How do you use MessagesPlaceholder for conversation history?</strong> → <code>MessagesPlaceholder(variable_name="history")</code> inside from_messages. Pass the list of previous messages as the "history" variable at invoke time.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc4" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc4')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Structured output in LangChain — with_structured_output vs output parsers</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc4','a')">Answer</button><button class="tab" onclick="st('lc4','cx')">Cross Q</button></div>
+<div class="tc" id="lc4-a">
+<div class="code-wrap"><span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel, Field
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+
+<span class="cm"># Method 1: with_structured_output (recommended — uses function calling)</span>
+<span class="kw">class</span> <span class="cls">PropertyInfo</span>(BaseModel):
+    city: str = <span class="cls">Field</span>(description=<span class="str">"City name"</span>)
+    price: float = <span class="cls">Field</span>(description=<span class="str">"Price per night in GBP"</span>)
+    available: bool
+
+llm = <span class="cls">ChatOpenAI</span>(model=<span class="str">"gpt-4o"</span>)
+structured_llm = llm.with_structured_output(<span class="cls">PropertyInfo</span>)
+result = structured_llm.invoke(<span class="str">"London apartment £180/night, available now"</span>)
+<span class="cm"># result.city == "London", result.price == 180.0</span>
+
+<span class="cm"># Method 2: JsonOutputParser (parses JSON from LLM text)</span>
+<span class="kw">from</span> langchain_core.output_parsers <span class="kw">import</span> JsonOutputParser
+parser = <span class="cls">JsonOutputParser</span>(pydantic_object=<span class="cls">PropertyInfo</span>)
+chain = prompt | llm | parser
+
+<span class="cm"># Method 3: PydanticOutputParser</span>
+<span class="kw">from</span> langchain_core.output_parsers <span class="kw">import</span> PydanticOutputParser
+parser = <span class="cls">PydanticOutputParser</span>(pydantic_object=<span class="cls">PropertyInfo</span>)
+<span class="cm"># parser.get_format_instructions() → adds JSON format hint to prompt</span></div>
+<div class="box btip"><strong>Use with_structured_output whenever possible</strong> — it uses the model's native function calling to guarantee JSON schema compliance. PydanticOutputParser relies on the model following text instructions, which can fail.</div>
+</div>
+<div class="tc" id="lc4-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What happens when structured output fails?</strong> → with_structured_output raises a ValueError. Wrap in try/except or use .with_retry(). For PydanticOutputParser use OutputFixingParser which re-asks the LLM to fix malformed output.</li>
+<li><strong>Q: Can you stream structured output?</strong> → Yes with JsonOutputParser — it yields partial JSON objects as they stream. with_structured_output waits for the full response before validating Pydantic schema.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc5" data-tags="lc">
+<div class="card-hdr" onclick="open_card('lc5')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span></div>
+    <div class="qtitle">Document Loaders and Text Splitters — loading and chunking documents for RAG</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc5','a')">Answer</button><button class="tab" onclick="st('lc5','cx')">Cross Q</button></div>
+<div class="tc" id="lc5-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_community.document_loaders <span class="kw">import</span> (
+    PyPDFLoader, WebBaseLoader, CSVLoader, UnstructuredMarkdownLoader
+)
+<span class="kw">from</span> langchain_text_splitters <span class="kw">import</span> (
+    RecursiveCharacterTextSplitter, TokenTextSplitter
+)
+
+<span class="cm"># Load documents</span>
+loader = <span class="cls">PyPDFLoader</span>(<span class="str">"property_guide.pdf"</span>)
+docs = loader.load()  <span class="cm"># returns List[Document]</span>
+
+<span class="cm"># Split into chunks</span>
+splitter = <span class="cls">RecursiveCharacterTextSplitter</span>(
+    chunk_size=<span class="var">1000</span>,      <span class="cm"># chars per chunk</span>
+    chunk_overlap=<span class="var">200</span>,    <span class="cm"># overlap prevents context loss at boundaries</span>
+    separators=[<span class="str">"\n\n"</span>, <span class="str">"\n"</span>, <span class="str">"."</span>, <span class="str">" "</span>, <span class="str">""</span>]
+)
+chunks = splitter.split_documents(docs)
+<span class="cm"># Each chunk: Document(page_content="...", metadata={source, page})</span>
+
+<span class="cm"># SemanticTextSplitter — splits on meaning, not size</span>
+<span class="kw">from</span> langchain_experimental.text_splitter <span class="kw">import</span> SemanticChunker
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> OpenAIEmbeddings
+semantic_splitter = <span class="cls">SemanticChunker</span>(<span class="cls">OpenAIEmbeddings</span>())</div>
+<div class="box bans"><strong>Why chunk_overlap matters:</strong> A sentence about "the rent" might appear at the end of chunk 1. The answer to "what is the rent?" is only found when the question embedding matches a chunk containing that sentence. Overlap ensures boundary sentences appear in at least one chunk.</div>
+</div>
+<div class="tc" id="lc5-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What chunk size should you use?</strong> → Depends on embedding model context window and retrieval task. For OpenAI text-embedding-3: 512-1024 tokens works well. Too small = no context. Too large = dilutes the specific information the query needs.</li>
+<li><strong>Q: What metadata is preserved on chunks?</strong> → Source file path, page number (PDF), URL (web), row number (CSV). You can add custom metadata: <code>Document(page_content=..., metadata={"property_id": "123"})</code></li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc6" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc6')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">6</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Vector stores in LangChain — embeddings, similarity search, MMR retrieval</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc6','a')">Answer</button><button class="tab" onclick="st('lc6','cx')">Cross Q</button></div>
+<div class="tc" id="lc6-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_openai <span class="kw">import</span> OpenAIEmbeddings
+<span class="kw">from</span> langchain_chroma <span class="kw">import</span> Chroma
+<span class="kw">from</span> langchain_community.vectorstores <span class="kw">import</span> FAISS, Pinecone
+
+embeddings = <span class="cls">OpenAIEmbeddings</span>(model=<span class="str">"text-embedding-3-small"</span>)
+
+<span class="cm"># Create vector store from documents</span>
+vectorstore = <span class="cls">Chroma</span>.from_documents(
+    documents=chunks,
+    embedding=embeddings,
+    persist_directory=<span class="str">"./chroma_db"</span>
+)
+
+<span class="cm"># Standard similarity search</span>
+results = vectorstore.similarity_search(<span class="str">"serviced apartments London"</span>, k=<span class="var">5</span>)
+
+<span class="cm"># MMR — Maximal Marginal Relevance (diversity-aware retrieval)</span>
+results = vectorstore.max_marginal_relevance_search(
+    query=<span class="str">"serviced apartments London"</span>,
+    k=<span class="var">5</span>, fetch_k=<span class="var">20</span>, lambda_mult=<span class="var">0.5</span>
+)
+<span class="cm"># lambda_mult: 0 = max diversity, 1 = max relevance</span>
+
+<span class="cm"># As retriever (Runnable interface)</span>
+retriever = vectorstore.as_retriever(
+    search_type=<span class="str">"mmr"</span>,
+    search_kwargs={<span class="str">"k"</span>: <span class="var">5</span>, <span class="str">"fetch_k"</span>: <span class="var">20</span>}
+)
+
+<span class="cm"># Full RAG chain</span>
+<span class="kw">from</span> langchain_core.runnables <span class="kw">import</span> RunnablePassthrough
+rag_chain = (
+    {<span class="str">"context"</span>: retriever, <span class="str">"question"</span>: <span class="cls">RunnablePassthrough</span>()}
+    | prompt | llm | <span class="cls">StrOutputParser</span>()
+)</div>
+</div>
+<div class="tc" id="lc6-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: When to use FAISS vs Chroma vs Pinecone?</strong> → FAISS: local, in-memory, fast, no persistence (good for prototyping). Chroma: local with persistence, good for development. Pinecone/Weaviate: production cloud-managed, billions of vectors, metadata filtering.</li>
+<li><strong>Q: What is hybrid search?</strong> → Combine vector similarity (semantic) with BM25 keyword search. Ensemble retriever: <code>EnsembleRetriever(retrievers=[vector_r, bm25_r], weights=[0.7, 0.3])</code>. Better recall than either alone.</li>
+<li><strong>Q: What is a multi-vector retriever?</strong> → Store smaller chunks for retrieval but return the full parent document to the LLM. Better context than retrieving small chunks directly.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc7" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc7')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">7</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Tools and Tool Calling in LangChain — @tool decorator, bind_tools, agent</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc7','a')">Answer</button><button class="tab" onclick="st('lc7','cx')">Cross Q</button></div>
+<div class="tc" id="lc7-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_core.tools <span class="kw">import</span> tool
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+
+<span class="cm"># Define tools with @tool decorator</span>
+<span class="kw">@tool</span>
+<span class="kw">def</span> <span class="fn">search_properties</span>(city: str, max_price: float) -> str:
+    <span class="str">"""Search serviced apartments by city and max price per night."""</span>
+    <span class="cm"># hits your DB / API</span>
+    <span class="kw">return</span> <span class="str">f"Found 3 properties in {city} under £{max_price}"</span>
+
+<span class="kw">@tool</span>
+<span class="kw">def</span> <span class="fn">get_weather</span>(city: str) -> str:
+    <span class="str">"""Get current weather for a city."""</span>
+    <span class="kw">return</span> <span class="str">f"Weather in {city}: 18°C, cloudy"</span>
+
+<span class="cm"># Bind tools to LLM</span>
+llm = <span class="cls">ChatOpenAI</span>(model=<span class="str">"gpt-4o"</span>)
+llm_with_tools = llm.bind_tools([search_properties, get_weather])
+
+<span class="cm"># LLM decides which tool to call</span>
+response = llm_with_tools.invoke(<span class="str">"Find apartments in London under £200"</span>)
+<span class="cm"># response.tool_calls → [{"name":"search_properties","args":{"city":"London","max_price":200}}]</span>
+
+<span class="cm"># Simple agent with create_react_agent</span>
+<span class="kw">from</span> langgraph.prebuilt <span class="kw">import</span> create_react_agent
+
+agent = <span class="fn">create_react_agent</span>(
+    model=llm,
+    tools=[search_properties, get_weather],
+)
+result = agent.invoke({<span class="str">"messages"</span>: [{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:<span class="str">"Find me a place in London"</span>}]})</div>
+<div class="box bans"><strong>Tool calling flow:</strong> LLM sees tool schemas → LLM outputs tool_call (not text) → your code executes the tool → result fed back to LLM → LLM generates final text answer.</div>
+</div>
+<div class="tc" id="lc7-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What is tool_choice="required"?</strong> → Forces the model to always call a tool. <code>llm.bind_tools(tools, tool_choice="required")</code>. Useful when you need structured extraction.</li>
+<li><strong>Q: How do you handle tool errors?</strong> → Wrap tool execution in try/except, return error as a string. The LLM can then decide to retry with different parameters or inform the user.</li>
+<li><strong>Q: Difference between tool and function in OpenAI terms?</strong> → Same concept. OpenAI originally called them "functions", rebranded to "tools". LangChain wraps both. Modern OpenAI API uses tools exclusively.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc8" data-tags="lc tricky">
+<div class="card-hdr" onclick="open_card('lc8')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">8</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Memory in LangChain — ConversationBufferMemory vs summary vs token buffer, short vs long term</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc8','a')">Answer</button><button class="tab" onclick="st('lc8','cx')">Cross Q</button></div>
+<div class="tc" id="lc8-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_core.chat_history <span class="kw">import</span> BaseChatMessageHistory
+<span class="kw">from</span> langchain_community.chat_message_histories <span class="kw">import</span> ChatMessageHistory
+<span class="kw">from</span> langchain_core.runnables.history <span class="kw">import</span> RunnableWithMessageHistory
+
+<span class="cm"># In-memory history store (short-term memory)</span>
+store = {}
+<span class="kw">def</span> <span class="fn">get_session_history</span>(session_id: str) -> <span class="cls">BaseChatMessageHistory</span>:
+    <span class="kw">if</span> session_id <span class="kw">not in</span> store:
+        store[session_id] = <span class="cls">ChatMessageHistory</span>()
+    <span class="kw">return</span> store[session_id]
+
+<span class="cm"># Wrap chain with history</span>
+chain_with_history = <span class="cls">RunnableWithMessageHistory</span>(
+    chain,
+    get_session_history,
+    input_messages_key=<span class="str">"input"</span>,
+    history_messages_key=<span class="str">"history"</span>,
+)
+chain_with_history.invoke(
+    {<span class="str">"input"</span>: <span class="str">"What apartments do you have in London?"</span>},
+    config={<span class="str">"configurable"</span>: {<span class="str">"session_id"</span>: <span class="str">"user_123"</span>}}
+)
+
+<span class="cm"># Long-term memory — persist across sessions (Redis/DB)</span>
+<span class="kw">from</span> langchain_community.chat_message_histories <span class="kw">import</span> RedisChatMessageHistory
+
+<span class="kw">def</span> <span class="fn">get_redis_history</span>(session_id: str):
+    <span class="kw">return</span> <span class="cls">RedisChatMessageHistory</span>(
+        session_id=session_id, url=<span class="str">"redis://localhost:6379"</span>
+    )
+<span class="cm"># Now history survives server restarts</span></div>
+<div class="box btip"><strong>Short-term memory</strong> = in-memory, lost on restart (ChatMessageHistory). <strong>Long-term memory</strong> = persisted to Redis/DB/file (RedisChatMessageHistory, SQLChatMessageHistory). For production always use long-term. In LangGraph, memory is managed via checkpointers — more powerful.</div>
+</div>
+<div class="tc" id="lc8-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What is ConversationSummaryMemory?</strong> → Instead of storing all messages, summarises old messages periodically. Keeps context window manageable for long conversations. LLM generates the summary itself.</li>
+<li><strong>Q: Token buffer vs message buffer memory?</strong> → Message buffer: keep last N messages. Token buffer: keep last N tokens worth of messages. Token buffer is more precise for context window management.</li>
+<li><strong>Q: How does memory work in LangGraph vs LangChain?</strong> → LangChain: memory added as a wrapper around a chain. LangGraph: memory is first-class — state is persisted via checkpointers, supports multiple conversation threads, time-travel debugging.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc9" data-tags="lc tricky">
+<div class="card-hdr" onclick="open_card('lc9')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">9</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Callbacks and Tracing in LangChain — what runs when, StdOutCallbackHandler</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc9','a')">Answer</button><button class="tab" onclick="st('lc9','cx')">Cross Q</button></div>
+<div class="tc" id="lc9-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_core.callbacks <span class="kw">import</span> StdOutCallbackHandler, BaseCallbackHandler
+<span class="kw">from</span> langchain_core.outputs <span class="kw">import</span> LLMResult
+
+<span class="cm"># Custom callback handler</span>
+<span class="kw">class</span> <span class="cls">TokenCountCallback</span>(<span class="cls">BaseCallbackHandler</span>):
+    <span class="kw">def</span> <span class="fn">on_llm_start</span>(self, serialized, prompts, **kwargs):
+        print(<span class="str">f"Calling LLM with {len(prompts[0])} chars"</span>)
+    
+    <span class="kw">def</span> <span class="fn">on_llm_end</span>(self, response: <span class="cls">LLMResult</span>, **kwargs):
+        print(<span class="str">f"Tokens used: {response.llm_output}"</span>)
+    
+    <span class="kw">def</span> <span class="fn">on_chain_start</span>(self, serialized, inputs, **kwargs):
+        print(<span class="str">f"Chain started: {serialized['name']}"</span>)
+
+<span class="cm"># Attach callbacks</span>
+chain = prompt | llm | <span class="cls">StrOutputParser</span>()
+chain.invoke(
+    {<span class="str">"question"</span>: <span class="str">"What is RAG?"</span>},
+    config={<span class="str">"callbacks"</span>: [<span class="cls">TokenCountCallback</span>(), <span class="cls">StdOutCallbackHandler</span>()]}
+)
+<span class="cm"># Callbacks fire in order: on_chain_start → on_llm_start → on_llm_end → on_chain_end</span></div>
+</div>
+<div class="tc" id="lc9-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What is the difference between LangSmith and callbacks?</strong> → Callbacks are synchronous hooks in your code. LangSmith is an external tracing platform — LangChain sends traces to LangSmith automatically (just set LANGCHAIN_API_KEY env var). LangSmith is much richer — visual trace tree, latency, cost, error analysis.</li>
+<li><strong>Q: What is LANGCHAIN_TRACING_V2?</strong> → Environment variable. Set to "true" to auto-send all LangChain runs to LangSmith without any code changes.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc10" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc10')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">10</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Build a complete RAG pipeline — end to end with all components</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc10','a')">Full Code</button><button class="tab" onclick="st('lc10','cx')">Cross Q</button></div>
+<div class="tc" id="lc10-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_community.document_loaders <span class="kw">import</span> WebBaseLoader
+<span class="kw">from</span> langchain_text_splitters <span class="kw">import</span> RecursiveCharacterTextSplitter
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> OpenAIEmbeddings, ChatOpenAI
+<span class="kw">from</span> langchain_chroma <span class="kw">import</span> Chroma
+<span class="kw">from</span> langchain_core.prompts <span class="kw">import</span> ChatPromptTemplate
+<span class="kw">from</span> langchain_core.runnables <span class="kw">import</span> RunnablePassthrough
+<span class="kw">from</span> langchain_core.output_parsers <span class="kw">import</span> StrOutputParser
+
+<span class="cm"># 1. Load</span>
+loader = <span class="cls">WebBaseLoader</span>(<span class="str">"https://thesqua.re/corporate-apartments"</span>)
+docs = loader.load()
+
+<span class="cm"># 2. Split</span>
+splitter = <span class="cls">RecursiveCharacterTextSplitter</span>(chunk_size=<span class="var">1000</span>, chunk_overlap=<span class="var">200</span>)
+chunks = splitter.split_documents(docs)
+
+<span class="cm"># 3. Embed + Store</span>
+vectorstore = <span class="cls">Chroma</span>.from_documents(chunks, <span class="cls">OpenAIEmbeddings</span>())
+retriever = vectorstore.as_retriever(search_kwargs={<span class="str">"k"</span>: <span class="var">5</span>})
+
+<span class="cm"># 4. Prompt</span>
+prompt = <span class="cls">ChatPromptTemplate</span>.from_messages([
+    (<span class="str">"system"</span>, <span class="str">"Answer based on context only.\n\nContext:\n{context}"</span>),
+    (<span class="str">"human"</span>, <span class="str">"{question}"</span>)
+])
+
+<span class="cm"># 5. Chain (LCEL)</span>
+<span class="kw">def</span> <span class="fn">format_docs</span>(docs): <span class="kw">return</span> <span class="str">"\n\n"</span>.join(d.page_content <span class="kw">for</span> d <span class="kw">in</span> docs)
+
+rag_chain = (
+    {<span class="str">"context"</span>: retriever | <span class="fn">format_docs</span>, <span class="str">"question"</span>: <span class="cls">RunnablePassthrough</span>()}
+    | prompt | <span class="cls">ChatOpenAI</span>(model=<span class="str">"gpt-4o"</span>) | <span class="cls">StrOutputParser</span>()
+)
+answer = rag_chain.invoke(<span class="str">"What types of apartments are available?"</span>)</div>
+</div>
+<div class="tc" id="lc10-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: How do you evaluate RAG quality?</strong> → Metrics: Context Recall (were relevant docs retrieved?), Faithfulness (is answer grounded in context?), Answer Relevance (does answer address the question?). Tools: RAGAS framework, LangSmith evaluations.</li>
+<li><strong>Q: What is query transformation?</strong> → Rewrite the user query before retrieval to improve recall. Techniques: HyDE (generate hypothetical document, embed that), multi-query (generate 3 variants, combine results), step-back prompting (ask broader question first).</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<!-- Cards 11-20 condensed but complete -->
+<div class="card" id="lc11" data-tags="lc tricky">
+<div class="card-hdr" onclick="open_card('lc11')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">11</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Tricky: What is the difference between a Chain, an Agent, and a Graph in the LangChain ecosystem?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc11','a')">Answer</button><button class="tab" onclick="st('lc11','cx')">Cross Q</button></div>
+<div class="tc" id="lc11-a">
+<table class="ctbl">
+<tr><th>Concept</th><th>Control flow</th><th>When to use</th></tr>
+<tr><td><strong>Chain (LCEL)</strong></td><td>Deterministic — steps always execute in the same order you defined</td><td>You know the exact steps upfront. RAG pipeline, summarisation, translation.</td></tr>
+<tr><td><strong>Agent</strong></td><td>LLM decides — the model chooses which tool to call next based on context</td><td>Open-ended tasks where the number of tool calls is unknown. Research, coding assistant.</td></tr>
+<tr><td><strong>Graph (LangGraph)</strong></td><td>You define nodes and edges — LLM can be at decision nodes but humans can also be</td><td>Complex multi-step workflows, human-in-the-loop, parallel execution, stateful agents.</td></tr>
+</table>
+<div class="box bans"><strong>Mental model:</strong> Chain = recipe (fixed steps). Agent = chef (improvises). Graph = kitchen workflow (stations, roles, human approval required for some steps).</div>
+</div>
+<div class="tc" id="lc11-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: Why did LangGraph replace AgentExecutor?</strong> → AgentExecutor had no native support for: human-in-the-loop pauses, streaming intermediate steps, parallel node execution, complex branching, subgraphs. LangGraph provides all of these as first-class features.</li>
+<li><strong>Q: Can a chain include an agent?</strong> → Yes. An agent (LangGraph graph) is a Runnable and can be composed in a chain using LCEL.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc12" data-tags="lc">
+<div class="card-hdr" onclick="open_card('lc12')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">12</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span></div>
+    <div class="qtitle">Output Parsers — StrOutputParser, PydanticOutputParser, CommaSeparatedListOutputParser</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc12','a')">Answer</button><button class="tab" onclick="st('lc12','cx')">Cross Q</button></div>
+<div class="tc" id="lc12-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_core.output_parsers <span class="kw">import</span> (
+    StrOutputParser,              <span class="cm"># AIMessage → string</span>
+    JsonOutputParser,             <span class="cm"># string → dict</span>
+    CommaSeparatedListOutputParser, <span class="cm"># "a, b, c" → ["a","b","c"]</span>
+    PydanticOutputParser          <span class="cm"># string → Pydantic model</span>
+)
+
+<span class="cm"># StrOutputParser — most common, extracts .content from AIMessage</span>
+chain = prompt | llm | <span class="cls">StrOutputParser</span>()
+
+<span class="cm"># CommaSeparatedListOutputParser</span>
+parser = <span class="cls">CommaSeparatedListOutputParser</span>()
+chain = prompt | llm | parser
+result = chain.invoke(<span class="str">"List 5 cities in India"</span>)
+<span class="cm"># → ["Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad"]</span>
+
+<span class="cm"># OutputFixingParser — wraps another parser, auto-fixes bad output</span>
+<span class="kw">from</span> langchain.output_parsers <span class="kw">import</span> OutputFixingParser
+fixing_parser = <span class="cls">OutputFixingParser</span>.from_llm(
+    parser=<span class="cls">PydanticOutputParser</span>(pydantic_object=<span class="cls">MyModel</span>),
+    llm=llm
+)
+<span class="cm"># If LLM returns malformed JSON, fixing_parser asks LLM to repair it</span></div>
+</div>
+<div class="tc" id="lc12-cx">
+<div class="box bcx"><strong>Q: When to use OutputFixingParser?</strong> → Only as a fallback. Prefer with_structured_output which uses native function calling and never needs fixing. OutputFixingParser = extra LLM call = extra cost and latency.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc13" data-tags="lc tricky">
+<div class="card-hdr" onclick="open_card('lc13')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">13</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Scenario: RAG pipeline returns wrong answers. How do you debug it?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc13','a')">Answer</button><button class="tab" onclick="st('lc13','cx')">Cross Q</button></div>
+<div class="tc" id="lc13-a">
+<p class="txt">Systematic debugging approach:</p>
+<ul class="pts">
+<li><strong>Step 1 — Isolate retrieval:</strong> <code>retriever.invoke("query")</code> directly. Are the right documents being retrieved? Wrong chunk size? Missing metadata filter?</li>
+<li><strong>Step 2 — Inspect context:</strong> Print the formatted context being sent to the LLM. Is it readable? Is relevant info present?</li>
+<li><strong>Step 3 — Test LLM in isolation:</strong> Feed the correct context + question directly to the LLM. Does it answer correctly? If yes, retrieval is the problem. If no, prompt is the problem.</li>
+<li><strong>Step 4 — Check embeddings:</strong> Are you using the same embedding model for indexing and querying? Mismatch causes poor retrieval.</li>
+<li><strong>Step 5 — LangSmith trace:</strong> Each step visible with inputs/outputs. Shows exact prompt sent, exact context retrieved, token usage.</li>
+</ul>
+<div class="code-wrap"><span class="cm"># Debug retrieval in isolation</span>
+docs = retriever.invoke(<span class="str">"What is the cancellation policy?"</span>)
+<span class="kw">for</span> d <span class="kw">in</span> docs:
+    print(<span class="str">f"Source: {d.metadata['source']}"</span>)
+    print(<span class="str">f"Content: {d.page_content[:200]}\n"</span>)</div>
+</div>
+<div class="tc" id="lc13-cx">
+<div class="box bcx"><strong>Q: What are common RAG failure modes?</strong> → (1) Retrieval miss — relevant doc not indexed or query doesn't semantically match chunk. Fix: better chunking, query expansion. (2) Context too noisy — 5 retrieved docs dilute the 1 relevant one. Fix: reranking with a cross-encoder. (3) Hallucination despite correct context — prompt doesn't constrain the LLM to use context only. Fix: explicit "answer only from context, say I don't know otherwise" instruction.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc14" data-tags="lc">
+<div class="card-hdr" onclick="open_card('lc14')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">14</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span></div>
+    <div class="qtitle">LangChain streaming — stream vs astream, token-by-token vs chunk streaming</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc14','a')">Answer + Code</button></div>
+<div class="tc" id="lc14-a">
+<div class="code-wrap"><span class="cm"># sync streaming — yields string chunks</span>
+<span class="kw">for</span> chunk <span class="kw">in</span> chain.stream({<span class="str">"question"</span>: <span class="str">"..."</span>}):
+    print(chunk, end=<span class="str">""</span>, flush=<span class="cls">True</span>)
+
+<span class="cm"># async streaming — for FastAPI / async frameworks</span>
+<span class="kw">async for</span> chunk <span class="kw">in</span> chain.astream({<span class="str">"question"</span>: <span class="str">"..."</span>}):
+    <span class="kw">yield</span> chunk   <span class="cm"># SSE to frontend</span>
+
+<span class="cm"># astream_events — detailed streaming with event types</span>
+<span class="kw">async for</span> event <span class="kw">in</span> chain.astream_events({<span class="str">"question"</span>: <span class="str">"..."</span>}, version=<span class="str">"v2"</span>):
+    <span class="kw">if</span> event[<span class="str">"event"</span>] == <span class="str">"on_chat_model_stream"</span>:
+        print(event[<span class="str">"data"</span>][<span class="str">"chunk"</span>].content, end=<span class="str">""</span>)
+    <span class="kw">elif</span> event[<span class="str">"event"</span>] == <span class="str">"on_retriever_end"</span>:
+        print(<span class="str">f"Retrieved {len(event['data']['output'])} docs"</span>)
+
+<span class="cm"># FastAPI SSE endpoint with LangChain streaming</span>
+<span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+<span class="kw">from</span> fastapi.responses <span class="kw">import</span> StreamingResponse
+
+app = <span class="cls">FastAPI</span>()
+
+<span class="kw">@app.post</span>(<span class="str">"/chat/stream"</span>)
+<span class="kw">async def</span> <span class="fn">stream_chat</span>(question: str):
+    <span class="kw">async def</span> <span class="fn">generate</span>():
+        <span class="kw">async for</span> chunk <span class="kw">in</span> rag_chain.astream({<span class="str">"question"</span>: question}):
+            <span class="kw">yield</span> <span class="str">f"data: {chunk}\n\n"</span>
+    <span class="kw">return</span> <span class="cls">StreamingResponse</span>(<span class="fn">generate</span>(), media_type=<span class="str">"text/event-stream"</span>)</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc15" data-tags="lc tricky">
+<div class="card-hdr" onclick="open_card('lc15')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">15</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Tricky: What is the difference between .invoke(), .run(), and .predict() — why are old methods deprecated?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc15','a')">Answer</button></div>
+<div class="tc" id="lc15-a">
+<div class="box bwarn"><strong>Common trap in interviews:</strong> .run() and .predict() were old LangChain v0.1 APIs on Chain objects. They are deprecated in v0.2+. Always use .invoke(), .stream(), .batch() from the Runnable interface.</div>
+<div class="code-wrap"><span class="cm"># OLD (v0.1) — deprecated</span>
+<span class="cm"># chain.run("question here")  ← deprecated</span>
+<span class="cm"># llm.predict("question")     ← deprecated</span>
+
+<span class="cm"># NEW (v0.2+) — always use invoke</span>
+chain.invoke({<span class="str">"question"</span>: <span class="str">"question here"</span>})
+llm.invoke(<span class="str">"question"</span>)
+
+<span class="cm"># Why the change? invoke() returns the correct type</span>
+<span class="cm"># llm.invoke() → AIMessage (not just string)</span>
+<span class="cm"># chain.invoke() → full output dict or parsed output</span>
+<span class="cm"># run() always returned a string — lost type information</span></div>
+<p class="txt">The unification of all components under the Runnable interface in LCEL meant all old specific methods (run, predict, apply) were replaced with the universal invoke/stream/batch/ainvoke/astream/abatch pattern.</p>
+</div>
+</div>
+</div>
+
+<!-- LangChain cards 16-20 (condensed) -->
+<div class="card" id="lc16" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc16')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">16</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Scenario: Build a multi-step document Q&A with citation — returning source URLs with answers</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc16','a')">Code</button><button class="tab" onclick="st('lc16','cx')">Cross Q</button></div>
+<div class="tc" id="lc16-a">
+<div class="code-wrap"><span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+<span class="kw">from</span> typing <span class="kw">import</span> List
+
+<span class="kw">class</span> <span class="cls">AnswerWithSources</span>(BaseModel):
+    answer: str
+    sources: <span class="cls">List</span>[str]  <span class="cm"># list of source URLs/filenames</span>
+
+<span class="cm"># Chain that returns structured answer + sources</span>
+source_chain = (
+    {<span class="str">"context"</span>: retriever | <span class="fn">format_docs_with_sources</span>, <span class="str">"question"</span>: <span class="cls">RunnablePassthrough</span>()}
+    | citation_prompt
+    | llm.with_structured_output(<span class="cls">AnswerWithSources</span>)
+)
+
+<span class="kw">def</span> <span class="fn">format_docs_with_sources</span>(docs):
+    <span class="kw">return</span> <span class="str">"\n\n"</span>.join(
+        <span class="str">f"[{i+1}] Source: {d.metadata['source']}\n{d.page_content}"</span>
+        <span class="kw">for</span> i, d <span class="kw">in</span> <span class="fn">enumerate</span>(docs)
+    )
+
+citation_prompt = <span class="cls">ChatPromptTemplate</span>.from_messages([
+    (<span class="str">"system"</span>, <span class="str">"Answer using only the context. List source URLs used.\n\n{context}"</span>),
+    (<span class="str">"human"</span>, <span class="str">"{question}"</span>)
+])
+result = source_chain.invoke(<span class="str">"What is the check-in policy?"</span>)
+<span class="cm"># result.answer = "Check-in is from 3pm..."</span>
+<span class="cm"># result.sources = ["https://thesqua.re/policies"]</span></div>
+</div>
+<div class="tc" id="lc16-cx">
+<div class="box bcx"><strong>Q: How do you prevent hallucinated citations?</strong> → Include source identifiers IN the context text (as shown above). The structured output schema forces the LLM to explicitly list sources. LangSmith tracing lets you verify the LLM only used sources from the retrieved context.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc17" data-tags="lc">
+<div class="card-hdr" onclick="open_card('lc17')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">17</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span></div>
+    <div class="qtitle">LangChain with different LLM providers — model switching, fallbacks</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc17','a')">Code</button></div>
+<div class="tc" id="lc17-a">
+<div class="code-wrap"><span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+<span class="kw">from</span> langchain_anthropic <span class="kw">import</span> ChatAnthropic
+<span class="kw">from</span> langchain_google_genai <span class="kw">import</span> ChatGoogleGenerativeAI
+<span class="kw">from</span> langchain_ollama <span class="kw">import</span> ChatOllama  <span class="cm"># local models</span>
+
+<span class="cm"># All use identical interface</span>
+gpt    = <span class="cls">ChatOpenAI</span>(model=<span class="str">"gpt-4o"</span>)
+claude = <span class="cls">ChatAnthropic</span>(model=<span class="str">"claude-sonnet-4-6"</span>)
+gemini = <span class="cls">ChatGoogleGenerativeAI</span>(model=<span class="str">"gemini-2.0-flash"</span>)
+llama  = <span class="cls">ChatOllama</span>(model=<span class="str">"llama3.2"</span>)  <span class="cm"># Jarvis local model</span>
+
+<span class="cm"># Automatic fallback — try GPT-4, fall back to Claude on failure</span>
+llm_with_fallback = gpt.with_fallbacks([claude, gemini])
+
+chain = prompt | llm_with_fallback | <span class="cls">StrOutputParser</span>()
+<span class="cm"># If GPT-4 rate limits or errors → automatically tries Claude → then Gemini</span></div>
+<div class="box btip"><strong>Perfect for Jarvis:</strong> Use ChatOllama(model="llama3.2") as primary (no cost), with fallback to GPT-4 for complex queries. Zero cost for 90% of requests.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc18" data-tags="lc tricky">
+<div class="card-hdr" onclick="open_card('lc18')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">18</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Tricky: Logical question — if every component is a Runnable, what does that mean for testing?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc18','a')">Answer</button></div>
+<div class="tc" id="lc18-a">
+<p class="txt">The Runnable interface enables clean unit testing of individual chain components by injecting mock runnables:</p>
+<div class="code-wrap"><span class="kw">from</span> langchain_core.runnables <span class="kw">import</span> RunnableLambda
+
+<span class="cm"># Replace real LLM with mock for testing</span>
+mock_llm = <span class="cls">RunnableLambda</span>(<span class="kw">lambda</span> x: <span class="cls">AIMessage</span>(content=<span class="str">"mocked response"</span>))
+mock_retriever = <span class="cls">RunnableLambda</span>(<span class="kw">lambda</span> x: [
+    <span class="cls">Document</span>(page_content=<span class="str">"test context"</span>)
+])
+
+<span class="cm"># Test chain with mocks — no API calls, no cost</span>
+test_chain = (
+    {<span class="str">"context"</span>: mock_retriever | <span class="fn">format_docs</span>, <span class="str">"question"</span>: <span class="cls">RunnablePassthrough</span>()}
+    | prompt | mock_llm | <span class="cls">StrOutputParser</span>()
+)
+result = test_chain.invoke(<span class="str">"test question"</span>)
+<span class="kw">assert</span> result == <span class="str">"mocked response"</span></div>
+<div class="box bans"><strong>Key insight:</strong> Because every component implements the same interface, mocking is trivial. RunnableLambda wraps any function as a Runnable. This is the Liskov Substitution Principle (SOLID) in action.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc19" data-tags="lc hot">
+<div class="card-hdr" onclick="open_card('lc19')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">19</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangChain component overview — which package does what?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc19','a')">Overview</button></div>
+<div class="tc" id="lc19-a">
+<table class="ctbl">
+<tr><th>Package</th><th>What it contains</th></tr>
+<tr><td><code>langchain-core</code></td><td>Runnable, BaseMessage, PromptTemplate, BaseOutputParser — base abstractions only, no implementations</td></tr>
+<tr><td><code>langchain</code></td><td>Chains, agents, retrieval, memory — higher-level constructs built on core</td></tr>
+<tr><td><code>langchain-community</code></td><td>Third-party integrations — document loaders, vectorstores, LLM providers (community maintained)</td></tr>
+<tr><td><code>langchain-openai</code></td><td>OpenAI-specific integrations (ChatOpenAI, OpenAIEmbeddings) — first-party maintained</td></tr>
+<tr><td><code>langchain-anthropic</code></td><td>Claude integrations — first-party</td></tr>
+<tr><td><code>langgraph</code></td><td>Graph-based orchestration, stateful agents, human-in-the-loop</td></tr>
+<tr><td><code>langsmith</code></td><td>Python SDK for tracing and evaluation</td></tr>
+</table>
+<div class="box btip"><strong>Tip:</strong> Always import from the most specific package. <code>from langchain_openai import ChatOpenAI</code> not <code>from langchain.chat_models import ChatOpenAI</code>. The old monolithic import path is deprecated.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lc20" data-tags="lc tricky">
+<div class="card-hdr" onclick="open_card('lc20')">
+  <div class="qnum" style="background:var(--lc-bg);color:var(--lc)">20</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-core">LangChain</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Scenario: How do you build a multi-tenant RAG system where each company gets isolated data?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lc20','a')">Answer + Code</button></div>
+<div class="tc" id="lc20-a">
+<div class="code-wrap"><span class="cm"># Approach 1: Metadata filtering per tenant</span>
+vectorstore = <span class="cls">Chroma</span>(...)
+
+<span class="kw">def</span> <span class="fn">get_tenant_retriever</span>(tenant_id: str):
+    <span class="kw">return</span> vectorstore.as_retriever(
+        search_kwargs={
+            <span class="str">"k"</span>: <span class="var">5</span>,
+            <span class="str">"filter"</span>: {<span class="str">"tenant_id"</span>: tenant_id}  <span class="cm"># Chroma metadata filter</span>
+        }
+    )
+
+<span class="cm"># Approach 2: Separate namespace per tenant (Pinecone)</span>
+<span class="kw">from</span> langchain_pinecone <span class="kw">import</span> PineconeVectorStore
+store_tenant_a = <span class="cls">PineconeVectorStore</span>(index=index, namespace=<span class="str">"tenant_a"</span>)
+store_tenant_b = <span class="cls">PineconeVectorStore</span>(index=index, namespace=<span class="str">"tenant_b"</span>)
+
+<span class="cm"># Index documents with tenant metadata</span>
+docs_with_tenant = [
+    <span class="cls">Document</span>(page_content=text, metadata={<span class="str">"tenant_id"</span>: <span class="str">"thesquare"</span>})
+    <span class="kw">for</span> text <span class="kw">in</span> company_docs
+]
+vectorstore.add_documents(docs_with_tenant)</div>
+<div class="box bwarn"><strong>Security note:</strong> Never rely solely on metadata filtering for security-critical isolation. An application-level bug could expose wrong tenant's data. For strict isolation, use separate vector stores per tenant (Approach 2).</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ════════════════════════════════ LANGGRAPH ════════════════════════════════ -->
+<section id="langgraph">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--lg-mid)"></div>
+  <div class="sec-title" style="color:var(--lg)">LangGraph</div>
+  <span class="sec-count" style="background:var(--lg-bg);color:var(--lg)">14 questions</span>
+  <div class="sec-sub">State machines, workflows, persistence, streaming, subgraphs</div>
+</div>
+
+<div class="card" id="lg1" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg1')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Why LangGraph? What does it add over LangChain chains and AgentExecutor?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg1','a')">Answer</button><button class="tab" onclick="st('lg1','cx')">Cross Q</button></div>
+<div class="tc" id="lg1-a">
+<div class="box bans"><strong>One-line answer:</strong> LangGraph lets you build stateful, multi-step, cyclic workflows for LLM agents — with human-in-the-loop, persistence, and streaming — that chains and AgentExecutor cannot express.</div>
+<table class="ctbl">
+<tr><th>Feature</th><th>LangChain chains</th><th>AgentExecutor</th><th>LangGraph</th></tr>
+<tr><td>Cycles/loops</td><td>No</td><td>Yes (but opaque)</td><td>Yes (explicit edges)</td></tr>
+<tr><td>Human-in-the-loop</td><td>No</td><td>No</td><td>Yes (interrupt)</td></tr>
+<tr><td>Persistent state</td><td>No</td><td>No</td><td>Yes (checkpointers)</td></tr>
+<tr><td>Parallel nodes</td><td>Partial (RunnableParallel)</td><td>No</td><td>Yes (fan-out/fan-in)</td></tr>
+<tr><td>Time travel</td><td>No</td><td>No</td><td>Yes (replay from checkpoint)</td></tr>
+<tr><td>Subgraphs</td><td>No</td><td>No</td><td>Yes (nested graphs)</td></tr>
+</table>
+</div>
+<div class="tc" id="lg1-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: Is LangGraph a replacement for LangChain?</strong> → No. LangGraph uses LangChain components (LLMs, prompts, tools, retrievers) inside graph nodes. It's the orchestration layer ON TOP of LangChain, not a replacement.</li>
+<li><strong>Q: When would you NOT use LangGraph?</strong> → Simple linear RAG pipeline, single-turn Q&A, anything that doesn't need cycles or state. Overhead of graph definition isn't worth it for simple chains.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg2" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg2')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangGraph core concepts — StateGraph, State, Nodes, Edges, TypedDict</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg2','a')">Answer + Code</button><button class="tab" onclick="st('lg2','cx')">Cross Q</button></div>
+<div class="tc" id="lg2-a">
+<div class="code-wrap"><span class="kw">from</span> langgraph.graph <span class="kw">import</span> StateGraph, START, END
+<span class="kw">from</span> typing <span class="kw">import</span> TypedDict, Annotated
+<span class="kw">from</span> langgraph.graph.message <span class="kw">import</span> add_messages
+
+<span class="cm"># 1. Define the state schema</span>
+<span class="kw">class</span> <span class="cls">AgentState</span>(<span class="cls">TypedDict</span>):
+    messages: <span class="cls">Annotated</span>[list, add_messages]  <span class="cm"># add_messages reducer appends</span>
+    context: str
+    final_answer: str
+
+<span class="cm"># 2. Define nodes (functions that transform state)</span>
+<span class="kw">def</span> <span class="fn">retrieve_node</span>(state: <span class="cls">AgentState</span>) -> dict:
+    question = state[<span class="str">"messages"</span>][-<span class="var">1</span>].content
+    docs = retriever.invoke(question)
+    <span class="kw">return</span> {<span class="str">"context"</span>: <span class="str">"\n"</span>.join(d.page_content <span class="kw">for</span> d <span class="kw">in</span> docs)}
+
+<span class="kw">def</span> <span class="fn">generate_node</span>(state: <span class="cls">AgentState</span>) -> dict:
+    answer = llm.invoke(prompt.format(
+        context=state[<span class="str">"context"</span>],
+        question=state[<span class="str">"messages"</span>][-<span class="var">1</span>].content
+    ))
+    <span class="kw">return</span> {<span class="str">"messages"</span>: [answer], <span class="str">"final_answer"</span>: answer.content}
+
+<span class="cm"># 3. Build the graph</span>
+graph = <span class="cls">StateGraph</span>(<span class="cls">AgentState</span>)
+graph.add_node(<span class="str">"retrieve"</span>, retrieve_node)
+graph.add_node(<span class="str">"generate"</span>, generate_node)
+graph.add_edge(<span class="cls">START</span>, <span class="str">"retrieve"</span>)
+graph.add_edge(<span class="str">"retrieve"</span>, <span class="str">"generate"</span>)
+graph.add_edge(<span class="str">"generate"</span>, <span class="cls">END</span>)
+
+<span class="cm"># 4. Compile and run</span>
+app = graph.compile()
+result = app.invoke({<span class="str">"messages"</span>: [{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:<span class="str">"What is RAG?"</span>}]})</div>
+<div class="box bans"><strong>State is the key concept:</strong> Each node receives the FULL current state and returns a dict of state updates. The graph merges updates using reducers. <code>add_messages</code> reducer appends to the list instead of replacing it.</div>
+</div>
+<div class="tc" id="lg2-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What is a reducer in LangGraph?</strong> → A function that determines how a state field is updated. Default reducer = replace. <code>add_messages</code> reducer = append. You can write custom reducers: e.g., always keep the MAX of two values.</li>
+<li><strong>Q: What is the difference between Annotated and a plain type hint in state?</strong> → <code>messages: list</code> = replace messages on update. <code>messages: Annotated[list, add_messages]</code> = append new messages to existing list. Wrong choice of reducer = lost messages or growing memory bloat.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg3" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg3')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Conditional edges in LangGraph — routing, decision nodes, ReAct agent loop</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg3','a')">Code</button><button class="tab" onclick="st('lg3','cx')">Cross Q</button></div>
+<div class="tc" id="lg3-a">
+<div class="code-wrap"><span class="kw">from</span> langgraph.graph <span class="kw">import</span> StateGraph, START, END
+<span class="kw">from</span> langchain_core.messages <span class="kw">import</span> AIMessage
+
+<span class="kw">class</span> <span class="cls">AgentState</span>(<span class="cls">TypedDict</span>):
+    messages: <span class="cls">Annotated</span>[list, add_messages]
+
+<span class="cm"># Decision function — returns node name to go to next</span>
+<span class="kw">def</span> <span class="fn">should_continue</span>(state: <span class="cls">AgentState</span>) -> str:
+    last = state[<span class="str">"messages"</span>][-<span class="var">1</span>]
+    <span class="kw">if</span> <span class="fn">isinstance</span>(last, <span class="cls">AIMessage</span>) <span class="kw">and</span> last.tool_calls:
+        <span class="kw">return</span> <span class="str">"tools"</span>   <span class="cm"># LLM wants to call a tool</span>
+    <span class="kw">return</span> <span class="str">"end"</span>        <span class="cm"># LLM gave final answer</span>
+
+<span class="kw">def</span> <span class="fn">call_model</span>(state): <span class="kw">return</span> {<span class="str">"messages"</span>: [llm_with_tools.invoke(state[<span class="str">"messages"</span>])]}
+
+<span class="kw">def</span> <span class="fn">call_tools</span>(state):
+    <span class="kw">from</span> langgraph.prebuilt <span class="kw">import</span> ToolNode
+    <span class="kw">return</span> <span class="cls">ToolNode</span>(tools).invoke(state)
+
+<span class="cm"># ReAct agent loop: model → (maybe tools) → model → (maybe tools) → end</span>
+graph = <span class="cls">StateGraph</span>(<span class="cls">AgentState</span>)
+graph.add_node(<span class="str">"agent"</span>,  call_model)
+graph.add_node(<span class="str">"tools"</span>,  call_tools)
+graph.add_edge(<span class="cls">START</span>, <span class="str">"agent"</span>)
+
+<span class="cm"># Conditional edge — routing function decides next node</span>
+graph.add_conditional_edges(
+    <span class="str">"agent"</span>,             <span class="cm"># from this node</span>
+    should_continue,     <span class="cm"># call this function</span>
+    {<span class="str">"tools"</span>: <span class="str">"tools"</span>, <span class="str">"end"</span>: <span class="cls">END</span>}  <span class="cm"># map return value to next node</span>
+)
+graph.add_edge(<span class="str">"tools"</span>, <span class="str">"agent"</span>)  <span class="cm"># loop back after tool execution</span>
+agent = graph.compile()</div>
+</div>
+<div class="tc" id="lg3-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What is a ReAct agent?</strong> → Reason + Act. LLM reasons about the problem, then Acts by calling tools, observes results, reasons again. The loop in the graph IS the ReAct pattern. LangGraph makes this loop explicit and controllable.</li>
+<li><strong>Q: Can conditional edges return multiple destinations?</strong> → Yes — for parallel fan-out. Return a list: <code>return ["node_a", "node_b"]</code>. Both nodes execute in parallel.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg4" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg4')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Persistence and Checkpointers in LangGraph — memory across turns</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg4','a')">Code</button><button class="tab" onclick="st('lg4','cx')">Cross Q</button></div>
+<div class="tc" id="lg4-a">
+<div class="code-wrap"><span class="kw">from</span> langgraph.checkpoint.memory <span class="kw">import</span> MemorySaver
+<span class="kw">from</span> langgraph.checkpoint.sqlite <span class="kw">import</span> SqliteSaver
+<span class="kw">from</span> langgraph.checkpoint.postgres <span class="kw">import</span> PostgresSaver
+
+<span class="cm"># In-memory checkpointer (development only — lost on restart)</span>
+memory = <span class="cls">MemorySaver</span>()
+
+<span class="cm"># SQLite (local persistence)</span>
+<span class="kw">with</span> <span class="cls">SqliteSaver</span>.from_conn_string(<span class="str">":memory:"</span>) <span class="kw">as</span> checkpointer:
+    app = graph.compile(checkpointer=checkpointer)
+
+<span class="cm"># PostgreSQL (production — connects to your thesqua.re DB)</span>
+<span class="kw">with</span> <span class="cls">PostgresSaver</span>.from_conn_string(POSTGRES_URL) <span class="kw">as</span> checkpointer:
+    app = graph.compile(checkpointer=checkpointer)
+
+<span class="cm"># thread_id = conversation ID — each thread has isolated state</span>
+config = {<span class="str">"configurable"</span>: {<span class="str">"thread_id"</span>: <span class="str">"user_deepak_session_1"</span>}}
+
+<span class="cm"># First message</span>
+app.invoke({<span class="str">"messages"</span>: [{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:<span class="str">"I need a flat in London"</span>}]}, config=config)
+
+<span class="cm"># Second message — state continues from where we left off</span>
+app.invoke({<span class="str">"messages"</span>: [{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:<span class="str">"Under £200 per night"</span>}]}, config=config)
+<span class="cm"># LangGraph remembers "London" from the first message!</span>
+
+<span class="cm"># View current state</span>
+state = app.get_state(config)
+print(state.values)  <span class="cm"># full state dict</span>
+print(state.next)    <span class="cm"># which node runs next</span></div>
+<div class="box bans"><strong>thread_id is the key:</strong> Same thread_id = same conversation context. Different thread_id = fresh state. This is how you support multi-user, multi-session agents. Each user gets their own thread_id.</div>
+</div>
+<div class="tc" id="lg4-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What is the difference between short-term and long-term memory in LangGraph?</strong> → Short-term: messages in the current thread's state (context window). Long-term: information stored in a separate store (user preferences, facts learned across sessions) retrieved using semantic search. Short-term = within a conversation. Long-term = across conversations.</li>
+<li><strong>Q: What is a checkpoint vs a state?</strong> → State = the current values of all state fields. Checkpoint = a saved snapshot of state at a specific point in the graph execution, with metadata (timestamp, which node was active). Multiple checkpoints per thread = history of the conversation.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg5" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg5')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Time travel in LangGraph — replaying and forking from past checkpoints</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg5','a')">Code</button><button class="tab" onclick="st('lg5','cx')">Cross Q</button></div>
+<div class="tc" id="lg5-a">
+<div class="code-wrap"><span class="cm"># Get full history of a thread</span>
+history = list(app.get_state_history(config))
+<span class="cm"># history[0] = most recent, history[-1] = first message</span>
+
+<span class="cm"># Each entry has: values, metadata, config, next, parent_config</span>
+<span class="kw">for</span> state <span class="kw">in</span> history[:3]:
+    print(<span class="str">f"Step: {state.metadata.get('step')}"</span>)
+    print(<span class="str">f"Node: {state.metadata.get('writes')}"</span>)
+    print(<span class="str">f"Last message: {state.values['messages'][-1].content}"</span>)
+
+<span class="cm"># Replay from a specific checkpoint</span>
+past_state = history[<span class="var">3</span>]  <span class="cm"># go back 3 steps</span>
+<span class="cm"># Replay forward from that point</span>
+result = app.invoke(<span class="cls">None</span>, config=past_state.config)
+
+<span class="cm"># Fork — modify past state and run forward (A/B testing prompts)</span>
+forked_config = app.update_state(
+    past_state.config,
+    {<span class="str">"messages"</span>: [(<span class="str">"human"</span>, <span class="str">"What about Manchester instead?"</span>)]}
+)
+result = app.invoke(<span class="cls">None</span>, config=forked_config)</div>
+<div class="box btip"><strong>Use cases:</strong> Debug: "why did it give that wrong answer?" (replay to see intermediate steps). A/B test: fork from same checkpoint, try different prompts, compare. Undo: user says "go back to when you suggested option A". All with production data.</div>
+</div>
+<div class="tc" id="lg5-cx">
+<div class="box bcx"><strong>Q: How is time travel different from just storing conversation history?</strong> → Conversation history = re-running from scratch with old messages. Time travel = literally restoring the exact graph state at a past checkpoint — including all intermediate data, not just messages. Can re-run from the middle of a complex agent workflow, not just from the start.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg6" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg6')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">6</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Human-in-the-loop — interrupt_before, interrupt_after, update_state</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg6','a')">Code</button><button class="tab" onclick="st('lg6','cx')">Cross Q</button></div>
+<div class="tc" id="lg6-a">
+<div class="code-wrap"><span class="cm"># Compile with interrupt — pauses execution before "tools" node</span>
+app = graph.compile(
+    checkpointer=memory,
+    interrupt_before=[<span class="str">"tools"</span>]   <span class="cm"># pause BEFORE tool execution</span>
+)
+
+<span class="cm"># Run until interrupt</span>
+config = {<span class="str">"configurable"</span>: {<span class="str">"thread_id"</span>: <span class="str">"approval_1"</span>}}
+result = app.invoke(
+    {<span class="str">"messages"</span>: [{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:<span class="str">"Book the London flat for 3 nights"</span>}]},
+    config=config
+)
+<span class="cm"># Execution PAUSED — LLM wants to call book_property tool</span>
+
+<span class="cm"># Inspect what tool will be called</span>
+state = app.get_state(config)
+pending_tool_call = state.values[<span class="str">"messages"</span>][-<span class="var">1</span>].tool_calls
+print(<span class="str">f"About to call: {pending_tool_call[0]['name']}"</span>)
+print(<span class="str">f"With args: {pending_tool_call[0]['args']}"</span>)
+
+<span class="cm"># Human approves — resume execution</span>
+app.invoke(<span class="cls">None</span>, config=config)
+
+<span class="cm"># Human rejects — update state to cancel</span>
+app.update_state(
+    config,
+    {<span class="str">"messages"</span>: [(<span class="str">"tool"</span>, <span class="str">"Booking cancelled by user"</span>, pending_tool_call[<span class="var">0</span>][<span class="str">"id"</span>])]},
+    as_node=<span class="str">"tools"</span>  <span class="cm"># pretend tools node ran and returned this</span>
+)
+app.invoke(<span class="cls">None</span>, config=config)  <span class="cm"># continue with "cancelled" tool result</span></div>
+<div class="box bans"><strong>Critical for production agents:</strong> Any agent that takes real-world actions (booking, payment, sending email) should have human approval before execution. interrupt_before pauses exactly before the action.</div>
+</div>
+<div class="tc" id="lg6-cx">
+<div class="box bcx"><strong>Cross questions:</strong>
+<ul class="pts" style="margin-top:.4rem">
+<li><strong>Q: What is the difference between interrupt_before and interrupt_after?</strong> → interrupt_before: pause before the node runs (let human approve/modify the inputs). interrupt_after: pause after the node runs (let human review/edit the outputs before continuing).</li>
+<li><strong>Q: How do you implement a feedback loop where a human corrects the agent?</strong> → Use update_state to inject corrected data, then invoke(None) to continue from that corrected state. The agent never "knew" it was wrong — it just sees correct state going forward.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg7" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg7')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">7</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Streaming in LangGraph — stream_mode values, tokens, and events</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg7','a')">Code</button><button class="tab" onclick="st('lg7','cx')">Cross Q</button></div>
+<div class="tc" id="lg7-a">
+<div class="code-wrap"><span class="cm"># stream_mode="values" — full state after each node</span>
+<span class="kw">for</span> state <span class="kw">in</span> app.stream(inputs, config, stream_mode=<span class="str">"values"</span>):
+    print(<span class="str">f"State: {state}"</span>)
+
+<span class="cm"># stream_mode="updates" — only what each node changed</span>
+<span class="kw">for</span> chunk <span class="kw">in</span> app.stream(inputs, config, stream_mode=<span class="str">"updates"</span>):
+    node_name, updates = list(chunk.items())[<span class="var">0</span>]
+    print(<span class="str">f"Node '{node_name}' updated: {updates}"</span>)
+
+<span class="cm"># stream_mode="messages" — LLM tokens as they generate (best for UI)</span>
+<span class="kw">async for</span> msg, metadata <span class="kw">in</span> app.astream({...}, config, stream_mode=<span class="str">"messages"</span>):
+    <span class="kw">if</span> msg.content <span class="kw">and not</span> <span class="fn">isinstance</span>(msg, <span class="cls">HumanMessage</span>):
+        print(msg.content, end=<span class="str">""</span>, flush=<span class="cls">True</span>)  <span class="cm"># live token streaming</span>
+
+<span class="cm"># stream LangGraph over FastAPI SSE</span>
+<span class="kw">@app.post</span>(<span class="str">"/agent/stream"</span>)
+<span class="kw">async def</span> <span class="fn">stream_agent</span>(question: str, session_id: str):
+    config = {<span class="str">"configurable"</span>: {<span class="str">"thread_id"</span>: session_id}}
+    <span class="kw">async def</span> <span class="fn">gen</span>():
+        <span class="kw">async for</span> msg, meta <span class="kw">in</span> agent.astream(
+            {<span class="str">"messages"</span>: [{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:question}]},
+            config, stream_mode=<span class="str">"messages"</span>
+        ):
+            <span class="kw">if</span> msg.content: <span class="kw">yield</span> <span class="str">f"data: {msg.content}\n\n"</span>
+    <span class="kw">return</span> <span class="cls">StreamingResponse</span>(<span class="fn">gen</span>(), media_type=<span class="str">"text/event-stream"</span>)</div>
+</div>
+<div class="tc" id="lg7-cx">
+<div class="box bcx"><strong>Q: Which stream_mode to use when?</strong> → UI token streaming (chat bubble typing effect): use "messages". Debugging intermediate state: use "updates". Monitoring full graph state: use "values". For a chatbot frontend, always use "messages" mode.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg8" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg8')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">8</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Subgraphs in LangGraph — composition, shared state, nested agents</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg8','a')">Code</button><button class="tab" onclick="st('lg8','cx')">Cross Q</button></div>
+<div class="tc" id="lg8-a">
+<div class="code-wrap"><span class="cm"># Subgraph: a compiled LangGraph used as a node in a parent graph</span>
+<span class="cm"># Use case: parent orchestrates, subgraphs specialise (booking vs search)</span>
+
+<span class="kw">class</span> <span class="cls">SearchState</span>(<span class="cls">TypedDict</span>):
+    query: str
+    results: list
+
+<span class="kw">def</span> <span class="fn">search_node</span>(state: <span class="cls">SearchState</span>) -> dict:
+    results = db.search(state[<span class="str">"query"</span>])
+    <span class="kw">return</span> {<span class="str">"results"</span>: results}
+
+search_graph = <span class="cls">StateGraph</span>(<span class="cls">SearchState</span>)
+search_graph.add_node(<span class="str">"search"</span>, search_node)
+search_graph.set_entry_point(<span class="str">"search"</span>)
+search_graph.set_finish_point(<span class="str">"search"</span>)
+search_subgraph = search_graph.compile()
+
+<span class="cm"># Parent graph uses the subgraph as a node</span>
+<span class="kw">class</span> <span class="cls">ParentState</span>(<span class="cls">TypedDict</span>):
+    messages: <span class="cls">Annotated</span>[list, add_messages]
+    query: str        <span class="cm"># shared with SearchState</span>
+    results: list     <span class="cm"># shared with SearchState</span>
+
+parent = <span class="cls">StateGraph</span>(<span class="cls">ParentState</span>)
+parent.add_node(<span class="str">"extract_query"</span>, extract_query_node)
+parent.add_node(<span class="str">"search"</span>, search_subgraph)  <span class="cm"># subgraph as node</span>
+parent.add_node(<span class="str">"respond"</span>, respond_node)
+parent.add_edge(<span class="cls">START</span>, <span class="str">"extract_query"</span>)
+parent.add_edge(<span class="str">"extract_query"</span>, <span class="str">"search"</span>)
+parent.add_edge(<span class="str">"search"</span>, <span class="str">"respond"</span>)
+parent.add_edge(<span class="str">"respond"</span>, <span class="cls">END</span>)
+main_agent = parent.compile(checkpointer=memory)</div>
+<div class="box btip"><strong>When to use subgraphs:</strong> Different teams own different capabilities. Complex sub-workflows (multi-step search, multi-step booking). Reuse the same subgraph in multiple parent graphs. Test subgraphs independently.</div>
+</div>
+<div class="tc" id="lg8-cx">
+<div class="box bcx"><strong>Q: How does state pass between parent and subgraph?</strong> → Overlapping state keys are automatically passed. If both parent and subgraph have a "results" field, parent's "results" is passed in and subgraph's updated "results" is written back. Fields not in the subgraph's state schema are invisible to it (isolation).</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg9" data-tags="lg tricky">
+<div class="card-hdr" onclick="open_card('lg9')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">9</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Long-term and short-term memory in LangGraph — the difference and implementation</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg9','a')">Answer + Code</button><button class="tab" onclick="st('lg9','cx')">Cross Q</button></div>
+<div class="tc" id="lg9-a">
+<div class="code-wrap"><span class="kw">from</span> langgraph.store.memory <span class="kw">import</span> InMemoryStore
+<span class="kw">from</span> langmem <span class="kw">import</span> create_manage_memory_tool, create_search_memory_tool
+
+<span class="cm"># Short-term memory: state within a thread (checkpointer)</span>
+<span class="cm"># → lost when thread ends, within context window</span>
+
+<span class="cm"># Long-term memory: cross-session store (separate from checkpointer)</span>
+store = <span class="cls">InMemoryStore</span>()  <span class="cm"># or PostgresStore for production</span>
+
+<span class="cm"># Store user preference</span>
+user_id = <span class="str">"deepak"</span>
+store.put((user_id, <span class="str">"preferences"</span>), <span class="str">"pref_1"</span>, {<span class="str">"prefers"</span>: <span class="str">"London"</span>, <span class="str">"budget"</span>: <span class="var">200</span>})
+
+<span class="cm"># Retrieve in a new session (different thread_id)</span>
+items = store.search((user_id, <span class="str">"preferences"</span>))
+prefs = items[<span class="var">0</span>].value <span class="kw">if</span> items <span class="kw">else</span> {}
+
+<span class="cm"># Inject long-term memory into node</span>
+<span class="kw">def</span> <span class="fn">agent_node</span>(state, *, store):  <span class="cm"># store injected by LangGraph</span>
+    user_id = state.get(<span class="str">"user_id"</span>)
+    memories = store.search((user_id, <span class="str">"facts"</span>))
+    context = <span class="str">"\n"</span>.join(m.value[<span class="str">"fact"</span>] <span class="kw">for</span> m <span class="kw">in</span> memories)
+    <span class="kw">return</span> {<span class="str">"messages"</span>: [llm.invoke([
+        (<span class="str">"system"</span>, <span class="str">f"User facts:\n{context}"</span>),
+        *state[<span class="str">"messages"</span>]
+    ])]}
+
+app = graph.compile(checkpointer=memory, store=store)</div>
+<table class="ctbl" style="margin-top:.75rem">
+<tr><th>Memory type</th><th>Scope</th><th>Storage</th><th>Use for</th></tr>
+<tr><td>Short-term</td><td>Single thread/conversation</td><td>Checkpointer (SQLite/Postgres)</td><td>Current conversation context</td></tr>
+<tr><td>Long-term</td><td>Across all sessions</td><td>Store (separate namespace)</td><td>User preferences, learned facts</td></tr>
+</table>
+</div>
+<div class="tc" id="lg9-cx">
+<div class="box bcx"><strong>Q: How does Jarvis benefit from long-term memory?</strong> → Jarvis learns "Deepak prefers concise answers", "thesqua.re booking system URL is X", "Deepak's preferred time for reminders is 9am". These persist across Telegram sessions. Next session, Jarvis already knows these facts without being told again.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg10" data-tags="lg tricky">
+<div class="card-hdr" onclick="open_card('lg10')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">10</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Different workflow types in LangGraph — linear, cyclic, parallel, multi-agent</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg10','a')">Answer</button></div>
+<div class="tc" id="lg10-a">
+<table class="ctbl">
+<tr><th>Workflow type</th><th>Graph structure</th><th>Example</th></tr>
+<tr><td>Linear (DAG)</td><td>A → B → C → END. No cycles.</td><td>RAG pipeline: retrieve → grade → generate</td></tr>
+<tr><td>Cyclic (Agent loop)</td><td>A → B → A (until condition met)</td><td>ReAct: model → tools → model → END</td></tr>
+<tr><td>Parallel (fan-out/fan-in)</td><td>A → [B, C] → D (B and C run concurrently)</td><td>Research: query 3 sources simultaneously, merge</td></tr>
+<tr><td>Multi-agent (supervisor)</td><td>Supervisor node routes to specialist agents</td><td>Supervisor → [Researcher, Coder, QA] based on task</td></tr>
+<tr><td>Multi-agent (hierarchical)</td><td>Parent graph with subgraph agents</td><td>Booking orchestrator → Search subgraph + Payment subgraph</td></tr>
+</table>
+<div class="code-wrap"><span class="cm"># Parallel fan-out — nodes A and B run at the same time</span>
+graph.add_edge(<span class="str">"start"</span>, <span class="str">"search_web"</span>)
+graph.add_edge(<span class="str">"start"</span>, <span class="str">"search_db"</span>)  <span class="cm"># both edges = parallel</span>
+graph.add_edge(<span class="str">"search_web"</span>, <span class="str">"merge"</span>)
+graph.add_edge(<span class="str">"search_db"</span>,  <span class="str">"merge"</span>)  <span class="cm"># merge waits for both</span>
+
+<span class="cm"># Supervisor pattern</span>
+<span class="kw">def</span> <span class="fn">supervisor</span>(state) -> str:
+    <span class="cm"># LLM decides which specialist to call</span>
+    choice = llm.invoke(<span class="str">"Given task, which agent: researcher/coder/qa?"</span>)
+    <span class="kw">return</span> choice.content  <span class="cm"># routes to that node</span>
+
+graph.add_conditional_edges(<span class="str">"supervisor"</span>, supervisor,
+    {<span class="str">"researcher"</span>:<span class="str">"researcher"</span>, <span class="str">"coder"</span>:<span class="str">"coder"</span>, <span class="str">"qa"</span>:<span class="str">"qa"</span>})</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg11" data-tags="lg tricky">
+<div class="card-hdr" onclick="open_card('lg11')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">11</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Scenario: Agent keeps calling the same tool in a loop. How do you fix it?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg11','a')">Answer</button></div>
+<div class="tc" id="lg11-a">
+<ul class="pts">
+<li><strong>Add a recursion limit:</strong> <code>app.invoke(inputs, config, recursion_limit=10)</code> — raises GraphRecursionError after 10 node visits. Prevents infinite loops.</li>
+<li><strong>Track tool call counts in state:</strong> Add <code>tool_call_count: int</code> to state. Increment in tools node. If count > threshold, route to END instead of back to agent.</li>
+<li><strong>Pass tool results back clearly:</strong> Ensure tool outputs clearly say when there's nothing more to do. "No results found. Please try a different search." The LLM should stop calling after seeing this.</li>
+<li><strong>System prompt instruction:</strong> Add "If you receive an error or empty result twice, stop and tell the user what you found so far."</li>
+</ul>
+<div class="code-wrap"><span class="kw">def</span> <span class="fn">should_continue</span>(state: <span class="cls">AgentState</span>) -> str:
+    <span class="cm"># Stop if too many tool calls</span>
+    tool_calls = sum(<span class="var">1</span> <span class="kw">for</span> m <span class="kw">in</span> state[<span class="str">"messages"</span>] <span class="kw">if</span> <span class="fn">hasattr</span>(m, <span class="str">"tool_calls"</span>) <span class="kw">and</span> m.tool_calls)
+    <span class="kw">if</span> tool_calls >= <span class="var">5</span>: <span class="kw">return</span> <span class="str">"end"</span>
+    
+    last = state[<span class="str">"messages"</span>][-<span class="var">1</span>]
+    <span class="kw">if</span> <span class="fn">hasattr</span>(last, <span class="str">"tool_calls"</span>) <span class="kw">and</span> last.tool_calls: <span class="kw">return</span> <span class="str">"tools"</span>
+    <span class="kw">return</span> <span class="str">"end"</span></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg12" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg12')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">12</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangGraph vs LangChain — what lives where, practical decision guide</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg12','a')">Answer</button></div>
+<div class="tc" id="lg12-a">
+<div class="box bans"><strong>Rule: LangChain components live inside LangGraph nodes.</strong> LangGraph is the skeleton. LangChain is the flesh.</div>
+<div class="code-wrap"><span class="cm"># LangChain components INSIDE LangGraph nodes</span>
+<span class="kw">def</span> <span class="fn">rag_node</span>(state: <span class="cls">AgentState</span>):
+    <span class="cm"># LangChain: retriever, prompt, LLM, parser — all inside</span>
+    docs = retriever.invoke(state[<span class="str">"messages"</span>][-<span class="var">1</span>].content)  <span class="cm"># LangChain</span>
+    answer = (prompt | llm | <span class="cls">StrOutputParser</span>()).invoke({     <span class="cm"># LangChain LCEL</span>
+        <span class="str">"context"</span>: <span class="fn">format_docs</span>(docs),
+        <span class="str">"question"</span>: state[<span class="str">"messages"</span>][-<span class="var">1</span>].content
+    })
+    <span class="kw">return</span> {<span class="str">"messages"</span>: [(<span class="str">"assistant"</span>, answer)]}
+
+<span class="cm"># LangGraph: orchestration, state, routing — outside the nodes</span>
+graph = <span class="cls">StateGraph</span>(<span class="cls">AgentState</span>)  <span class="cm"># LangGraph</span>
+graph.add_node(<span class="str">"rag"</span>, rag_node)  <span class="cm"># LangGraph</span>
+graph.add_conditional_edges(...)  <span class="cm"># LangGraph</span>
+app = graph.compile(checkpointer=memory)  <span class="cm"># LangGraph</span></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg13" data-tags="lg tricky">
+<div class="card-hdr" onclick="open_card('lg13')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">13</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Tricky: What happens when two parallel nodes both update the same state field?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg13','a')">Answer</button></div>
+<div class="tc" id="lg13-a">
+<div class="box bwarn"><strong>This causes an InvalidUpdateError if you use the default (replace) reducer.</strong></div>
+<p class="txt">When two parallel nodes return updates to the same field, LangGraph needs to know how to merge them. Without a reducer, it doesn't know which value to use.</p>
+<div class="code-wrap"><span class="kw">from</span> typing <span class="kw">import</span> Annotated
+<span class="kw">import</span> operator
+
+<span class="cm"># Problem: both parallel_node_a and parallel_node_b update "results"</span>
+<span class="cm"># Solution: use a reducer that merges both</span>
+
+<span class="kw">class</span> <span class="cls">ParallelState</span>(<span class="cls">TypedDict</span>):
+    query: str
+    <span class="cm"># add_messages appends — safe for parallel updates</span>
+    results: <span class="cls">Annotated</span>[list, operator.add]  <span class="cm"># operator.add concatenates lists</span>
+
+<span class="kw">def</span> <span class="fn">web_search</span>(state): <span class="kw">return</span> {<span class="str">"results"</span>: [<span class="str">"web result 1"</span>]}
+<span class="kw">def</span> <span class="fn">db_search</span>(state):  <span class="kw">return</span> {<span class="str">"results"</span>: [<span class="str">"db result 1"</span>]}
+<span class="cm"># After both run: state["results"] == ["web result 1", "db result 1"]</span></div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lg14" data-tags="lg hot">
+<div class="card-hdr" onclick="open_card('lg14')">
+  <div class="qnum" style="background:var(--lg-bg);color:var(--lg)">14</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-graph">LangGraph</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangGraph for Jarvis (Deepak's project) — how all concepts apply</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lg14','a')">Architecture</button></div>
+<div class="tc" id="lg14-a">
+<div class="box bans"><strong>Jarvis architecture using LangGraph:</strong></div>
+<div class="code-wrap"><span class="cm"># Jarvis: local AI agent on Mac Mini M4</span>
+<span class="cm"># LangGraph graph with Ollama (llama3.2) + tools + memory</span>
+
+<span class="kw">class</span> <span class="cls">JarvisState</span>(<span class="cls">TypedDict</span>):
+    messages: <span class="cls">Annotated</span>[list, add_messages]
+    user_id: str
+
+<span class="cm"># Tools from SKILL.md registry</span>
+tools = [search_web, query_thesquare_db, send_telegram, run_n8n_workflow]
+
+<span class="cm"># Local model via Ollama</span>
+llm = <span class="cls">ChatOllama</span>(model=<span class="str">"llama3.2"</span>).bind_tools(tools)
+
+<span class="cm"># PostgreSQL checkpointer for persistence across Telegram sessions</span>
+<span class="kw">with</span> <span class="cls">PostgresSaver</span>.from_conn_string(POSTGRES_URL) <span class="kw">as</span> checkpointer:
+    <span class="cm"># In-store for long-term memory (facts about Deepak)</span>
+    store = <span class="cls">InMemoryStore</span>()
+    jarvis = graph.compile(checkpointer=checkpointer, store=store)
+
+<span class="cm"># Telegram → LangGraph integration</span>
+<span class="kw">async def</span> <span class="fn">handle_telegram</span>(msg: str, user_id: str):
+    config = {<span class="str">"configurable"</span>: {<span class="str">"thread_id"</span>: <span class="str">f"telegram_{user_id}"</span>}}
+    <span class="kw">async for</span> chunk, meta <span class="kw">in</span> jarvis.astream(
+        {<span class="str">"messages"</span>: [{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:msg}], <span class="str">"user_id"</span>: user_id},
+        config, stream_mode=<span class="str">"messages"</span>
+    ):
+        <span class="kw">if</span> chunk.content: <span class="kw">yield</span> chunk.content  <span class="cm"># stream to Telegram</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ════════════════════════════════ LANGSMITH ════════════════════════════════ -->
+<section id="langsmith">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--ls-mid)"></div>
+  <div class="sec-title" style="color:var(--ls)">LangSmith</div>
+  <span class="sec-count" style="background:var(--ls-bg);color:var(--ls)">7 questions</span>
+  <div class="sec-sub">Tracing, evaluation, datasets, observability</div>
+</div>
+
+<div class="card" id="ls1" data-tags="ls hot">
+<div class="card-hdr" onclick="open_card('ls1')">
+  <div class="qnum" style="background:var(--ls-bg);color:var(--ls)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-smith">LangSmith</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">What is LangSmith and why do you need it? Components overview.</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('ls1','a')">Answer</button><button class="tab" onclick="st('ls1','cx')">Cross Q</button></div>
+<div class="tc" id="ls1-a">
+<div class="box bans"><strong>One-line answer:</strong> LangSmith is the observability and evaluation platform for LLM apps — like Datadog for your AI chains. You can see every LLM call, latency, cost, prompt, and output with a visual trace tree.</div>
+<table class="ctbl">
+<tr><th>Component</th><th>What it does</th></tr>
+<tr><td>Tracing</td><td>Captures every run — inputs, outputs, latency, token cost, errors — in a tree structure</td></tr>
+<tr><td>Playground</td><td>Replay any run with different prompts/models, compare outputs side-by-side</td></tr>
+<tr><td>Datasets</td><td>Store input/output examples for evaluation and regression testing</td></tr>
+<tr><td>Evaluations</td><td>Run automated scoring on datasets — LLM-as-judge, exact match, custom criteria</td></tr>
+<tr><td>Prompt Hub</td><td>Version-controlled prompt templates — pull by name:version in code</td></tr>
+<tr><td>Monitoring</td><td>Track latency, error rate, token cost over time with dashboards and alerts</td></tr>
+</table>
+<div class="code-wrap"><span class="cm"># Zero-code setup — just set env vars</span>
+<span class="kw">import</span> os
+os.environ[<span class="str">"LANGCHAIN_TRACING_V2"</span>] = <span class="str">"true"</span>
+os.environ[<span class="str">"LANGCHAIN_API_KEY"</span>] = <span class="str">"ls-..."</span>
+os.environ[<span class="str">"LANGCHAIN_PROJECT"</span>] = <span class="str">"thesquare-ai"</span>
+
+<span class="cm"># Now ALL LangChain/LangGraph runs are automatically traced in LangSmith</span>
+result = rag_chain.invoke({<span class="str">"question"</span>: <span class="str">"..."</span>})
+<span class="cm"># → Trace appears in LangSmith dashboard with full tree</span></div>
+</div>
+<div class="tc" id="ls1-cx">
+<div class="box bcx"><strong>Q: LangSmith vs LangFuse — when to use which?</strong> → LangSmith: tightly integrated with LangChain/LangGraph, best tracing for these frameworks, hosted by LangChain Inc, easy to set up. LangFuse: open source, self-hostable, framework-agnostic (works with any LLM code, not just LangChain), better for teams wanting full data control. Both do tracing + evaluation — choice is usually about hosting model and stack.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="ls2" data-tags="ls hot">
+<div class="card-hdr" onclick="open_card('ls2')">
+  <div class="qnum" style="background:var(--ls-bg);color:var(--ls)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-smith">LangSmith</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangSmith Tracing — run trees, decorators, manual tracing</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('ls2','a')">Code</button><button class="tab" onclick="st('ls2','cx')">Cross Q</button></div>
+<div class="tc" id="ls2-a">
+<div class="code-wrap"><span class="kw">from</span> langsmith <span class="kw">import</span> traceable, Client
+<span class="kw">from</span> langsmith.run_helpers <span class="kw">import</span> get_current_run_tree
+
+<span class="cm"># @traceable — wraps any function as a traced span</span>
+<span class="kw">@traceable</span>(name=<span class="str">"property-search"</span>, run_type=<span class="str">"retriever"</span>)
+<span class="kw">def</span> <span class="fn">search_properties</span>(query: str) -> list:
+    results = db.search(query)
+    <span class="kw">return</span> results  <span class="cm"># auto-traced: input, output, latency</span>
+
+<span class="cm"># Nested — creates child spans in the trace tree</span>
+<span class="kw">@traceable</span>(name=<span class="str">"full-booking-flow"</span>)
+<span class="kw">def</span> <span class="fn">booking_flow</span>(user_request: str):
+    props = <span class="fn">search_properties</span>(user_request)  <span class="cm"># child span</span>
+    answer = rag_chain.invoke({<span class="str">"question"</span>: user_request})  <span class="cm"># auto-traced child</span>
+    <span class="kw">return</span> answer
+
+<span class="cm"># Add metadata/tags to traces programmatically</span>
+<span class="kw">@traceable</span>(metadata={<span class="str">"version"</span>: <span class="str">"v2"</span>, <span class="str">"env"</span>: <span class="str">"prod"</span>}, tags=[<span class="str">"rag"</span>, <span class="str">"booking"</span>])
+<span class="kw">def</span> <span class="fn">my_function</span>(x): ...
+
+<span class="cm"># Attach feedback to a run (for RLHF)</span>
+client = <span class="cls">Client</span>()
+client.create_feedback(
+    run_id=<span class="str">"run-uuid-from-trace"</span>,
+    key=<span class="str">"user_rating"</span>,
+    score=<span class="var">1.0</span>,  <span class="cm"># 0-1</span>
+    comment=<span class="str">"Great answer!"</span>
+)</div>
+</div>
+<div class="tc" id="ls2-cx">
+<div class="box bcx"><strong>Q: What information does a LangSmith trace capture?</strong> → Input data, output data, start time, end time (latency), token counts, model used, error messages, child runs (nested spans), custom metadata/tags, user feedback. Full run tree with parent-child relationships.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="ls3" data-tags="ls hot">
+<div class="card-hdr" onclick="open_card('ls3')">
+  <div class="qnum" style="background:var(--ls-bg);color:var(--ls)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-smith">LangSmith</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangSmith Evaluations — datasets, evaluators, running evals</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('ls3','a')">Code</button><button class="tab" onclick="st('ls3','cx')">Cross Q</button></div>
+<div class="tc" id="ls3-a">
+<div class="code-wrap"><span class="kw">from</span> langsmith <span class="kw">import</span> Client
+<span class="kw">from</span> langsmith.evaluation <span class="kw">import</span> evaluate, LangChainStringEvaluator
+
+client = <span class="cls">Client</span>()
+
+<span class="cm"># 1. Create a dataset</span>
+dataset = client.create_dataset(<span class="str">"rag-eval-v1"</span>, description=<span class="str">"RAG Q&A evaluation"</span>)
+client.create_examples(
+    inputs=[{<span class="str">"question"</span>: <span class="str">"What is the check-in time?"</span>}],
+    outputs=[{<span class="str">"answer"</span>: <span class="str">"Check-in is from 3pm onwards"</span>}],
+    dataset_id=dataset.id,
+)
+
+<span class="cm"># 2. Define evaluators</span>
+<span class="kw">def</span> <span class="fn">correctness_evaluator</span>(run, example) -> dict:
+    <span class="cm"># LLM-as-judge</span>
+    predicted = run.outputs[<span class="str">"answer"</span>]
+    expected = example.outputs[<span class="str">"answer"</span>]
+    prompt = <span class="str">f"Is '{predicted}' semantically equivalent to '{expected}'? Yes/No"</span>
+    verdict = llm.invoke(prompt).content.lower()
+    <span class="kw">return</span> {<span class="str">"key"</span>: <span class="str">"correctness"</span>, <span class="str">"score"</span>: <span class="var">1</span> <span class="kw">if</span> <span class="str">"yes"</span> <span class="kw">in</span> verdict <span class="kw">else</span> <span class="var">0</span>}
+
+<span class="cm"># Built-in RAGAS-style evaluators</span>
+faithfulness = <span class="cls">LangChainStringEvaluator</span>(<span class="str">"criteria"</span>,
+    config={<span class="str">"criteria"</span>: {<span class="str">"faithfulness"</span>: <span class="str">"Is the answer grounded in the context?"</span>}},
+    prepare_data=<span class="kw">lambda</span> run, ex: {
+        <span class="str">"prediction"</span>: run.outputs[<span class="str">"answer"</span>],
+        <span class="str">"input"</span>: run.inputs[<span class="str">"question"</span>]
+    }
+)
+
+<span class="cm"># 3. Run evaluation</span>
+results = <span class="fn">evaluate</span>(
+    <span class="kw">lambda</span> x: rag_chain.invoke(x),  <span class="cm"># function to evaluate</span>
+    data=<span class="str">"rag-eval-v1"</span>,              <span class="cm"># dataset name</span>
+    evaluators=[correctness_evaluator, faithfulness],
+    experiment_prefix=<span class="str">"gpt4o-vs-claude"</span>
+)
+<span class="cm"># Results visible in LangSmith dashboard with scores + comparison</span></div>
+</div>
+<div class="tc" id="ls3-cx">
+<div class="box bcx"><strong>Q: What is LLM-as-judge evaluation?</strong> → Use a (usually more powerful) LLM to score the outputs of your application. More scalable than human evaluation. Less reliable than human evaluation. Best for: semantic correctness, tone, safety. Avoid for: factual accuracy (LLM may share the same errors).</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="ls4" data-tags="ls">
+<div class="card-hdr" onclick="open_card('ls4')">
+  <div class="qnum" style="background:var(--ls-bg);color:var(--ls)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-smith">LangSmith</span></div>
+    <div class="qtitle">LangSmith Prompt Hub — versioned prompts pulled from the hub</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('ls4','a')">Code</button><button class="tab" onclick="st('ls4','cx')">Cross Q</button></div>
+<div class="tc" id="ls4-a">
+<div class="code-wrap"><span class="kw">from</span> langchain <span class="kw">import</span> hub
+
+<span class="cm"># Pull a prompt from LangSmith Prompt Hub</span>
+prompt = hub.pull(<span class="str">"rlm/rag-prompt"</span>)          <span class="cm"># community prompt</span>
+prompt = hub.pull(<span class="str">"my-org/booking-prompt:v2"</span>)  <span class="cm"># specific version</span>
+prompt = hub.pull(<span class="str">"my-org/booking-prompt"</span>)     <span class="cm"># latest version</span>
+
+<span class="cm"># Use in chain — identical to any ChatPromptTemplate</span>
+chain = prompt | llm | <span class="cls">StrOutputParser</span>()
+
+<span class="cm"># Push a prompt to Prompt Hub</span>
+<span class="kw">from</span> langchain_core.prompts <span class="kw">import</span> ChatPromptTemplate
+my_prompt = <span class="cls">ChatPromptTemplate</span>.from_messages([
+    (<span class="str">"system"</span>, <span class="str">"You are thesqua.re's booking assistant. {context}"</span>),
+    (<span class="str">"human"</span>, <span class="str">"{question}"</span>)
+])
+hub.push(<span class="str">"my-org/booking-prompt"</span>, my_prompt, new_repo_is_public=<span class="cls">False</span>)
+<span class="cm"># Creates a versioned prompt — rollback with hub.pull("....:v1")</span></div>
+</div>
+<div class="tc" id="ls4-cx">
+<div class="box bcx"><strong>Q: Why version prompts?</strong> → Prompts are as important as code. A bad prompt change can break production. Versioned prompts: rollback instantly if a change causes regressions, A/B test two versions simultaneously, track which version was used for any given run via the trace.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="ls5" data-tags="ls tricky">
+<div class="card-hdr" onclick="open_card('ls5')">
+  <div class="qnum" style="background:var(--ls-bg);color:var(--ls)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-smith">LangSmith</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Tricky: How do you use LangSmith to reduce LLM costs in production?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('ls5','a')">Answer</button></div>
+<div class="tc" id="ls5-a">
+<ul class="pts">
+<li><strong>Identify expensive runs:</strong> Filter LangSmith traces by token count. Find which chains use the most tokens. Often 80% of cost comes from 20% of chains.</li>
+<li><strong>Trim prompts:</strong> LangSmith shows the exact prompt sent. Find bloated system prompts, redundant instructions, unnecessary context.</li>
+<li><strong>Evaluate smaller models:</strong> Use LangSmith datasets + evaluations to compare GPT-4o vs GPT-4o-mini vs Claude Haiku on quality. If quality is equivalent → switch to cheaper model.</li>
+<li><strong>Cache common queries:</strong> LangSmith shows which questions are asked repeatedly. Cache exact-match queries in Redis. Many enterprise chatbots have 30-40% repeated queries.</li>
+<li><strong>Reduce k in retrievers:</strong> If 5 retrieved docs works as well as 10 → half the context → half the tokens for that portion.</li>
+</ul>
+<div class="box bans"><strong>Real example:</strong> LangSmith trace showed our RAG system was including 3000 token system prompts on every call. Rewrote with 300 tokens. 90% reduction in system prompt cost with no quality loss.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="ls6" data-tags="ls hot">
+<div class="card-hdr" onclick="open_card('ls6')">
+  <div class="qnum" style="background:var(--ls-bg);color:var(--ls)">6</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-smith">LangSmith</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangSmith vs LangFuse — full comparison, when to use each</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('ls6','a')">Comparison</button></div>
+<div class="tc" id="ls6-a">
+<table class="ctbl">
+<tr><th>Aspect</th><th>LangSmith</th><th>LangFuse</th></tr>
+<tr><td>Source</td><td>Commercial (LangChain Inc)</td><td>Open source (MIT)</td></tr>
+<tr><td>Hosting</td><td>Cloud only (langsmith.com)</td><td>Cloud OR self-hosted (Docker)</td></tr>
+<tr><td>Framework support</td><td>Best for LangChain/LangGraph — deep integration</td><td>Framework-agnostic — any LLM code</td></tr>
+<tr><td>Setup</td><td>2 env vars, done</td><td>Slightly more setup, decorator or SDK</td></tr>
+<tr><td>Prompt versioning</td><td>Prompt Hub (cloud)</td><td>Prompt management (self-hosted)</td></tr>
+<tr><td>Data privacy</td><td>Data goes to LangChain cloud</td><td>Full control — self-host keeps data local</td></tr>
+<tr><td>Cost</td><td>Free tier, paid above 5K runs/month</td><td>Free self-hosted, paid cloud</td></tr>
+<tr><td>Evaluations</td><td>Strong — built-in evaluators, datasets</td><td>Strong — LLM-as-judge, annotation queues</td></tr>
+</table>
+<div class="box btip"><strong>Choose LangSmith if:</strong> your stack is LangChain/LangGraph, you want zero setup, hosted is fine. <strong>Choose LangFuse if:</strong> you need self-hosting for data privacy (enterprise), you use multiple frameworks (OpenAI SDK + LangChain), or you're building on Jarvis with local Ollama (no data leaves your machine).</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="ls7" data-tags="ls tricky">
+<div class="card-hdr" onclick="open_card('ls7')">
+  <div class="qnum" style="background:var(--ls-bg);color:var(--ls)">7</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-smith">LangSmith</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Scenario: Production RAG regression — how does LangSmith help you find what changed?</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('ls7','a')">Answer</button></div>
+<div class="tc" id="ls7-a">
+<ul class="pts">
+<li><strong>Step 1 — Compare runs:</strong> Filter traces by date (before and after regression). Compare token counts, latencies, and outputs side-by-side in the Playground.</li>
+<li><strong>Step 2 — Check prompt versions:</strong> Prompt Hub shows which prompt version was active at each time. If prompt changed → replay old runs with old prompt vs new prompt.</li>
+<li><strong>Step 3 — Run evaluation:</strong> Create a dataset of golden examples. Run evaluation on both old and new prompt/model. Scores show which is better.</li>
+<li><strong>Step 4 — Identify failing patterns:</strong> Filter low-score runs. What do they have in common? Same question type? Same document source? Specific keyword?</li>
+<li><strong>Step 5 — A/B test fix:</strong> Create experiment in LangSmith. Run dataset against old config and new config simultaneously. Compare scores before deploying.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ════════════════════════════════ LANGFUSE ════════════════════════════════ -->
+<section id="langfuse">
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--lf-mid)"></div>
+  <div class="sec-title" style="color:var(--lf)">LangFuse</div>
+  <span class="sec-count" style="background:var(--lf-bg);color:var(--lf)">6 questions</span>
+  <div class="sec-sub">Open-source observability, self-hosted, framework-agnostic</div>
+</div>
+
+<div class="card" id="lf1" data-tags="lf hot">
+<div class="card-hdr" onclick="open_card('lf1')">
+  <div class="qnum" style="background:var(--lf-bg);color:var(--lf)">1</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-fuse">LangFuse</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">What is LangFuse? Core concepts — Traces, Spans, Generations, Scores</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lf1','a')">Answer + Code</button><button class="tab" onclick="st('lf1','cx')">Cross Q</button></div>
+<div class="tc" id="lf1-a">
+<div class="box bans"><strong>LangFuse is the open-source, self-hostable alternative to LangSmith.</strong> Core data model: Trace → Spans → Generations → Scores.</div>
+<div class="code-wrap"><span class="kw">from</span> langfuse <span class="kw">import</span> Langfuse
+<span class="kw">from</span> langfuse.decorators <span class="kw">import</span> observe, langfuse_context
+
+lf = <span class="cls">Langfuse</span>(
+    public_key=<span class="str">"pk-..."</span>,
+    secret_key=<span class="str">"sk-..."</span>,
+    host=<span class="str">"http://localhost:3000"</span>  <span class="cm"># self-hosted</span>
+)
+
+<span class="cm"># @observe — creates a trace/span automatically</span>
+<span class="kw">@observe</span>()  <span class="cm"># top-level call = Trace</span>
+<span class="kw">def</span> <span class="fn">booking_flow</span>(user_query: str):
+    results = <span class="fn">search</span>(user_query)  <span class="cm"># nested @observe = Span</span>
+    answer = <span class="fn">generate</span>(results, user_query)  <span class="cm"># nested @observe = Span</span>
+    <span class="kw">return</span> answer
+
+<span class="kw">@observe</span>()
+<span class="kw">def</span> <span class="fn">generate</span>(context: list, query: str):
+    langfuse_context.update_current_observation(
+        input=query,
+        output=<span class="str">"..."</span>,
+        model=<span class="str">"gpt-4o"</span>,
+        usage={<span class="str">"input"</span>: <span class="var">500</span>, <span class="str">"output"</span>: <span class="var">200</span>}  <span class="cm"># tokens</span>
+    )
+    <span class="kw">return</span> llm.invoke(query).content
+
+<span class="cm"># Add user feedback score</span>
+lf.score(
+    trace_id=<span class="str">"trace-uuid"</span>,
+    name=<span class="str">"user-feedback"</span>,
+    value=<span class="var">1</span>,  <span class="cm"># thumbs up</span>
+    comment=<span class="str">"Accurate and helpful"</span>
+)</div>
+</div>
+<div class="tc" id="lf1-cx">
+<div class="box bcx"><strong>Q: What is the difference between a Trace, Span, and Generation?</strong> → Trace: the full end-to-end request lifecycle (one user interaction = one trace). Span: a sub-operation within a trace (retrieval, formatting, external API call). Generation: specifically an LLM call — has token usage, model, prompt/completion. Generations are a special type of Span with LLM-specific fields.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lf2" data-tags="lf hot">
+<div class="card-hdr" onclick="open_card('lf2')">
+  <div class="qnum" style="background:var(--lf-bg);color:var(--lf)">2</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-fuse">LangFuse</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangFuse with LangChain and LangGraph — integration patterns</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lf2','a')">Code</button><button class="tab" onclick="st('lf2','cx')">Cross Q</button></div>
+<div class="tc" id="lf2-a">
+<div class="code-wrap"><span class="kw">from</span> langfuse.callback <span class="kw">import</span> CallbackHandler
+
+<span class="cm"># LangFuse LangChain integration via callback handler</span>
+handler = <span class="cls">CallbackHandler</span>(
+    public_key=<span class="str">"pk-..."</span>,
+    secret_key=<span class="str">"sk-..."</span>,
+    host=<span class="str">"http://localhost:3000"</span>,
+    trace_name=<span class="str">"rag-pipeline"</span>,
+    user_id=<span class="str">"deepak_123"</span>,
+    session_id=<span class="str">"session_abc"</span>,
+    tags=[<span class="str">"production"</span>, <span class="str">"rag"</span>]
+)
+
+<span class="cm"># Add to any LangChain chain invocation</span>
+result = rag_chain.invoke(
+    {<span class="str">"question"</span>: <span class="str">"..."</span>},
+    config={<span class="str">"callbacks"</span>: [handler]}
+)
+<span class="cm"># → Full trace in LangFuse: retriever span, LLM generation, costs</span>
+
+<span class="cm"># LangGraph integration — pass handler in config</span>
+config = {
+    <span class="str">"configurable"</span>: {<span class="str">"thread_id"</span>: <span class="str">"thread_1"</span>},
+    <span class="str">"callbacks"</span>: [handler]
+}
+result = agent.invoke({<span class="str">"messages"</span>: [...]}, config=config)
+
+<span class="cm"># For Ollama / direct OpenAI (no LangChain) — use openai integration</span>
+<span class="kw">from</span> langfuse.openai <span class="kw">import</span> openai  <span class="cm"># drop-in replacement</span>
+response = openai.chat.completions.create(
+    model=<span class="str">"gpt-4o"</span>,
+    messages=[{<span class="str">"role"</span>:<span class="str">"user"</span>,<span class="str">"content"</span>:<span class="str">"..."</span>}]
+)  <span class="cm"># auto-traced — just swap the import!</span></div>
+</div>
+<div class="tc" id="lf2-cx">
+<div class="box bcx"><strong>Q: How do you use LangFuse with local Ollama models (zero API cost)?</strong> → Use the @observe decorator directly. Or wrap Ollama calls manually with lf.generation(). The CallbackHandler only works with LangChain wrappers. For raw Ollama HTTP calls, use manual tracing. Perfect for Jarvis — full observability on local models at no cost.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lf3" data-tags="lf hot">
+<div class="card-hdr" onclick="open_card('lf3')">
+  <div class="qnum" style="background:var(--lf-bg);color:var(--lf)">3</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-fuse">LangFuse</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">LangFuse Evaluations — LLM-as-judge, annotation queues, datasets</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lf3','a')">Code</button><button class="tab" onclick="st('lf3','cx')">Cross Q</button></div>
+<div class="tc" id="lf3-a">
+<div class="code-wrap"><span class="kw">from</span> langfuse <span class="kw">import</span> Langfuse
+
+lf = <span class="cls">Langfuse</span>(...)
+
+<span class="cm"># 1. Create a dataset</span>
+dataset = lf.create_dataset(name=<span class="str">"property-qa-v1"</span>)
+lf.create_dataset_item(
+    dataset_name=<span class="str">"property-qa-v1"</span>,
+    input={<span class="str">"question"</span>: <span class="str">"What is the pet policy?"</span>},
+    expected_output={<span class="str">"answer"</span>: <span class="str">"Pets allowed with prior approval"</span>}
+)
+
+<span class="cm"># 2. Run experiment on dataset</span>
+<span class="kw">for</span> item <span class="kw">in</span> dataset.items:
+    trace = lf.trace(name=<span class="str">"eval-run"</span>)
+    output = rag_chain.invoke(item.input, config={<span class="str">"callbacks"</span>: [
+        <span class="cls">CallbackHandler</span>(trace_id=trace.id)
+    ]})
+    
+    <span class="cm"># LLM-as-judge evaluation</span>
+    score_prompt = <span class="str">f"""
+    Question: {item.input['question']}
+    Expected: {item.expected_output['answer']}
+    Actual: {output}
+    Is the actual answer correct? Score 0-1:"""</span>
+    
+    score = <span class="fn">float</span>(llm.invoke(score_prompt).content.strip())
+    lf.score(trace_id=trace.id, name=<span class="str">"correctness"</span>, value=score)
+
+<span class="cm"># 3. View aggregated scores in LangFuse dashboard</span>
+<span class="cm"># Filter by dataset, compare experiments side-by-side</span></div>
+</div>
+<div class="tc" id="lf3-cx">
+<div class="box bcx"><strong>Q: What is an annotation queue in LangFuse?</strong> → A UI workflow for human annotation. Traces are queued, human reviewers rate them (good/bad/neutral) in the LangFuse web UI. Scores are stored and can drive fine-tuning data selection or evaluation benchmarks. Useful for collecting human preference data at scale.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lf4" data-tags="lf">
+<div class="card-hdr" onclick="open_card('lf4')">
+  <div class="qnum" style="background:var(--lf-bg);color:var(--lf)">4</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-fuse">LangFuse</span></div>
+    <div class="qtitle">LangFuse Prompt Management — create, version, fetch prompts in code</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lf4','a')">Code</button><button class="tab" onclick="st('lf4','cx')">Cross Q</button></div>
+<div class="tc" id="lf4-a">
+<div class="code-wrap"><span class="kw">from</span> langfuse <span class="kw">import</span> Langfuse
+lf = <span class="cls">Langfuse</span>(...)
+
+<span class="cm"># Create/update a prompt</span>
+lf.create_prompt(
+    name=<span class="str">"booking-assistant"</span>,
+    type=<span class="str">"chat"</span>,
+    prompt=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"You help book serviced apartments. {{context}}"</span>},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>,   <span class="str">"content"</span>: <span class="str">"{{question}}"</span>}
+    ],
+    labels=[<span class="str">"production"</span>],  <span class="cm"># production label = fetched by default</span>
+    config={<span class="str">"model"</span>: <span class="str">"gpt-4o"</span>, <span class="str">"temperature"</span>: <span class="var">0</span>}
+)
+
+<span class="cm"># Fetch in application code</span>
+prompt = lf.get_prompt(<span class="str">"booking-assistant"</span>)  <span class="cm"># latest production</span>
+prompt = lf.get_prompt(<span class="str">"booking-assistant"</span>, version=<span class="var">2</span>)  <span class="cm"># specific version</span>
+prompt = lf.get_prompt(<span class="str">"booking-assistant"</span>, label=<span class="str">"staging"</span>)  <span class="cm"># by label</span>
+
+<span class="cm"># Compile to LangChain ChatPromptTemplate</span>
+lc_prompt = prompt.get_langchain_prompt()
+chain = lc_prompt | llm | <span class="cls">StrOutputParser</span>()
+
+<span class="cm"># Link trace to prompt version</span>
+generation = lf.generation(
+    name=<span class="str">"booking-llm-call"</span>,
+    prompt=prompt,  <span class="cm"># tracks which prompt version was used</span>
+    model=<span class="str">"gpt-4o"</span>
+)</div>
+</div>
+<div class="tc" id="lf4-cx">
+<div class="box bcx"><strong>Q: What advantage does linking traces to prompt versions give you?</strong> → Every trace shows exactly which prompt version generated it. When a regression appears: filter traces by prompt version, find exactly when quality dropped, compare prompt v3 vs v4 side-by-side. Rollback = just update the "production" label to point to old version.</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lf5" data-tags="lf tricky">
+<div class="card-hdr" onclick="open_card('lf5')">
+  <div class="qnum" style="background:var(--lf-bg);color:var(--lf)">5</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-fuse">LangFuse</span><span class="tag tag-tricky">Tricky</span></div>
+    <div class="qtitle">Tricky: LangFuse self-hosting — why and how, Docker Compose setup</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lf5','a')">Answer</button></div>
+<div class="tc" id="lf5-a">
+<p class="txt"><strong>Why self-host LangFuse?</strong></p>
+<ul class="pts">
+<li>Data never leaves your infrastructure — required for healthcare, finance, enterprise</li>
+<li>Zero per-trace cost — all traces stored in your own Postgres</li>
+<li>Custom integrations with internal tools</li>
+<li>Perfect for Jarvis on Mac Mini — full observability, no cloud dependency</li>
+</ul>
+<div class="code-wrap"><span class="cm"># docker-compose.yml — self-host LangFuse</span>
+<span class="str">version: '3'</span>
+services:
+  langfuse-server:
+    image: ghcr.io/langfuse/langfuse:latest
+    environment:
+      DATABASE_URL: postgresql://postgres:pw@db:5432/langfuse
+      NEXTAUTH_SECRET: your-secret
+      SALT: your-salt
+      NEXTAUTH_URL: http://localhost:3000
+    ports:
+      - <span class="str">"3000:3000"</span>
+    depends_on: [db]
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: pw
+      POSTGRES_DB: langfuse
+
+<span class="cm"># Start: docker compose up -d</span>
+<span class="cm"># Dashboard: http://localhost:3000</span>
+
+<span class="cm"># Point SDK to self-hosted instance</span>
+lf = <span class="cls">Langfuse</span>(
+    host=<span class="str">"http://localhost:3000"</span>,  <span class="cm"># local</span>
+    public_key=<span class="str">"pk-..."</span>,
+    secret_key=<span class="str">"sk-..."</span>
+)</div>
+</div>
+</div>
+</div>
+
+<div class="card" id="lf6" data-tags="lf hot">
+<div class="card-hdr" onclick="open_card('lf6')">
+  <div class="qnum" style="background:var(--lf-bg);color:var(--lf)">6</div>
+  <div class="qmain">
+    <div class="qmeta"><span class="tag tag-fuse">LangFuse</span><span class="tag tag-hot">Hot</span></div>
+    <div class="qtitle">Full comparison: LangChain vs LangGraph vs LangSmith vs LangFuse — what each does</div>
+  </div>
+  <span class="qchev">▼</span>
+</div>
+<div class="qbody">
+<div class="tabs"><button class="tab" onclick="st('lf6','a')">Comparison</button></div>
+<div class="tc" id="lf6-a">
+<table class="ctbl">
+<tr><th>Library</th><th>Layer</th><th>What it does</th><th>You use it for</th></tr>
+<tr><td style="color:var(--lc);font-weight:500">LangChain</td><td>Components</td><td>LLMs, prompts, RAG, tools, parsers, memory — building blocks</td><td>Building individual AI features</td></tr>
+<tr><td style="color:var(--lg);font-weight:500">LangGraph</td><td>Orchestration</td><td>Stateful workflows, cycles, human-in-loop, persistence, subgraphs</td><td>Complex multi-step agents</td></tr>
+<tr><td style="color:var(--ls);font-weight:500">LangSmith</td><td>Observability (cloud)</td><td>Tracing, evaluation, prompt versioning, monitoring — hosted</td><td>Debug, evaluate, improve production</td></tr>
+<tr><td style="color:var(--lf);font-weight:500">LangFuse</td><td>Observability (OSS)</td><td>Same as LangSmith but open-source, self-hostable, framework-agnostic</td><td>Same, but with full data control</td></tr>
+</table>
+<div class="box bans"><strong>How they work together:</strong><br>
+1. You build components with <strong>LangChain</strong> (RAG chain, tools, prompts)<br>
+2. You orchestrate them with <strong>LangGraph</strong> (graph with nodes, edges, state, memory)<br>
+3. You monitor and evaluate with <strong>LangSmith OR LangFuse</strong> (tracing, eval datasets, prompt versioning)<br><br>
+<strong>Stack for thesqua.re AI:</strong> LangChain (RAG) + LangGraph (booking agent) + LangFuse (self-hosted observability)<br>
+<strong>Stack for Jarvis:</strong> LangChain (tools, prompts) + LangGraph (orchestration, memory) + LangFuse (local observability on Mac Mini)</div>
+</div>
+</div>
+</div>
+</section>
+
+</div>
+
+<script>
+const TOTAL = 47;
+let opened = new Set();
+let marked = new Set();
+let filter = 'all';
+
+function tog(id){ const c = document.getElementById(id); c.classList.toggle('open'); if(c.classList.contains('open')){ opened.add(id); } updateStats(); openFirstTab(id); }
+function open_card(id){ tog(id); }
+
+function openFirstTab(id){
+  const c = document.getElementById(id);
+  if(!c.classList.contains('open')) return;
+  const tabs = c.querySelectorAll('.tab');
+  if(tabs.length) tabs[0].click();
+}
+
+function st(cid, tab){
+  const c = document.getElementById(cid);
+  c.querySelectorAll('.tc').forEach(e=>e.classList.remove('show'));
+  c.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+  const t = document.getElementById(cid+'-'+tab);
+  if(t) t.classList.add('show');
+  const names = ['a','cx'];
+  const i = names.indexOf(tab);
+  if(c.querySelectorAll('.tab')[i]) c.querySelectorAll('.tab')[i].classList.add('active');
+}
+
+function updateStats(){
+  document.getElementById('s-opened').textContent = opened.size;
+  document.getElementById('s-marked').textContent = marked.size;
+  const p = Math.round(opened.size / TOTAL * 100);
+  document.getElementById('prog-fill').style.width = p + '%';
+  document.getElementById('prog-label').textContent = opened.size + ' of ' + TOTAL + ' opened';
+}
+
+function setFilter(f, btn){
+  filter = f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.card').forEach(c=>{
+    const tags = c.dataset.tags || '';
+    let show = false;
+    if(f==='all') show=true;
+    else if(f==='hot') show=tags.includes('hot');
+    else if(f==='tricky') show=tags.includes('tricky');
+    else if(f==='marked') show=marked.has(c.id);
+    c.style.display = show ? '' : 'none';
+  });
+}
+
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    const card = this.closest('.card');
+    const tabs = card.querySelectorAll('.tab');
+    const tcs = card.querySelectorAll('.tc');
+    tabs.forEach(t=>t.classList.remove('active'));
+    tcs.forEach(t=>t.classList.remove('show'));
+    this.classList.add('active');
+    const idx = Array.from(tabs).indexOf(this);
+    if(tcs[idx]) tcs[idx].classList.add('show');
+  });
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id = e.target.id;
+      document.querySelectorAll('.nl').forEach(n=>n.classList.remove('active-lc','active-lg','active-ls','active-lf'));
+      if(id==='langchain') document.getElementById('nav-lc')?.classList.add('active-lc');
+      if(id==='langgraph') document.getElementById('nav-lg')?.classList.add('active-lg');
+      if(id==='langsmith') document.getElementById('nav-ls')?.classList.add('active-ls');
+      if(id==='langfuse')  document.getElementById('nav-lf')?.classList.add('active-lf');
+    }
+  });
+},{threshold:.1});
+['langchain','langgraph','langsmith','langfuse'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) obs.observe(el);
+});
+</script>
+</body>
+</html>
