@@ -1,0 +1,587 @@
+
+<h2 class="sr-only">DSA Mastery System — pattern-based study plan, questions, mock tests, intuition engine and progress tracker</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#06070d;--s1:#0b0c15;--s2:#0f1020;--s3:#14162a;--b1:#1c1f35;--b2:#252840;--b3:#2e3250;--tx:#dde2f5;--mu:#7880a8;--dm:#3d4468;--r:14px;--acc:#6c63ff}
+body,div{font-family:'Inter',system-ui,sans-serif}
+.app{background:var(--bg);min-height:600px;color:var(--tx);padding:0}
+
+.hdr{background:var(--s1);border-bottom:1px solid var(--b1);padding:20px 20px 0}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.hdr-title{font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--tx);line-height:1.1}
+.hdr-title span{background:linear-gradient(110deg,#fff 0%,#b8b0ff 35%,#5dcaa5 65%,#fab347 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr-sub{font-size:11px;color:var(--mu);margin-top:4px;font-family:'JetBrains Mono',monospace;letter-spacing:.05em}
+.hdr-pills{display:flex;gap:6px;flex-wrap:wrap}
+.hpill{font-size:10px;padding:3px 10px;border-radius:99px;border:1px solid var(--b2);background:var(--s2);color:var(--mu);white-space:nowrap}
+.hpill b{color:var(--tx);font-size:11px}
+
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--b1);gap:0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:11px 16px;background:none;border:none;border-bottom:2px solid transparent;color:var(--dm);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:color .15s;margin-bottom:-1px;display:flex;align-items:center;gap:6px}
+.tab:hover{color:var(--mu)}
+.tab.on{color:#fff;border-bottom-color:var(--acc)}
+.tab-cnt{font-size:9px;padding:2px 5px;border-radius:4px;background:var(--s3);border:1px solid var(--b2);color:var(--dm);font-family:'JetBrains Mono',monospace}
+.tab.on .tab-cnt{background:rgba(108,99,255,.15);border-color:rgba(108,99,255,.35);color:#a89fff}
+
+.pane{display:none;padding:20px}
+.pane.on{display:block}
+
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.sec-title{font-size:14px;font-weight:600;color:var(--tx);letter-spacing:-.2px}
+.sec-meta{font-size:11px;color:var(--mu)}
+
+.mono{font-family:'JetBrains Mono',monospace}
+.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:5px;font-weight:500;font-family:'JetBrains Mono',monospace}
+.be{background:rgba(29,158,117,.12);color:#5dcaa5;border:1px solid rgba(29,158,117,.25)}
+.bm{background:rgba(186,117,23,.12);color:#f59e0b;border:1px solid rgba(186,117,23,.25)}
+.bh{background:rgba(226,75,74,.12);color:#f87171;border:1px solid rgba(226,75,74,.25)}
+.bp{background:rgba(108,99,255,.12);color:#a89fff;border:1px solid rgba(108,99,255,.25)}
+.bg2{background:rgba(61,68,104,.18);color:var(--mu);border:1px solid var(--b2)}
+
+.week-list{display:flex;flex-direction:column;gap:8px}
+.week-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden}
+.week-head{display:flex;align-items:center;gap:12px;padding:12px 15px;cursor:pointer;transition:background .15s}
+.week-head:hover{background:var(--s2)}
+.week-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mu);min-width:52px}
+.week-name{font-size:13px;font-weight:500;color:var(--tx);flex:1}
+.week-body{border-top:1px solid var(--b1);padding:0}
+.week-body.hide{display:none}
+.day-row{display:flex;gap:10px;padding:9px 15px;border-bottom:1px solid rgba(28,31,53,.7);align-items:flex-start}
+.day-row:last-child{border:none}
+.day-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dm);min-width:30px;padding-top:1px}
+.day-txt{font-size:12.5px;color:var(--tx);flex:1;line-height:1.55}
+.day-note{font-size:11px;color:var(--mu);margin-top:3px}
+.brain-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--b1);align-items:flex-start}
+.brain-row:last-child{border:none}
+.brain-ico{font-size:16px;flex-shrink:0;width:22px;text-align:center;margin-top:1px}
+.brain-hd{font-size:12.5px;font-weight:600;color:var(--tx);margin-bottom:2px}
+.brain-bd{font-size:12px;color:var(--mu);line-height:1.55}
+
+.pat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:16px}
+.pat-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:12px;cursor:pointer;transition:border-color .15s,background .15s}
+.pat-card:hover{background:var(--s2);border-color:var(--b2)}
+.pat-card.sel{border-color:rgba(108,99,255,.55);background:rgba(108,99,255,.06)}
+.pat-wk{font-size:10px;color:var(--dm);font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+.pat-nm{font-size:12.5px;font-weight:600;color:var(--tx);margin-bottom:3px}
+.pat-wh{font-size:11px;color:var(--mu);line-height:1.4}
+.pat-bar{height:3px;background:var(--b2);border-radius:99px;margin-top:9px;overflow:hidden}
+.pat-fill{height:100%;background:var(--acc);border-radius:99px;transition:width .3s}
+
+.pat-detail{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:15px;margin-top:4px}
+.pd-head{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:10px}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.pd-box{background:var(--s2);border-radius:10px;padding:10px 12px}
+.pd-lbl{font-size:10px;color:var(--dm);font-family:'JetBrains Mono',monospace;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em}
+.pd-val{font-size:12px;color:var(--tx);line-height:1.5}
+.q-mini{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:var(--s2);border-radius:8px;font-size:12px;color:var(--tx);gap:8px;margin-bottom:5px}
+
+.q-list{display:flex;flex-direction:column;gap:7px}
+.q-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
+.q-card:hover{border-color:var(--b2)}
+.q-card.solved{border-left:3px solid #1d9e75}
+.q-card.reviewing{border-left:3px solid #f59e0b}
+.q-top{padding:10px 14px;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.q-txt{font-size:13.5px;font-weight:500;color:var(--tx);flex:1;line-height:1.5}
+.q-meta{display:flex;gap:5px;align-items:center;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.q-hint{font-size:12px;color:var(--mu);padding:10px 14px;background:var(--s2);border-top:1px solid var(--b1);line-height:1.6;display:none}
+.q-hint.show{display:block}
+.q-acts{display:none;padding:8px 14px;gap:6px;border-top:1px solid var(--b1);flex-wrap:wrap}
+.q-acts.show{display:flex}
+.abtn{font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid var(--b2);background:transparent;cursor:pointer;color:var(--mu);transition:all .15s}
+.abtn:hover{background:var(--s2);color:var(--tx)}
+.abtn.grn{border-color:rgba(29,158,117,.4);color:#5dcaa5}
+.abtn.amb{border-color:rgba(186,117,23,.4);color:#f59e0b}
+.frow{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.flbl{font-size:10px;color:var(--dm);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em}
+.fchip{font-size:11px;padding:4px 11px;border-radius:7px;border:1px solid var(--b2);background:transparent;color:var(--mu);cursor:pointer;transition:all .15s}
+.fchip:hover{background:var(--s2);color:var(--tx)}
+.fchip.on{background:var(--s3);border-color:var(--b3);color:var(--tx)}
+select.sel-styled{padding:5px 10px;border-radius:8px;border:1px solid var(--b2);background:var(--s2);color:var(--tx);font-size:12px;cursor:pointer;outline:none}
+
+.mock-q{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:15px;margin-bottom:10px}
+.mock-q-hd{font-size:13.5px;font-weight:500;color:var(--tx);margin-bottom:12px;line-height:1.5}
+.mock-opts{display:flex;flex-direction:column;gap:6px}
+.mock-opt{padding:9px 13px;border-radius:9px;border:1px solid var(--b2);cursor:pointer;font-size:12.5px;color:var(--tx);transition:border-color .15s,background .15s}
+.mock-opt:hover:not(.dis){background:var(--s2);border-color:var(--b3)}
+.mock-opt.ok{background:rgba(29,158,117,.1);border-color:rgba(29,158,117,.45);color:#5dcaa5}
+.mock-opt.bad{background:rgba(226,75,74,.09);border-color:rgba(226,75,74,.4);color:#f87171}
+.mock-opt.dis{cursor:default}
+.mock-exp{font-size:12px;padding:10px 13px;background:var(--s2);border-radius:8px;margin-top:8px;color:var(--mu);line-height:1.65;display:none}
+.mock-exp.show{display:block}
+.mock-nav{display:flex;gap:8px;margin-top:10px}
+.score-box{text-align:center;padding:24px 16px;background:var(--s2);border-radius:var(--r);margin-bottom:14px}
+.score-num{font-size:42px;font-weight:700;color:var(--tx);font-family:'JetBrains Mono',monospace}
+.score-lbl{font-size:12px;color:var(--mu);margin-top:6px}
+.setup-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:15px;margin-bottom:10px}
+
+.intuit-box{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:15px;margin-bottom:12px}
+.ist{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--b1);align-items:flex-start}
+.ist:last-child{border:none}
+.ist-num{width:20px;height:20px;border-radius:50%;background:rgba(108,99,255,.18);color:#a89fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace}
+.ist-q{font-size:12.5px;font-weight:600;color:var(--tx);margin-bottom:2px}
+.ist-a{font-size:11.5px;color:var(--mu);line-height:1.55}
+textarea.ti{width:100%;padding:10px 12px;background:var(--s2);border:1px solid var(--b2);border-radius:10px;color:var(--tx);font-size:12.5px;font-family:inherit;resize:vertical;height:80px;outline:none;transition:border-color .15s}
+textarea.ti:focus{border-color:rgba(108,99,255,.5)}
+.abtn-pri{font-size:12px;padding:7px 16px;border-radius:9px;border:1px solid rgba(108,99,255,.4);background:rgba(108,99,255,.12);cursor:pointer;color:#a89fff;margin-top:8px;transition:all .15s}
+.abtn-pri:hover{background:rgba(108,99,255,.22);border-color:rgba(108,99,255,.65)}
+.result-badge{background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.3);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.rb-title{font-size:12.5px;font-weight:600;color:#a89fff;margin-bottom:4px}
+.rb-body{font-size:12px;color:var(--mu);line-height:1.6}
+
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.stat-c{background:var(--s2);border-radius:10px;padding:12px;text-align:center}
+.stat-v{font-size:22px;font-weight:700;color:var(--tx);font-family:'JetBrains Mono',monospace}
+.stat-l{font-size:11px;color:var(--mu);margin-top:2px}
+.cov-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.cov-nm{font-size:11.5px;color:var(--mu);min-width:130px}
+.cov-bar{flex:1;height:5px;background:var(--b2);border-radius:99px;overflow:hidden}
+.cov-fill{height:100%;border-radius:99px;transition:width .3s}
+.cov-n{font-size:10px;color:var(--dm);font-family:'JetBrains Mono',monospace;min-width:30px;text-align:right}
+.rev-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--s2);border-radius:9px;margin-bottom:6px}
+.empty-state{text-align:center;padding:28px 0;color:var(--dm);font-size:13px}
+
+.mock-prog{font-size:11px;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-bottom:12px}
+</style>
+
+<div class="app">
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-title"><span>DSA Mastery</span> Deck</div>
+      <div class="hdr-sub">Pattern-based · 8 weeks · 15 patterns · 48 problems · mock tests</div>
+    </div>
+    <div class="hdr-pills" id="hdrPills"></div>
+  </div>
+  <div class="tabs" id="mainTabs">
+    <button class="tab on" onclick="switchTab('plan')"><i class="ti ti-calendar" aria-hidden="true" style="font-size:14px"></i>Study Plan<span class="tab-cnt">8w</span></button>
+    <button class="tab" onclick="switchTab('patterns')"><i class="ti ti-puzzle" aria-hidden="true" style="font-size:14px"></i>Patterns<span class="tab-cnt">15</span></button>
+    <button class="tab" onclick="switchTab('questions')"><i class="ti ti-list-check" aria-hidden="true" style="font-size:14px"></i>Questions<span class="tab-cnt">48</span></button>
+    <button class="tab" onclick="switchTab('mock')"><i class="ti ti-tournament" aria-hidden="true" style="font-size:14px"></i>Mock Test</button>
+    <button class="tab" onclick="switchTab('intuition')"><i class="ti ti-brain" aria-hidden="true" style="font-size:14px"></i>Intuition</button>
+    <button class="tab" onclick="switchTab('tracker')"><i class="ti ti-chart-bar" aria-hidden="true" style="font-size:14px"></i>Progress</button>
+  </div>
+</div>
+
+<div class="pane on" id="pane-plan">
+  <div style="background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.22);border-radius:var(--r);padding:12px 15px;margin-bottom:18px">
+    <div style="font-size:12px;font-weight:600;color:#a89fff;margin-bottom:5px">Daily rule</div>
+    <div style="font-size:12.5px;color:var(--tx);line-height:1.65"><b style="color:#fff">2–3 new problems/day</b> (never more) + <b style="color:#fff">1–2 revisions</b> from previous days. Rest on Sunday. ~75 problems in 8 weeks. Quality beats quantity.</div>
+  </div>
+  <div class="sec-hdr"><div class="sec-title">8-week roadmap</div><div class="sec-meta">click any week to expand</div></div>
+  <div class="week-list" id="weekList"></div>
+  <div style="margin-top:20px">
+    <div class="sec-hdr"><div class="sec-title">Brain science behind this plan</div></div>
+    <div class="intuit-box">
+      <div class="brain-row"><div class="brain-ico"><i class="ti ti-repeat" aria-hidden="true"></i></div><div><div class="brain-hd">Spaced repetition</div><div class="brain-bd">Review after 3 days → 1 week → 2 weeks. Your brain consolidates memory during gaps, not during cramming.</div></div></div>
+      <div class="brain-row"><div class="brain-ico"><i class="ti ti-topology-star" aria-hidden="true"></i></div><div><div class="brain-hd">Pattern chunking</div><div class="brain-bd">Experts see chunks. Once you recognise "sliding window", a hundred problems collapse into one mental unit.</div></div></div>
+      <div class="brain-row"><div class="brain-ico"><i class="ti ti-moon" aria-hidden="true"></i></div><div><div class="brain-hd">Sleep consolidation</div><div class="brain-bd">Solve 2–3 problems before bed. Your hippocampus replays them during sleep — that's when real learning happens.</div></div></div>
+      <div class="brain-row"><div class="brain-ico"><i class="ti ti-pencil" aria-hidden="true"></i></div><div><div class="brain-hd">Teach-back method</div><div class="brain-bd">After each problem write 1 line: "This works because…". Verbal encoding doubles retention.</div></div></div>
+      <div class="brain-row"><div class="brain-ico"><i class="ti ti-player-skip-forward" aria-hidden="true"></i></div><div><div class="brain-hd">Struggle first rule</div><div class="brain-bd">Spend 20 min stuck before looking at hints. The struggle creates the neural groove. Easy solutions don't stick.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="pane" id="pane-patterns">
+  <div class="sec-hdr"><div class="sec-title">15 core patterns</div><div class="sec-meta">click any to study</div></div>
+  <div class="pat-grid" id="patGrid"></div>
+  <div id="patDetail" style="display:none"></div>
+</div>
+
+<div class="pane" id="pane-questions">
+  <div class="frow">
+    <span class="flbl">Pattern</span>
+    <select class="sel-styled" id="qfPat" onchange="renderQs()"><option value="">All</option></select>
+    <select class="sel-styled" id="qfDiff" onchange="renderQs()"><option value="">All levels</option><option>Easy</option><option>Medium</option><option>Hard</option></select>
+    <select class="sel-styled" id="qfSt" onchange="renderQs()"><option value="">All status</option><option value="unsolved">Unsolved</option><option value="solved">Solved</option><option value="reviewing">Reviewing</option></select>
+  </div>
+  <div class="q-list" id="qList"></div>
+</div>
+
+<div class="pane" id="pane-mock">
+  <div id="mockSetup">
+    <div class="setup-card">
+      <div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:12px">Configure mock test</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+        <select class="sel-styled" id="mkPat"><option value="">All patterns</option></select>
+        <select class="sel-styled" id="mkCnt"><option value="5">5 questions</option><option value="10" selected>10 questions</option></select>
+        <button class="abtn-pri" onclick="startMock()">Start test <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      </div>
+      <div style="font-size:11.5px;color:var(--mu);line-height:1.65">Tests pattern recognition and approach intuition — no coding required. Multiple choice: identify the pattern, explain the approach, spot the key insight.</div>
+    </div>
+  </div>
+  <div id="mockArea" style="display:none"></div>
+  <div id="mockResult" style="display:none"></div>
+</div>
+
+<div class="pane" id="pane-intuition">
+  <div style="background:rgba(29,158,117,.08);border:1px solid rgba(29,158,117,.22);border-radius:var(--r);padding:12px 15px;margin-bottom:16px">
+    <div style="font-size:12px;font-weight:600;color:#5dcaa5;margin-bottom:4px">How to use</div>
+    <div style="font-size:12px;color:var(--tx);line-height:1.65">Paste any problem below. The engine walks you through the 5-question framework to identify the pattern — training your brain to do this automatically.</div>
+  </div>
+  <textarea class="ti" id="intuitInput" placeholder="Paste a problem e.g. 'Find the longest subarray where all elements are equal after at most K replacements'"></textarea>
+  <button class="abtn-pri" onclick="runIntuition()">Analyse pattern <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  <div id="intuitResult" style="display:none;margin-top:16px"></div>
+  <div style="margin-top:20px">
+    <div class="sec-hdr"><div class="sec-title">The 5-question framework</div></div>
+    <div class="intuit-box">
+      <div class="ist"><div class="ist-num">1</div><div><div class="ist-q">What does the input look like?</div><div class="ist-a">Array/string → Two Pointers, Sliding Window, Binary Search. Tree → DFS/BFS. Graph → BFS/DFS/Topo. Linked List → Fast/Slow.</div></div></div>
+      <div class="ist"><div class="ist-num">2</div><div><div class="ist-q">What am I optimising for?</div><div class="ist-a">Min/Max → DP or Greedy. Count ways → DP. Find if exists → BFS/DFS. Top-K → Heap. Ranges → Merge Intervals.</div></div></div>
+      <div class="ist"><div class="ist-num">3</div><div><div class="ist-q">Is the data sorted or sortable?</div><div class="ist-a">Yes → Binary Search or Two Pointers almost always. Sorting unlocks O(n log n) from O(n²) brute force.</div></div></div>
+      <div class="ist"><div class="ist-num">4</div><div><div class="ist-q">Do I need all combos or just optimal?</div><div class="ist-a">All combinations/paths → Backtracking. Just optimal → Greedy or DP. Shortest path → BFS (unweighted).</div></div></div>
+      <div class="ist"><div class="ist-num">5</div><div><div class="ist-q">Are subproblems overlapping?</div><div class="ist-a">Same smaller problem appears multiple times → DP. Local optimal leads to global optimal → Greedy (faster when applicable).</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="pane" id="pane-tracker">
+  <div class="stat-grid" id="statGrid"></div>
+  <div class="sec-hdr"><div class="sec-title">Pattern coverage</div></div>
+  <div id="covGrid" style="margin-bottom:20px"></div>
+  <div class="sec-hdr"><div class="sec-title">Revision due today</div></div>
+  <div id="revQueue"></div>
+</div>
+
+</div>
+
+<script>
+const PATTERNS=[
+  {id:'sw',name:'Sliding Window',wk:1,when:'Subarray/substring with a constraint',signal:'longest, shortest, max/min subarray, window',ex:'Longest Substring Without Repeating',cplx:'O(n)'},
+  {id:'tp',name:'Two Pointers',wk:1,when:'Sorted array, pairs, palindromes',signal:'sorted input, find pair/triplet, in-place',ex:'Two Sum II, Container With Most Water',cplx:'O(n)'},
+  {id:'bs',name:'Binary Search',wk:2,when:'Sorted data OR minimise/maximise answer',signal:'sorted array, find minimum X that works',ex:'Search Rotated Array, Koko Bananas',cplx:'O(log n)'},
+  {id:'ps',name:'Prefix Sum',wk:2,when:'Range sum queries, subarray sums',signal:'sum of subarray i to j multiple times',ex:'Subarray Sum Equals K',cplx:'O(n) build, O(1) query'},
+  {id:'fsp',name:'Fast & Slow Pointers',wk:3,when:'Cycle detection in linked lists',signal:'cycle, middle of list, nth from end',ex:'Linked List Cycle',cplx:'O(n)'},
+  {id:'bfs',name:'BFS',wk:4,when:'Shortest path, level-order traversal',signal:'shortest, nearest, minimum steps, level',ex:'Binary Tree Level Order, Rotting Oranges',cplx:'O(V+E)'},
+  {id:'dfs',name:'DFS / Backtracking',wk:4,when:'All paths, combinations, permutations',signal:'generate all, count ways, explore all paths',ex:'Permutations, Word Search',cplx:'O(n!)'},
+  {id:'gr',name:'Greedy',wk:5,when:'Local optimum leads to global optimum',signal:'intervals, scheduling, always pick best now',ex:'Jump Game, Meeting Rooms',cplx:'O(n log n)'},
+  {id:'mi',name:'Merge Intervals',wk:5,when:'Overlapping ranges or intervals',signal:'intervals, schedules, merge, overlap, insert',ex:'Merge Intervals, Meeting Rooms II',cplx:'O(n log n)'},
+  {id:'hp',name:'Heap / Priority Queue',wk:6,when:'Top-K elements, streaming median',signal:'top K, K largest/smallest, frequent, median',ex:'Kth Largest, Top K Frequent',cplx:'O(n log k)'},
+  {id:'ms',name:'Monotonic Stack',wk:6,when:'Next greater/smaller element',signal:'next greater, next smaller, histogram, span',ex:'Daily Temperatures, Histogram',cplx:'O(n)'},
+  {id:'dp',name:'Dynamic Programming',wk:7,when:'Overlapping subproblems + optimal substructure',signal:'count ways, min/max cost, decision at each step',ex:'Coin Change, LCS',cplx:'O(n²) typical'},
+  {id:'graph',name:'Graph / Topo Sort',wk:7,when:'Dependencies, connected components',signal:'prerequisites, course order, dependency',ex:'Course Schedule, Number of Islands',cplx:'O(V+E)'},
+  {id:'trie',name:'Trie',wk:8,when:'Prefix matching, word search',signal:'starts with, autocomplete, word dictionary',ex:'Implement Trie, Word Search II',cplx:'O(m) per op'},
+  {id:'uf',name:'Union Find',wk:8,when:'Connected components, grouping',signal:'same group, connected, redundant connection',ex:'Connected Components, Redundant Connection',cplx:'O(α(n))'},
+];
+const QS=[
+  {id:1,t:'Maximum Subarray',p:'sw',d:'Easy',h:'Track current sum, reset when negative. Negative prefix never helps.',wk:1},
+  {id:2,t:'Best Time to Buy and Sell Stock',p:'sw',d:'Easy',h:'Track min price seen so far. Profit = current − min_so_far.',wk:1},
+  {id:3,t:'Longest Substring Without Repeating',p:'sw',d:'Medium',h:'Use a set for window contents. Shrink left when duplicate found.',wk:1},
+  {id:4,t:'Minimum Size Subarray Sum',p:'sw',d:'Medium',h:'Expand right until sum ≥ target, then shrink left for minimum.',wk:1},
+  {id:5,t:'Fruit Into Baskets',p:'sw',d:'Medium',h:'Window with ≤2 distinct values. Use hashmap to count.',wk:1},
+  {id:6,t:'Two Sum II – Sorted',p:'tp',d:'Easy',h:'Left at start, right at end. Adjust based on sum vs target.',wk:1},
+  {id:7,t:'3Sum',p:'tp',d:'Medium',h:'Sort first. Fix one element, two pointers for rest. Skip duplicates.',wk:1},
+  {id:8,t:'Container With Most Water',p:'tp',d:'Medium',h:'Move the shorter height pointer. Taller side has nothing to gain.',wk:1},
+  {id:9,t:'Trapping Rain Water',p:'tp',d:'Hard',h:'water = min(max_left, max_right) − height[i]. Two pointers tracks both maxes.',wk:1},
+  {id:10,t:'Valid Palindrome',p:'tp',d:'Easy',h:'Skip non-alphanumeric. Compare from both ends.',wk:1},
+  {id:11,t:'Binary Search',p:'bs',d:'Easy',h:'lo=0, hi=n−1. mid = lo+(hi−lo)//2. Adjust bounds on comparison.',wk:2},
+  {id:12,t:'Search in Rotated Sorted Array',p:'bs',d:'Medium',h:'One half is always sorted. Check which half, decide side for target.',wk:2},
+  {id:13,t:'Find Minimum in Rotated Sorted Array',p:'bs',d:'Medium',h:'If arr[mid] > arr[right], minimum is in right half.',wk:2},
+  {id:14,t:'Koko Eating Bananas',p:'bs',d:'Medium',h:'Binary search on the answer (speed). Check if speed finishes in H hours.',wk:2},
+  {id:15,t:'Subarray Sum Equals K',p:'ps',d:'Medium',h:'prefix[i]−prefix[j]=k. Hashmap counts prefix sums = current−k.',wk:2},
+  {id:16,t:'Range Sum Query',p:'ps',d:'Easy',h:'Build prefix array. sum(i,j) = prefix[j+1] − prefix[i].',wk:2},
+  {id:17,t:'Linked List Cycle',p:'fsp',d:'Easy',h:'Fast moves 2 steps, slow moves 1. If cycle exists they meet.',wk:3},
+  {id:18,t:'Middle of Linked List',p:'fsp',d:'Easy',h:'When fast reaches end, slow is at middle.',wk:3},
+  {id:19,t:'Find Duplicate Number',p:'fsp',d:'Medium',h:'Array as linked list (val = next index). Cycle detection = duplicate.',wk:3},
+  {id:20,t:'Binary Tree Level Order',p:'bfs',d:'Medium',h:'Use a queue. Process all nodes of current level before adding children.',wk:4},
+  {id:21,t:'Rotting Oranges',p:'bfs',d:'Medium',h:'Multi-source BFS from all rotten oranges at once. Minutes = levels.',wk:4},
+  {id:22,t:'Word Ladder',p:'bfs',d:'Hard',h:'Each word is a node. BFS finds shortest transformation sequence.',wk:4},
+  {id:23,t:'Permutations',p:'dfs',d:'Medium',h:'At each step choose unused number. Backtrack after each recursive call.',wk:4},
+  {id:24,t:'Combination Sum',p:'dfs',d:'Medium',h:'Include or skip at each step. Pass remaining target. Same element allowed.',wk:4},
+  {id:25,t:'Word Search',p:'dfs',d:'Medium',h:'DFS from each cell. Mark visited, explore 4 dirs, unmark on backtrack.',wk:4},
+  {id:26,t:'Subsets',p:'dfs',d:'Medium',h:'At each element: include or skip. Gives 2ⁿ subsets.',wk:4},
+  {id:27,t:'Jump Game',p:'gr',d:'Medium',h:'Track max reachable index. If current index > max_reach return false.',wk:5},
+  {id:28,t:'Merge Intervals',p:'mi',d:'Medium',h:'Sort by start. If current.start ≤ last.end merge (update end). Else append.',wk:5},
+  {id:29,t:'Insert Interval',p:'mi',d:'Medium',h:'Three phases: add all before new, merge overlapping, add all after.',wk:5},
+  {id:30,t:'Meeting Rooms II',p:'mi',d:'Medium',h:'Min-heap of end times. If earliest end ≤ new start reuse room.',wk:5},
+  {id:31,t:'Kth Largest Element',p:'hp',d:'Medium',h:'Min-heap of size K. Pop when size > K. Top = Kth largest.',wk:6},
+  {id:32,t:'Top K Frequent Elements',p:'hp',d:'Medium',h:'Count frequencies then heap on frequency.',wk:6},
+  {id:33,t:'Merge K Sorted Lists',p:'hp',d:'Hard',h:'Min-heap with (val, node). Pop minimum, push its next node.',wk:6},
+  {id:34,t:'Daily Temperatures',p:'ms',d:'Medium',h:'Monotonic decreasing stack of indices. Pop when warmer temp found.',wk:6},
+  {id:35,t:'Largest Rectangle in Histogram',p:'ms',d:'Hard',h:'Monotonic increasing stack. Pop and calc area when shorter bar found.',wk:6},
+  {id:36,t:'Climbing Stairs',p:'dp',d:'Easy',h:'dp[n] = dp[n−1] + dp[n−2]. Fibonacci. Build bottom-up.',wk:7},
+  {id:37,t:'Coin Change',p:'dp',d:'Medium',h:'dp[amount] = min coins. dp[i] = min(dp[i], dp[i−coin]+1).',wk:7},
+  {id:38,t:'Longest Common Subsequence',p:'dp',d:'Medium',h:'2D dp. If chars match dp[i][j]=dp[i−1][j−1]+1. Else max of left/top.',wk:7},
+  {id:39,t:'House Robber',p:'dp',d:'Medium',h:'dp[i] = max(dp[i−2]+nums[i], dp[i−1]). Rob current or skip.',wk:7},
+  {id:40,t:'0/1 Knapsack',p:'dp',d:'Medium',h:'dp[i][w] = max value with first i items and capacity w.',wk:7},
+  {id:41,t:'Longest Increasing Subsequence',p:'dp',d:'Medium',h:'dp[i] = longest ending at i. For each j<i if nums[j]<nums[i]: dp[i]=max(dp[i],dp[j]+1).',wk:7},
+  {id:42,t:'Course Schedule',p:'graph',d:'Medium',h:'Build directed graph. Cycle = cannot finish. DFS with 3 states.',wk:7},
+  {id:43,t:'Number of Islands',p:'graph',d:'Medium',h:'DFS/BFS from each unvisited land. Mark connected. Count calls.',wk:7},
+  {id:44,t:'Course Schedule II',p:'graph',d:'Medium',h:'Topological sort (Kahn). Process nodes with in-degree 0 first.',wk:7},
+  {id:45,t:'Implement Trie',p:'trie',d:'Medium',h:'Each node has 26 children + isEnd. Walk char by char for all ops.',wk:8},
+  {id:46,t:'Word Search II',p:'trie',d:'Hard',h:'Build Trie from word list. DFS on board checking Trie nodes.',wk:8},
+  {id:47,t:'Number of Connected Components',p:'uf',d:'Medium',h:'Union-Find: each node starts as own parent. Count separate roots.',wk:8},
+  {id:48,t:'Redundant Connection',p:'uf',d:'Medium',h:'Process edges. If both nodes already in same component → redundant.',wk:8},
+];
+const MOCK_QS=[
+  {p:'sw',q:'You need the longest subarray where elements are equal after ≤K replacements. What pattern?',opts:['Dynamic Programming','Sliding Window','Binary Search','Two Pointers'],ans:1,exp:'Sliding window: expand right, shrink left when violations exceed K. "Longest subarray" + constraint = classic sliding window signal.'},
+  {p:'sw',q:'Find minimum window substring containing all chars of pattern T. Key operation is:',opts:['Expand until all chars found, then shrink from left','Binary search for optimal window size','DFS through all substrings','Use a trie to match'],ans:0,exp:'Expand right to satisfy, shrink left to minimise. Two hashmaps track requirement. Classic sliding window.'},
+  {p:'tp',q:'Sorted array [-4,-1,0,3,5,9]. Find all pairs summing to 6. Most efficient approach?',opts:['Nested loops O(n²)','Two pointers from both ends O(n)','Hash set O(n) space','Binary search for each O(n log n)'],ans:1,exp:'Sorted array + find pairs = Two Pointers. Left=0, right=n−1. Move inward based on sum too high or too low.'},
+  {p:'bs',q:'"Find the minimum speed to finish all tasks in H hours." Binary search because:',opts:['Input array is sorted','Answer space is monotonic — if X works, X+1 also works','Overlapping subproblems exist','Can be solved greedily'],ans:1,exp:'Binary search on the ANSWER. When answer space is monotonically satisfying, binary search for minimum valid X.'},
+  {p:'fsp',q:"Floyd's cycle detection works because:",opts:['Fast pointer marks length first','Fast must eventually lap slow inside any cycle','Slow pointer always finds the tail','Both start from different ends'],ans:1,exp:'In a cycle fast gains 1 step/iteration. Like a circular track, fast laps slow. Meeting point is always inside the cycle.'},
+  {p:'bfs',q:'Why BFS (not DFS) for shortest path in unweighted graph?',opts:['BFS uses less memory','BFS explores level-by-level — first visit = shortest path guaranteed','DFS cannot handle cycles','BFS works on trees only'],ans:1,exp:'BFS expands in rings. First time you visit a node you\'ve found the shortest path. DFS may find a path but not the shortest.'},
+  {p:'dfs',q:'In backtracking, why undo the choice after each recursive call?',opts:['To save memory','To explore all paths — only one choice active at a time','Recursion undoes automatically','To avoid duplicates'],ans:1,exp:'After trying choice X, undo and try Y. Without undoing, state corrupts sibling branches. "Make → recurse → undo" is the template.'},
+  {p:'dp',q:'Coin Change: dp[0]=0, fill dp[i]=min(dp[i], dp[i-coin]+1). This is bottom-up DP because:',opts:['Uses memoization','Builds larger answers from already-solved smaller ones — no recursion','Uses BFS to find shortest path','Sorts coins first'],ans:1,exp:'Bottom-up fills a table from base cases. dp[0]=0 known. dp[1] uses dp[0], etc. No recursion, no stack overflow.'},
+  {p:'dp',q:'When to choose DP over Greedy?',opts:['DP is always better','When local optimal does NOT guarantee global optimal','When input is sorted','When you need all combinations'],ans:1,exp:'Greedy works when local best = global best. DP needed when a locally bad choice might be globally good (e.g. 0/1 knapsack).'},
+  {p:'hp',q:'K-th largest from a stream. O(log K) per insertion:',opts:['Max heap of all elements','Min heap of size K — root is K-th largest','Sorted array binary insert','Hash map with frequency'],ans:1,exp:'Min-heap of size K always holds K largest. Root = K-th largest. New element: push, pop minimum if size > K.'},
+  {p:'ms',q:'Monotonic stack for "next greater element": you maintain a decreasing stack. When do you pop?',opts:['When stack is full','When current element is GREATER than stack top','When current equals stack top','At end of array'],ans:1,exp:'Stack stores elements "waiting" for their next greater. When we see larger, top found its answer. Pop and record.'},
+  {p:'graph',q:'Topological sort only possible when:',opts:['Graph is weighted','Graph is a DAG — no cycles','Graph is fully connected','All nodes have equal in-degree'],ans:1,exp:'Cycles create ordering contradictions. Course Schedule first checks for cycles — topological sort requires a DAG.'},
+  {p:'gr',q:'Greedy for "minimum intervals to remove to make rest non-overlapping":',opts:['Remove longest interval','Keep earliest end time — minimises future conflicts','Sort by start, remove later starts','Binary search for overlaps'],ans:1,exp:'Sort by end time. Keep interval ending earliest — frees maximum space for future. Same as Activity Selection.'},
+  {p:'uf',q:'Union-Find with path compression — what does it do?',opts:['Removes x from the structure','Makes every node on path to root point directly to root','Splits the component in two','Rebalances by height'],ans:1,exp:'Path compression flattens the tree. Future finds on visited nodes become O(1). With union by rank gives O(α(n)).'},
+];
+const WEEKS=[
+  {n:1,title:'Arrays — Sliding Window + Two Pointers',pats:['sw','tp'],days:[{d:'Mon',t:'Learn Sliding Window concept. Solve: Maximum Subarray.',n:'Write your 1-line mental model after.'},{d:'Tue',t:'Solve: Best Time to Buy Stock + Longest Substring Without Repeating.',n:'Draw the window movement on paper first.'},{d:'Wed',t:'Learn Two Pointers. Solve: Two Sum II.',n:'Revise Mon problems (3-day rule).'},{d:'Thu',t:'Solve: Container With Most Water + Valid Palindrome.',n:''},{d:'Fri',t:'Solve: 3Sum + Minimum Size Subarray.',n:'Revise Tue problems.'},{d:'Sat',t:'Solve: Fruit Into Baskets. Review all week 1 — explain each in 1 sentence.',n:'Mock test: Sliding Window (5 Qs).'},{d:'Sun',t:'REST. No problems. Optional: re-read your mental model notes.',n:'Brain consolidates during rest.'}]},
+  {n:2,title:'Binary Search + Prefix Sum',pats:['bs','ps'],days:[{d:'Mon',t:'Learn Binary Search template. Solve: Classic Binary Search.',n:'Revise 2 from week 1.'},{d:'Tue',t:'Solve: Search in Rotated Sorted Array.',n:'Key: which half is sorted?'},{d:'Wed',t:'Solve: Find Minimum in Rotated + Koko Eating Bananas.',n:''},{d:'Thu',t:'Learn Prefix Sum. Solve: Range Sum Query.',n:''},{d:'Fri',t:'Solve: Subarray Sum Equals K.',n:''},{d:'Sat',t:'Mock test: Binary Search (5 Qs). Review week 2.',n:''},{d:'Sun',t:'REST.',n:''}]},
+  {n:3,title:'Linked Lists + Fast/Slow Pointers',pats:['fsp'],days:[{d:'Mon',t:'Learn Fast/Slow pattern. Solve: Linked List Cycle.',n:'Revise 2 from week 1.'},{d:'Tue',t:'Solve: Middle of Linked List.',n:''},{d:'Wed',t:'Solve: Find Duplicate Number.',n:'Revise week 2.'},{d:'Thu',t:'Catch-up: revisit any unsolved from weeks 1–3.',n:''},{d:'Fri',t:'Mini review: solve 1 easy from SW, 1 from BS without hints.',n:''},{d:'Sat',t:'Mixed mock test: weeks 1–3 (10 Qs).',n:''},{d:'Sun',t:'REST.',n:''}]},
+  {n:4,title:'Trees — BFS + DFS + Backtracking',pats:['bfs','dfs'],days:[{d:'Mon',t:'Learn BFS (queue). Solve: Binary Tree Level Order.',n:'Revise 2 from week 2.'},{d:'Tue',t:'Solve: Rotting Oranges.',n:'Multi-source BFS.'},{d:'Wed',t:'Learn DFS/Backtracking template. Solve: Permutations.',n:''},{d:'Thu',t:'Solve: Combination Sum + Subsets.',n:'Revise BFS problems.'},{d:'Fri',t:'Solve: Word Search.',n:'Classic backtracking on grid.'},{d:'Sat',t:'Mock test: BFS + DFS (10 Qs). Week 4 review.',n:''},{d:'Sun',t:'REST.',n:''}]},
+  {n:5,title:'Greedy + Merge Intervals',pats:['gr','mi'],days:[{d:'Mon',t:'Learn Greedy intuition. Solve: Jump Game.',n:'Revise 2 from week 3.'},{d:'Tue',t:'Learn Merge Intervals. Solve: Merge Intervals.',n:'Sort by start time first.'},{d:'Wed',t:'Solve: Insert Interval.',n:''},{d:'Thu',t:'Solve: Meeting Rooms II.',n:'Min-heap of end times.'},{d:'Fri',t:'Catch-up + revise week 4.',n:''},{d:'Sat',t:'Mock test: Greedy + Intervals (10 Qs).',n:''},{d:'Sun',t:'REST.',n:''}]},
+  {n:6,title:'Heap + Monotonic Stack',pats:['hp','ms'],days:[{d:'Mon',t:'Learn Heap/Priority Queue. Solve: Kth Largest Element.',n:'Revise 2 from week 4.'},{d:'Tue',t:'Solve: Top K Frequent Elements.',n:''},{d:'Wed',t:'Learn Monotonic Stack. Solve: Daily Temperatures.',n:''},{d:'Thu',t:'Solve: Merge K Sorted Lists.',n:'Hard — spend 20 min struggling first.'},{d:'Fri',t:'Solve: Largest Rectangle in Histogram.',n:'Revise week 5.'},{d:'Sat',t:'Mock test: Heap + Stack (10 Qs).',n:''},{d:'Sun',t:'REST.',n:''}]},
+  {n:7,title:'Dynamic Programming + Graphs',pats:['dp','graph'],days:[{d:'Mon',t:'Learn DP bottom-up. Solve: Climbing Stairs + House Robber.',n:'Understand the recurrence first.'},{d:'Tue',t:'Solve: Coin Change.',n:'Classic DP. Draw the table on paper.'},{d:'Wed',t:'Solve: Longest Common Subsequence.',n:'2D DP.'},{d:'Thu',t:'Learn Graph DFS. Solve: Number of Islands + Course Schedule.',n:''},{d:'Fri',t:'Solve: Course Schedule II (Topological Sort).',n:'Revise week 6.'},{d:'Sat',t:'Solve: 0/1 Knapsack + LIS. Mock test: DP (10 Qs).',n:''},{d:'Sun',t:'REST.',n:''}]},
+  {n:8,title:'Trie + Union Find + Final Review',pats:['trie','uf'],days:[{d:'Mon',t:'Learn Trie. Solve: Implement Trie.',n:'Revise 3 key problems from weeks 5–7.'},{d:'Tue',t:'Solve: Word Search II.',n:'Combines Trie + Backtracking.'},{d:'Wed',t:'Learn Union Find. Solve: Connected Components.',n:''},{d:'Thu',t:'Solve: Redundant Connection.',n:'Revise week 7 DP.'},{d:'Fri',t:'Full mixed mock test: all 15 patterns (10 Qs).',n:''},{d:'Sat',t:'Weakness day: revisit all reviewing problems without hints.',n:''},{d:'Sun',t:'REST. You are ready for contests!',n:''}]},
+];
+const RULES=[
+  {kw:['subarray','substring','window','longest','shortest','consecutive'],p:'sw',r:'Subarray/substring + optimal length = Sliding Window. Expand right, shrink left on constraint violation.'},
+  {kw:['sorted','pair','two numbers','palindrome'],p:'tp',r:'Sorted input + finding pairs = Two Pointers. Start both ends, converge on comparison.'},
+  {kw:['sorted','binary','minimum speed','minimum days','capacity'],p:'bs',r:'Sorted OR monotonic answer = Binary Search. "Minimum X that works" → binary search on answer.'},
+  {kw:['cycle','linked list','middle','duplicate'],p:'fsp',r:'Cycle detection or linked list traversal = Fast & Slow Pointers.'},
+  {kw:['shortest path','level','nearest','minimum steps','grid','matrix'],p:'bfs',r:'Shortest path in unweighted graph/grid = BFS. Level-by-level guarantees minimum distance.'},
+  {kw:['all paths','combinations','permutations','generate all','backtrack'],p:'dfs',r:'Generate ALL possibilities = DFS + Backtracking. Make choice → recurse → undo.'},
+  {kw:['interval','overlap','schedule','meeting','merge'],p:'mi',r:'Overlapping intervals = Merge Intervals. Sort by start, greedily merge.'},
+  {kw:['top k','k largest','k smallest','frequent','heap'],p:'hp',r:'Top-K elements = Heap. Min-heap of size K always holds K largest.'},
+  {kw:['next greater','next smaller','histogram','monoton'],p:'ms',r:'Next greater/smaller = Monotonic Stack. Stack holds elements waiting for their answer.'},
+  {kw:['count ways','minimum cost','maximum value','subproblem'],p:'dp',r:'Overlapping subproblems + optimal substructure = DP.'},
+  {kw:['prerequisite','dependency','course','topological'],p:'graph',r:'Dependencies/ordering = Topological Sort. Process zero in-degree nodes first.'},
+  {kw:['starts with','prefix','autocomplete','dictionary'],p:'trie',r:'Prefix-based search = Trie. Each node is a character, paths form words.'},
+  {kw:['connected','component','group','union','find'],p:'uf',r:'Connected components/grouping = Union Find.'},
+  {kw:['greedy','local','activity','selection','minimum removal'],p:'gr',r:'Local optimal → global optimal = Greedy.'},
+  {kw:['range sum','cumulative','subarray sum'],p:'ps',r:'Multiple range queries = Prefix Sum.'},
+];
+
+let state={solved:JSON.parse(localStorage.getItem('dsa_s')||'{}'),mockScores:JSON.parse(localStorage.getItem('dsa_m')||'[]'),dates:JSON.parse(localStorage.getItem('dsa_d')||'{}')};
+function save(){localStorage.setItem('dsa_s',JSON.stringify(state.solved));localStorage.setItem('dsa_m',JSON.stringify(state.mockScores));localStorage.setItem('dsa_d',JSON.stringify(state.dates))}
+
+function switchTab(t){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+t).classList.add('on');
+  document.querySelectorAll('.tab').forEach(b=>{if(b.getAttribute('onclick').includes("'"+t+"'"))b.classList.add('on')});
+  if(t==='tracker')renderTracker();
+  if(t==='patterns'){renderPats();document.getElementById('patDetail').style.display='none'}
+}
+
+function initPills(){
+  const tot=QS.length;
+  const solved=Object.values(state.solved).filter(v=>v==='solved').length;
+  document.getElementById('hdrPills').innerHTML=
+    '<div class="hpill">Questions <b>'+tot+'</b></div>'+
+    '<div class="hpill">Patterns <b>'+PATTERNS.length+'</b></div>'+
+    '<div class="hpill">Solved <b>'+solved+'</b></div>';
+}
+
+function renderWeeks(){
+  document.getElementById('weekList').innerHTML=WEEKS.map((w,i)=>`
+    <div class="week-card">
+      <div class="week-head" onclick="toggleWeek(${i})">
+        <span class="week-num mono">Week ${w.n}</span>
+        <span class="week-name">${w.title}</span>
+        <div style="display:flex;gap:5px">${w.pats.map(p=>'<span class="badge bp">'+PATTERNS.find(x=>x.id===p).name.split(' ')[0]+'</span>').join('')}</div>
+        <i class="ti ti-chevron-down" aria-hidden="true" style="font-size:14px;color:var(--dm);margin-left:4px"></i>
+      </div>
+      <div class="week-body hide" id="wb${i}">
+        ${w.days.map(d=>`<div class="day-row"><div class="day-lbl">${d.d}</div><div class="day-txt">${d.t}${d.n?'<div class="day-note">&#128161; '+d.n+'</div>':''}</div></div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+function toggleWeek(i){document.getElementById('wb'+i).classList.toggle('hide')}
+
+function renderPats(){
+  const el=document.getElementById('patGrid');
+  el.innerHTML=PATTERNS.map(p=>{
+    const done=QS.filter(q=>q.p===p.id&&state.solved[q.id]==='solved').length;
+    const tot=QS.filter(q=>q.p===p.id).length;
+    const pct=tot?Math.round(done/tot*100):0;
+    return`<div class="pat-card" id="pc-${p.id}" onclick="showPat('${p.id}')">
+      <div class="pat-wk">Week ${p.wk} · ${tot} problems</div>
+      <div class="pat-nm">${p.name}</div>
+      <div class="pat-wh">${p.when.substring(0,48)}${p.when.length>48?'…':''}</div>
+      <div class="pat-bar"><div class="pat-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+  const sel=document.getElementById('qfPat');
+  sel.innerHTML='<option value="">All</option>'+PATTERNS.map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+  const mk=document.getElementById('mkPat');
+  mk.innerHTML='<option value="">All patterns</option>'+PATTERNS.map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+}
+
+function showPat(id){
+  document.querySelectorAll('.pat-card').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('pc-'+id).classList.add('sel');
+  const p=PATTERNS.find(x=>x.id===id);
+  const qs=QS.filter(q=>q.p===id);
+  document.getElementById('patDetail').style.display='block';
+  document.getElementById('patDetail').innerHTML=`
+    <div class="pat-detail">
+      <div class="pd-head">${p.name} <span class="badge bg2 mono" style="font-size:10px;vertical-align:2px">${p.cplx}</span></div>
+      <div class="pd-grid">
+        <div class="pd-box"><div class="pd-lbl">Use when</div><div class="pd-val">${p.when}</div></div>
+        <div class="pd-box"><div class="pd-lbl">Signal keywords</div><div class="pd-val">${p.signal}</div></div>
+        <div class="pd-box"><div class="pd-lbl">Classic example</div><div class="pd-val">${p.ex}</div></div>
+        <div class="pd-box"><div class="pd-lbl">Week / Count</div><div class="pd-val">Week ${p.wk} · ${qs.length} problems</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--dm);text-transform:uppercase;letter-spacing:.06em;font-family:'JetBrains Mono',monospace;margin-bottom:8px">Problems</div>
+      ${qs.map(q=>`<div class="q-mini"><span>${q.t}</span><div style="display:flex;gap:5px"><span class="badge b${q.d[0].toLowerCase()}">${q.d}</span>${state.solved[q.id]==='solved'?'<span class="badge be">&#10003;</span>':''}</div></div>`).join('')}
+    </div>`;
+}
+
+function renderQs(){
+  const pat=document.getElementById('qfPat').value;
+  const diff=document.getElementById('qfDiff').value;
+  const st=document.getElementById('qfSt').value;
+  let qs=QS.filter(q=>{
+    if(pat&&q.p!==pat)return false;
+    if(diff&&q.d!==diff)return false;
+    const s=state.solved[q.id]||'unsolved';
+    if(st&&s!==st)return false;
+    return true;
+  });
+  const el=document.getElementById('qList');
+  if(!qs.length){el.innerHTML='<div class="empty-state">No problems match this filter.</div>';return}
+  el.innerHTML=qs.map(q=>{
+    const s=state.solved[q.id]||'unsolved';
+    const pname=PATTERNS.find(p=>p.id===q.p).name;
+    return`<div class="q-card ${s!=='unsolved'?s:''}" id="qi${q.id}" onclick="toggleQ(${q.id})">
+      <div class="q-top">
+        <div class="q-txt">${q.t}</div>
+        <div class="q-meta">
+          <span class="badge b${q.d[0].toLowerCase()}">${q.d}</span>
+          ${s==='solved'?'<span class="badge be">&#10003;</span>':''}
+          ${s==='reviewing'?'<span class="badge bm">&#8635;</span>':''}
+        </div>
+      </div>
+      <div style="padding:0 14px 10px;display:flex;gap:5px">
+        <span class="badge bp">${pname}</span>
+        <span class="badge bg2 mono">W${q.wk}</span>
+      </div>
+      <div class="q-hint" id="qh${q.id}"><i class="ti ti-bulb" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>${q.h}</div>
+      <div class="q-acts" id="qa${q.id}">
+        <button class="abtn grn" onclick="event.stopPropagation();markQ(${q.id},'solved')"><i class="ti ti-check" aria-hidden="true"></i> Solved</button>
+        <button class="abtn amb" onclick="event.stopPropagation();markQ(${q.id},'reviewing')"><i class="ti ti-refresh" aria-hidden="true"></i> Reviewing</button>
+        <button class="abtn" onclick="event.stopPropagation();markQ(${q.id},'unsolved')">Reset</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleQ(id){
+  document.getElementById('qh'+id).classList.toggle('show');
+  document.getElementById('qa'+id).classList.toggle('show');
+}
+function markQ(id,s){
+  state.solved[id]=s;
+  if(s==='solved')state.dates[id]=new Date().toISOString();
+  save();renderQs();renderPats();initPills();
+}
+
+let mState={qs:[],cur:0,answers:{},active:false};
+function startMock(){
+  const pat=document.getElementById('mkPat').value;
+  const cnt=parseInt(document.getElementById('mkCnt').value);
+  let pool=pat?MOCK_QS.filter(q=>q.p===pat):MOCK_QS;
+  pool=[...pool].sort(()=>Math.random()-.5).slice(0,Math.min(cnt,pool.length));
+  mState={qs:pool,cur:0,answers:{},active:true};
+  document.getElementById('mockSetup').style.display='none';
+  document.getElementById('mockResult').style.display='none';
+  document.getElementById('mockArea').style.display='block';
+  renderMockQ();
+}
+function renderMockQ(){
+  const {qs,cur,answers}=mState;
+  if(cur>=qs.length){endMock();return}
+  const q=qs[cur];const answered=answers[cur]!==undefined;
+  const pname=PATTERNS.find(p=>p.id===q.p).name;
+  document.getElementById('mockArea').innerHTML=
+    '<div class="mock-prog">Question '+(cur+1)+' / '+qs.length+' &nbsp;&middot;&nbsp; <span class="badge bp">'+pname+'</span></div>'+
+    '<div class="mock-q">'+
+      '<div class="mock-q-hd">Q'+(cur+1)+'. '+q.q+'</div>'+
+      '<div class="mock-opts">'+
+        q.opts.map((o,i)=>`<div class="mock-opt ${answered?(i===q.ans?'ok':(answers[cur]===i?'bad':'dis')):''}" onclick="${answered?'':'selectOpt('+i+')'}">`+
+          '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:var(--dm);margin-right:8px">'+String.fromCharCode(65+i)+'.</span>'+o+'</div>'
+        ).join('')+
+      '</div>'+
+      '<div class="mock-exp '+(answered?'show':'')+'">'+( answered?'<b style="color:var(--tx)">Explanation:</b> '+q.exp:'')+'</div>'+
+    '</div>'+
+    '<div class="mock-nav">'+
+      (cur>0?'<button class="abtn" onclick="mState.cur--;renderMockQ()"><i class="ti ti-arrow-left" aria-hidden="true"></i> Prev</button>':'')+
+      (answered?'<button class="abtn grn" onclick="mState.cur++;renderMockQ()">Next <i class="ti ti-arrow-right" aria-hidden="true"></i></button>':'')+
+      (cur===qs.length-1&&answered?'<button class="abtn grn" onclick="endMock()"><i class="ti ti-flag" aria-hidden="true"></i> Finish</button>':'')+
+      '<button class="abtn" style="margin-left:auto" onclick="document.getElementById(\'mockArea\').style.display=\'none\';document.getElementById(\'mockSetup\').style.display=\'block\'">Exit</button>'+
+    '</div>';
+}
+function selectOpt(i){mState.answers[mState.cur]=i;renderMockQ()}
+function endMock(){
+  const {qs,answers}=mState;
+  let correct=0;
+  Object.keys(answers).forEach(k=>{if(answers[k]===qs[k].ans)correct++});
+  const pct=Math.round(correct/qs.length*100);
+  state.mockScores.push({date:new Date().toISOString(),score:pct,correct,total:qs.length});save();
+  document.getElementById('mockArea').style.display='none';
+  document.getElementById('mockSetup').style.display='block';
+  document.getElementById('mockResult').style.display='block';
+  const msg=pct>=80?'Pattern recognition is strong.':pct>=60?'Good progress — review patterns you missed.':'Keep practising — revisit these patterns.';
+  document.getElementById('mockResult').innerHTML=
+    '<div class="score-box"><div class="score-num">'+pct+'%</div><div class="score-lbl">'+correct+' / '+qs.length+' correct &nbsp;&middot;&nbsp; '+msg+'</div></div>'+
+    '<button class="abtn" onclick="document.getElementById(\'mockResult\').style.display=\'none\'">Close</button>';
+}
+
+function runIntuition(){
+  const input=document.getElementById('intuitInput').value.toLowerCase();
+  if(!input.trim())return;
+  let match=null;
+  for(const rule of RULES){if(rule.kw.some(k=>input.includes(k))){match=rule;break}}
+  const p=match?PATTERNS.find(x=>x.id===match.p):null;
+  const steps=[
+    {q:'What does the input look like?',a:input.includes('array')||input.includes('string')?'Array or String — sequential structure.':input.includes('tree')||input.includes('root')?'Tree — hierarchical.':input.includes('graph')||input.includes('edge')?'Graph — network of nodes.':input.includes('linked')?'Linked List — sequential with pointers.':'Array or String (most likely).'},
+    {q:'What am I optimising for?',a:input.includes('longest')||input.includes('maximum')?'Maximum/longest — DP, Sliding Window, or Greedy.':input.includes('shortest')||input.includes('minimum')?'Minimum/shortest — BFS (path), DP (cost), or Binary Search (answer).':input.includes('all')||input.includes('generate')?'Generate all — Backtracking or DP.':'Find/search — BFS, DFS, or Binary Search.'},
+    {q:'Is the data sorted or sortable?',a:input.includes('sorted')||input.includes('ascending')?'Yes — sorted. Strong signal for Binary Search or Two Pointers.':'Not explicitly sorted. Sorting might still simplify the problem.'},
+    {q:'Do I need all combos or just optimal?',a:input.includes('all')||input.includes('permut')||input.includes('combin')?'All combinations — Backtracking.':'Just optimal — Greedy (local=global) or DP (otherwise).'},
+    {q:'Are subproblems overlapping?',a:input.includes('ways')||input.includes('cost')||input.includes('minimum cost')?'Likely yes — DP pattern. Define state, recurrence, base case.':'Check manually: does solving a smaller version help the larger?'},
+  ];
+  const stepsHtml=steps.map((s,i)=>'<div class="ist"><div class="ist-num">'+(i+1)+'</div><div><div class="ist-q">'+s.q+'</div><div class="ist-a">'+s.a+'</div></div></div>').join('');
+  const concHtml=match?
+    '<div class="result-badge"><div class="rb-title">Identified: '+p.name+'</div><div class="rb-body">'+match.r+'<br><br><span style="color:var(--dm)">Signal words: '+match.kw.filter(k=>input.includes(k)).join(', ')+'</span></div></div>':
+    '<div class="result-badge" style="background:rgba(186,117,23,.08);border-color:rgba(186,117,23,.25)"><div class="rb-title" style="color:#f59e0b">Pattern unclear</div><div class="rb-body">Add more context — input type, what you\'re finding/optimising, whether sorted. This trains careful problem reading.</div></div>';
+  document.getElementById('intuitResult').style.display='block';
+  document.getElementById('intuitResult').innerHTML='<div class="sec-hdr"><div class="sec-title" style="margin-bottom:10px">Pattern walkthrough</div></div><div class="intuit-box">'+stepsHtml+'</div>'+concHtml;
+}
+
+function renderTracker(){
+  const total=QS.length;
+  const solved=Object.values(state.solved).filter(v=>v==='solved').length;
+  const reviewing=Object.values(state.solved).filter(v=>v==='reviewing').length;
+  const avgScore=state.mockScores.length?Math.round(state.mockScores.reduce((a,b)=>a+b.score,0)/state.mockScores.length):0;
+  initPills();
+  document.getElementById('statGrid').innerHTML=
+    '<div class="stat-c"><div class="stat-v">'+solved+'</div><div class="stat-l">Solved</div></div>'+
+    '<div class="stat-c"><div class="stat-v">'+reviewing+'</div><div class="stat-l">Reviewing</div></div>'+
+    '<div class="stat-c"><div class="stat-v">'+(total-solved-reviewing)+'</div><div class="stat-l">Unsolved</div></div>'+
+    '<div class="stat-c"><div class="stat-v">'+(avgScore?avgScore+'%':'—')+'</div><div class="stat-l">Mock avg</div></div>';
+  document.getElementById('covGrid').innerHTML=PATTERNS.map(p=>{
+    const done=QS.filter(q=>q.p===p.id&&state.solved[q.id]==='solved').length;
+    const tot=QS.filter(q=>q.p===p.id).length;
+    const pct=tot?Math.round(done/tot*100):0;
+    const col=pct===100?'#1d9e75':pct>50?'#6c63ff':'#3d4468';
+    return'<div class="cov-row"><div class="cov-nm">'+p.name+'</div><div class="cov-bar"><div class="cov-fill" style="width:'+pct+'%;background:'+col+'"></div></div><div class="cov-n mono">'+done+'/'+tot+'</div></div>';
+  }).join('');
+  const today=new Date();
+  const due=QS.filter(q=>{
+    if(state.solved[q.id]!=='solved')return false;
+    const d=state.dates[q.id];if(!d)return false;
+    const diff=Math.floor((today-new Date(d))/86400000);
+    return diff===3||diff===7||diff===14;
+  });
+  document.getElementById('revQueue').innerHTML=due.length?
+    due.map(q=>'<div class="rev-item"><span style="font-size:13px">'+q.t+'</span><span class="badge b'+q.d[0].toLowerCase()+'">'+q.d+'</span></div>').join(''):
+    '<div class="empty-state">No revisions due today.</div>';
+}
+
+initPills();renderWeeks();renderPats();renderQs();
+</script>
